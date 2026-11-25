@@ -4,8 +4,13 @@ import { diagnosticTextFor, getPracticeText, getPracticeTexts } from '.'
 describe('textos de práctica', () => {
   const texts = getPracticeTexts()
 
-  it('hay al menos tres textos', () => {
-    expect(texts.length).toBeGreaterThanOrEqual(3)
+  it('hay 12 textos con roles válidos y 4 re-tests expositivos', () => {
+    expect(texts).toHaveLength(12)
+    for (const t of texts) expect(['diagnostico', 'retest', 'practica']).toContain(t.role)
+    const retests = texts.filter((t) => t.role === 'retest')
+    expect(retests.map((t) => t.id).sort()).toEqual(['retest-1', 'retest-2', 'retest-3', 'retest-4'])
+    for (const t of retests) expect(t.kind).toBe('expositivo')
+    expect(texts.filter((t) => t.role === 'diagnostico')).toHaveLength(3)
   })
 
   for (const text of getPracticeTexts()) {

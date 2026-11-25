@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { t } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { requestPersistentStorage } from '../../lib/storage/persist'
+import { RetentionCheck } from '../retencion/RetentionCheck'
 
 const NOTICE_KEY = 'lectura-rapida.persistNoticeDismissed'
 
@@ -58,6 +59,7 @@ export function HomePage() {
           </button>
         </div>
       )}
+      <RetentionCheck />
       {hasDiagnostic === false && (
         <div className="rounded-lg border-2 border-accent bg-accent-soft p-4">
           <Link to="/diagnostico" className="text-xl font-semibold text-accent-ink underline">

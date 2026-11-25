@@ -12,8 +12,11 @@ export interface Question {
   answerIndex: 0 | 1 | 2 | 3
 }
 
+export type TextRole = 'diagnostico' | 'retest' | 'practica'
+
 export interface PracticeText {
   id: string
+  role: TextRole
   lang: string
   title: string
   kind: TextKind

@@ -23,6 +23,10 @@ export function getPracticeText(id: string): PracticeText | undefined {
   return texts.find((t) => t.id === id)
 }
 
+export function textsByRole(role: PracticeText['role']): PracticeText[] {
+  return texts.filter((t) => t.role === role)
+}
+
 export function diagnosticTextFor(kind: TextKind): PracticeText {
   const text = getPracticeText(`diag-${kind}`)
   if (!text) throw new Error(`No hay texto de diagnóstico para ${kind}`)

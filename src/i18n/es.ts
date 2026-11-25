@@ -265,4 +265,10 @@ export const es = {
   'focus.oneTab': 'Solo tengo abierta esta lectura',
   'focus.goal': 'Objetivo de este bloque',
   'focus.start': 'Empezar',
+  'retention.start': 'Comprobar cuánto recuerdas',
+  'retention.after1': '24 horas después',
+  'retention.after7': '7 días después',
+  'retention.title': '¿Cuánto recuerdas de «{title}»?',
+  'retention.help': 'Responde de memoria, sin volver al texto. Son 5 preguntas del cuestionario original.',
+  'retention.result': 'Retención: {retained} % · Comprensión inmediata: {immediate} %',
 } as const

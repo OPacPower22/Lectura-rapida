@@ -4,6 +4,7 @@
   "title": "El relojero de la calle de los Arcos",
   "kind": "narrativo",
   "source": "original",
+  "role": "diagnostico",
   "questions": [
     {
       "id": "n1",

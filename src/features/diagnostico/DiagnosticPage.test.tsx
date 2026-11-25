@@ -19,6 +19,7 @@ vi.mock('../../lib/storage/repo', async (importOriginal) => {
 
 const fixture: PracticeText = {
   id: 'diag-expositivo',
+  role: 'diagnostico',
   lang: 'es',
   title: 'Texto de prueba',
   kind: 'expositivo',
