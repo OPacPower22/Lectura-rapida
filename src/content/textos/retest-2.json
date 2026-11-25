@@ -1,0 +1,118 @@
+{
+  "id": "retest-2",
+  "lang": "es",
+  "title": "La memoria de trabajo: un espacio pequeño",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "retest",
+  "questions": [
+    {
+      "id": "r2a",
+      "type": "literal",
+      "prompt": "¿En qué año propusieron Baddeley y Hitch su modelo?",
+      "options": [
+        "1956",
+        "1974",
+        "1985",
+        "2000"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r2b",
+      "type": "literal",
+      "prompt": "¿Qué componente mantiene la información verbal repitiéndola internamente?",
+      "options": [
+        "El ejecutivo central que coordina",
+        "La agenda visoespacial",
+        "El búfer episódico",
+        "El bucle fonológico"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r2c",
+      "type": "literal",
+      "prompt": "¿Qué capacidad parece real cuando se impide agrupar o repetir?",
+      "options": [
+        "Unos cuatro fragmentos",
+        "Unos siete elementos",
+        "Unos doce elementos",
+        "Una sola idea"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r2d",
+      "type": "inferencial",
+      "prompt": "¿Por qué el ajedrecista experto recuerda mejor una partida real que piezas al azar?",
+      "options": [
+        "Porque tiene una memoria de trabajo mucho mayor",
+        "Porque reconoce configuraciones conocidas",
+        "Porque practica a diario con piezas al azar",
+        "Porque mira el tablero durante más tiempo"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r2e",
+      "type": "inferencial",
+      "prompt": "Según el texto, ¿por qué la voz interior no estorba la lectura?",
+      "options": [
+        "Porque acelera los movimientos de los ojos al leer",
+        "Porque sustituye a la memoria a largo plazo",
+        "Mantiene las palabras disponibles para integrarlas",
+        "Porque elimina todas las distracciones del entorno"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r2f",
+      "type": "inferencial",
+      "prompt": "¿Qué ocurre con la memoria de trabajo cuando la mente divaga?",
+      "options": [
+        "Se amplía de forma temporal para compensar",
+        "Se vacía por completo",
+        "Pasa directamente a la memoria a largo plazo",
+        "Parte se ocupa de pensamientos ajenos"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r2g",
+      "type": "literal",
+      "prompt": "¿Qué muestran las revisiones sobre los programas de entrenamiento de la memoria de trabajo?",
+      "options": [
+        "La mejora no se transfiere de forma fiable",
+        "Que duplican la comprensión",
+        "Que solo sirven en niños",
+        "Que empeoran el razonamiento"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r2h",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la idea central del texto?",
+      "options": [
+        "La memoria de trabajo crece con ejercicios diarios",
+        "Es limitada, pero se puede administrar mejor",
+        "La lectura no depende de la memoria",
+        "Los expertos nacen con más memoria que los demás"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r2i",
+      "type": "idea-central",
+      "prompt": "¿Qué recomienda el texto para aprovechar la memoria de trabajo?",
+      "options": [
+        "Leer frases cada vez más largas para entrenarla",
+        "Practicar ejercicios de memoria todos los días",
+        "Saber más, organizar y evitar distracciones",
+        "Memorizar listas de siete"
+      ],
+      "answerIndex": 2
+    }
+  ]
+}

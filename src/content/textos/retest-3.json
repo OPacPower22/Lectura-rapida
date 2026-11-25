@@ -1,0 +1,118 @@
+{
+  "id": "retest-3",
+  "lang": "es",
+  "title": "La penicilina: de la placa olvidada al medicamento",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "retest",
+  "questions": [
+    {
+      "id": "r3a",
+      "type": "literal",
+      "prompt": "¿Qué observó Fleming en la placa contaminada?",
+      "options": [
+        "Que el moho crecía más rápido que las bacterias",
+        "Que las bacterias rodeaban al moho",
+        "Que alrededor del moho no había estafilococos",
+        "Que la placa había cambiado de color"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r3b",
+      "type": "literal",
+      "prompt": "¿Qué sustancia antibacteriana había descrito Fleming años antes?",
+      "options": [
+        "La lisozima",
+        "La insulina",
+        "La estreptomicina",
+        "La quinina de los Andes"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r3c",
+      "type": "literal",
+      "prompt": "¿Por qué la penicilina quedó casi diez años como curiosidad de laboratorio?",
+      "options": [
+        "Porque nadie leyó la publicación de Fleming",
+        "Era difícil de aislar e inestable",
+        "Porque resultó tóxica para los glóbulos blancos",
+        "Porque solo actuaba contra hongos"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r3d",
+      "type": "literal",
+      "prompt": "¿Qué ocurrió en el experimento de 1940 con ocho ratones?",
+      "options": [
+        "Murieron todos los ratones por igual",
+        "Solo sobrevivió uno de los tratados",
+        "Los cuatro tratados sobrevivieron",
+        "Los ratones no tratados se curaron solos"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r3e",
+      "type": "inferencial",
+      "prompt": "¿Qué mostró el caso de Albert Alexander?",
+      "options": [
+        "Que la penicilina era peligrosa en heridas faciales",
+        "Que el fármaco funcionaba, pero faltaba producción",
+        "Que la orina destruía el medicamento",
+        "Que solo servía en ratones"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r3f",
+      "type": "literal",
+      "prompt": "¿Dónde se encontró una cepa mucho más productiva del moho?",
+      "options": [
+        "En una placa del hospital de St Mary",
+        "En el suelo de un laboratorio de Oxford",
+        "En el pan de los soldados",
+        "En un melón enmohecido de un mercado"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r3g",
+      "type": "inferencial",
+      "prompt": "¿Por qué fue clave el viaje de Florey y Heatley a Estados Unidos?",
+      "options": [
+        "Porque allí se descubrió la penicilina original",
+        "Para obtener apoyo y producir a escala industrial",
+        "Para recibir el Premio Nobel en persona",
+        "Porque en Oxford estaba prohibido investigar"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r3h",
+      "type": "inferencial",
+      "prompt": "¿Qué advertencia de Fleming sigue vigente hoy?",
+      "options": [
+        "Que los antibióticos causan alergias graves",
+        "Que el moho puede contaminar los hospitales",
+        "Que el mal uso favorece bacterias resistentes",
+        "Que la penicilina pierde efecto al congelarse"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r3i",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la idea central del texto?",
+      "options": [
+        "Fleming lo descubrió todo él solo por suerte",
+        "Un hallazgo necesitó años de trabajo colectivo para ser útil",
+        "La guerra retrasó el uso de la penicilina",
+        "Los ratones fueron los verdaderos protagonistas"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}

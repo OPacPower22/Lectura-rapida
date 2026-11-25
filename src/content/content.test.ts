@@ -64,6 +64,17 @@ describe('textos de práctica', () => {
     }
   })
 
+  it('la opción más corta tampoco delata la respuesta', () => {
+    for (const text of texts) {
+      const shortestIsCorrect = text.questions.filter((q) => {
+        const lengths = q.options.map((o) => o.length)
+        const min = Math.min(...lengths)
+        return lengths[q.answerIndex] === min && lengths.filter((l) => l === min).length === 1
+      }).length
+      expect(shortestIsCorrect / text.questions.length, text.id).toBeLessThanOrEqual(0.4)
+    }
+  })
+
   it('busca por id', () => {
     expect(getPracticeText('diag-expositivo')?.kind).toBe('expositivo')
     expect(getPracticeText('no-existe')).toBeUndefined()

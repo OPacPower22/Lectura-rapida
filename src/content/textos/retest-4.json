@@ -1,0 +1,118 @@
+{
+  "id": "retest-4",
+  "lang": "es",
+  "title": "Por qué hay estaciones",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "retest",
+  "questions": [
+    {
+      "id": "r4a",
+      "type": "literal",
+      "prompt": "¿Cuánto está inclinado el eje de la Tierra?",
+      "options": [
+        "Unos 10 grados",
+        "Unos 23,4 grados",
+        "Unos 45 grados",
+        "Unos 66,6 grados"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r4b",
+      "type": "inferencial",
+      "prompt": "¿Por qué la distancia al Sol no explica las estaciones?",
+      "options": [
+        "Los hemisferios tienen estaciones opuestas a la vez",
+        "Porque la Tierra no se mueve alrededor del Sol en verano",
+        "Porque el Sol cambia de tamaño durante el año",
+        "Porque la órbita es muy alargada"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r4c",
+      "type": "literal",
+      "prompt": "¿Cuándo está la Tierra más cerca del Sol?",
+      "options": [
+        "A comienzos de julio",
+        "En el equinoccio de marzo",
+        "A comienzos de enero",
+        "En el solsticio de junio"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r4d",
+      "type": "inferencial",
+      "prompt": "¿Qué ilustra el ejemplo de la linterna?",
+      "options": [
+        "Que la luz viaja más rápido de frente",
+        "Que el Sol se apaga en invierno",
+        "Que la luz oblicua reparte su energía",
+        "Que las paredes absorben más calor que el suelo del patio"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r4e",
+      "type": "literal",
+      "prompt": "¿Qué ocurre en los equinoccios?",
+      "options": [
+        "El Sol no se pone en los polos",
+        "El día y la noche duran casi lo mismo en todo el planeta",
+        "Uno de los hemisferios está inclinado al máximo hacia el Sol",
+        "Es el día más caluroso del año"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r4f",
+      "type": "literal",
+      "prompt": "¿Por qué en el ecuador las estaciones se distinguen más por las lluvias?",
+      "options": [
+        "Porque allí no llega la luz del Sol",
+        "Porque el eje terrestre no está inclinado en esa franja",
+        "Porque los océanos son más cálidos",
+        "La inclinación y el día cambian poco"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r4g",
+      "type": "inferencial",
+      "prompt": "¿Por qué las semanas más cálidas llegan después del solsticio?",
+      "options": [
+        "Porque el Sol tarda en llegar",
+        "Océanos y tierra tardan en calentarse y enfriarse",
+        "Porque la Tierra se aleja del Sol en verano",
+        "Porque el día más largo es en septiembre"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r4h",
+      "type": "literal",
+      "prompt": "¿Qué pasa más allá de los círculos polares en verano?",
+      "options": [
+        "Hay días en que el Sol no se pone",
+        "El Sol pasa por la vertical a mediodía",
+        "Llueve de forma continua durante meses",
+        "La noche dura exactamente doce horas"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r4i",
+      "type": "idea-central",
+      "prompt": "¿Qué enseña el texto además de explicar las estaciones?",
+      "options": [
+        "Que la intuición siempre acierta cuando se trata de astronomía",
+        "Que una observación sencilla refuta una intuición",
+        "Que los trópicos son las zonas más frías",
+        "Que el calendario está mal calculado"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}

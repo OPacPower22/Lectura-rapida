@@ -1,0 +1,118 @@
+{
+  "id": "retest-1",
+  "lang": "es",
+  "title": "Lo que de verdad inventó Gutenberg",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "retest",
+  "questions": [
+    {
+      "id": "r1a",
+      "type": "literal",
+      "prompt": "¿En qué ciudad instaló Gutenberg su taller hacia 1450?",
+      "options": [
+        "Venecia",
+        "Maguncia",
+        "Colonia del Rin",
+        "Estrasburgo"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r1b",
+      "type": "literal",
+      "prompt": "¿Qué material usó Bi Sheng para sus tipos móviles, según el texto?",
+      "options": [
+        "Madera de cerezo tallada",
+        "Bronce fundido en moldes",
+        "Hueso pulido",
+        "Cerámica"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r1c",
+      "type": "literal",
+      "prompt": "¿Qué aleación empleaba el molde de Gutenberg?",
+      "options": [
+        "Plomo, estaño y antimonio",
+        "Cobre y cinc",
+        "Hierro y carbono",
+        "Plata y cobre"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "r1d",
+      "type": "literal",
+      "prompt": "¿Por qué se llama así la Biblia de 42 líneas?",
+      "options": [
+        "Por sus 42 capítulos impresos en pergamino",
+        "Por los 42 ejemplares que se imprimieron",
+        "Por las líneas de sus columnas",
+        "Por los 42 años que duró el trabajo del taller"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "r1e",
+      "type": "inferencial",
+      "prompt": "¿Por qué los tipos móviles resultaron menos prácticos en China?",
+      "options": [
+        "Porque el papel chino era demasiado frágil para prensas",
+        "Por los miles de caracteres de su escritura",
+        "Porque el emperador prohibió los talleres privados",
+        "Porque no se conocía ninguna tinta"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r1f",
+      "type": "inferencial",
+      "prompt": "¿Qué hizo posible comparar ediciones y corregir errores?",
+      "options": [
+        "Que los copistas trabajaran con más cuidado y despacio",
+        "Que las universidades revisaran cada ejemplar",
+        "Que los libros se encarecieran",
+        "Que las copias impresas fueran idénticas"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "r1g",
+      "type": "inferencial",
+      "prompt": "¿Por qué el texto menciona a Lutero?",
+      "options": [
+        "Para criticar la Reforma protestante y sus consecuencias",
+        "Como ejemplo de lo rápido que circulaban ideas impresas",
+        "Porque fue socio y financiador de Gutenberg",
+        "Para explicar el origen de la tinta"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r1h",
+      "type": "idea-central",
+      "prompt": "¿Cuál fue, según el texto, la verdadera aportación de Gutenberg?",
+      "options": [
+        "Inventar la idea de imprimir",
+        "Combinar técnicas en un sistema eficiente",
+        "Crear los primeros tipos de metal",
+        "Fundar la industria de Venecia"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "r1i",
+      "type": "idea-central",
+      "prompt": "¿Qué advertencia hace el texto sobre la imprenta?",
+      "options": [
+        "Que fue un error histórico que dañó la cultura escrita",
+        "Que encareció mucho los libros durante dos siglos",
+        "Que no alfabetizó por sí sola a la gente",
+        "Que solo benefició a la Iglesia"
+      ],
+      "answerIndex": 2
+    }
+  ]
+}
