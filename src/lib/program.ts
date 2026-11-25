@@ -9,7 +9,8 @@ export function currentDay(days: ProgramDay[]): number | 'mantenimiento' {
 }
 
 export function stepsFor(plan: DayPlan): ProgramStep[] {
-  return plan.exercise.type === 'ninguno' ? ['lesson', 'reading'] : ['lesson', 'exercise', 'reading']
+  if (plan.exercise.type === 'ninguno') return ['lesson', 'reading']
+  return plan.exerciseAfterReading ? ['lesson', 'reading', 'exercise'] : ['lesson', 'exercise', 'reading']
 }
 
 export function isDayComplete(plan: DayPlan, progress: ProgramDay): boolean {
@@ -18,14 +19,15 @@ export function isDayComplete(plan: DayPlan, progress: ProgramDay): boolean {
 
 const OWN_KINDS: ReadingSession['kind'][] = ['documento', 'fisico', 'libre']
 
-/** Lectura propia hecha: una sesión de documento, libro físico o texto pegado tras empezar el día. */
+/**
+ * Lectura propia hecha: al menos una sesión de documento, libro físico o texto pegado tras empezar el día.
+ * Con `minMinutes`, cuenta la suma del tiempo activo de esas sesiones (se admiten varios bloques).
+ */
 export function ownReadingDone(progress: ProgramDay, sessions: ReadingSession[], minMinutes?: number): boolean {
-  return sessions.some(
-    (s) =>
-      OWN_KINDS.includes(s.kind) &&
-      s.startedAt >= progress.startedAt &&
-      (minMinutes === undefined || s.activeMs >= minMinutes * 60000),
-  )
+  const own = sessions.filter((s) => OWN_KINDS.includes(s.kind) && s.startedAt >= progress.startedAt)
+  if (own.length === 0) return false
+  if (minMinutes === undefined) return true
+  return own.reduce((sum, s) => sum + s.activeMs, 0) >= minMinutes * 60000
 }
 
 export function maintenancePlan(dueCards: number): { review: boolean; attentionMinutes: 5; reading: 'propio' } {

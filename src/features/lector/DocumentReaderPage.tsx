@@ -22,6 +22,7 @@ import { PdfPageDialog } from './PdfPageDialog'
 import { ProbeDialog } from './ProbeDialog'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { ReadingToolbar } from './ReadingToolbar'
+import { RecallStep } from '../diagnostico/RecallStep'
 import { usePacer } from './usePacer'
 import { useReadingSession, type SessionOutcome } from './useReadingSession'
 
@@ -52,6 +53,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   const [outcome, setOutcome] = useState<SessionOutcome | null>(null)
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
+  const [sessionId, setSessionId] = useState<number | undefined>()
   const [pdfPage, setPdfPage] = useState<number | null>(null)
 
   const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now })
@@ -274,7 +276,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
     setResults(data)
     setPhase('results')
     try {
-      await saveSession({
+      const id = await saveSession({
         session: {
           kind: 'documento',
           title: doc.title,
@@ -289,6 +291,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
         },
         probes: outcome.probes,
       })
+      setSessionId(id)
       await savePosition(docId, { chapter, paragraph: endParagraph })
       visible.current = endParagraph
     } catch {
@@ -414,6 +417,11 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       {phase === 'results' && results && (
         <div className="space-y-3">
           <ResultsCard data={results} saveError={saveError} />
+          <RecallStep
+            sessionId={sessionId}
+            lang={doc.lang}
+            compareText={current.paragraphs.slice(startParagraph, endParagraph + 1).join('\n\n')}
+          />
           <button type="button" className={primary} onClick={() => setPhase('free')}>
             {t('docreader.continueReading')}
           </button>

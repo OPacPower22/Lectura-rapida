@@ -2,16 +2,19 @@ import { useState } from 'react'
 import type { Question } from '../../content/types'
 import { t } from '../../i18n'
 
-export function Quiz({ questions, onSubmit }: { questions: Question[]; onSubmit: (answers: number[]) => void }) {
+export function Quiz({ questions, onSubmit }: { questions: Question[]; onSubmit: (answers: number[]) => void | Promise<void> }) {
   const [answers, setAnswers] = useState<(number | undefined)[]>(() => questions.map(() => undefined))
   const complete = answers.every((a) => a !== undefined)
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <form
       className="mx-auto max-w-prose space-y-6"
       onSubmit={(e) => {
         e.preventDefault()
-        if (complete) onSubmit(answers as number[])
+        if (!complete || submitting) return
+        setSubmitting(true)
+        Promise.resolve(onSubmit(answers as number[])).finally(() => setSubmitting(false))
       }}
     >
       <h2 className="text-2xl font-semibold">{t('quiz.title')}</h2>
@@ -37,7 +40,7 @@ export function Quiz({ questions, onSubmit }: { questions: Question[]; onSubmit:
       ))}
       <button
         type="submit"
-        disabled={!complete}
+        disabled={!complete || submitting}
         className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-disabled"
       >
         {t('quiz.submit')}

@@ -1,5 +1,5 @@
 import { Dexie, type EntityTable } from 'dexie'
-import type { Card } from 'ts-fsrs'
+import { createEmptyCard, type Card } from 'ts-fsrs'
 import type { ProbeAnswer } from '../metrics'
 
 export type TextKind = 'narrativo' | 'expositivo' | 'denso'
@@ -11,6 +11,8 @@ export interface ReadingSession {
   title?: string
   purpose?: string
   recall?: string
+  /** Autoevaluación del recuerdo libre al compararlo con el texto (dato autoevaluado). */
+  recallGrade?: 'alto' | 'medio' | 'bajo'
   documentId?: number
   sourceId?: number
   pages?: { from: number; to: number }
@@ -182,8 +184,26 @@ db.version(2).stores({
 })
 
 // v3 (fase 3): fichas con repetición espaciada, progreso del programa y sesiones de atención.
-db.version(3).stores({
-  cards: '++id, kind, glossaryId, sourceId, fsrs.due',
-  programDays: 'day',
-  attentionSessions: '++id, startedAt',
-})
+db.version(3)
+  .stores({
+    cards: '++id, kind, glossaryId, sourceId, fsrs.due',
+    programDays: 'day',
+    attentionSessions: '++id, startedAt',
+  })
+  .upgrade(async (tx) => {
+    // Las entradas de glosario anteriores a v3 reciben su ficha, como las nuevas.
+    const now = new Date()
+    const entries = (await tx.table('glossary').toArray()) as GlossaryEntry[]
+    await tx.table('cards').bulkAdd(
+      entries.map((e) => ({
+        kind: 'glosario',
+        glossaryId: e.id,
+        front: e.term,
+        back: [e.definition, e.translation && `(${e.translation})`, e.context && `«${e.context}»`].filter(Boolean).join('\n'),
+        lang: e.lang,
+        sourceId: e.sourceId,
+        fsrs: createEmptyCard(now),
+        createdAt: now.getTime(),
+      })),
+    )
+  })

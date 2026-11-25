@@ -144,7 +144,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 14,
@@ -165,7 +166,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 16,
@@ -198,7 +200,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 19,
@@ -208,7 +211,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 20,
@@ -243,7 +247,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 23,
@@ -274,7 +279,8 @@
     },
     "reading": {
       "type": "propio"
-    }
+    },
+    "exerciseAfterReading": true
   },
   {
     "day": 26,

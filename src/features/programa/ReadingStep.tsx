@@ -4,7 +4,7 @@ import { getPracticeText } from '../../content'
 import type { ReadingSpec } from '../../content/programa'
 import { t } from '../../i18n'
 import { ownReadingDone } from '../../lib/program'
-import { comprehensionHistory, suggestPacerWpm } from '../../lib/progression'
+import { baseWpm, comprehensionHistory, suggestPacerWpm } from '../../lib/progression'
 import type { ProgramDay } from '../../lib/storage/db'
 import { db } from '../../lib/storage/db'
 import { getSetting } from '../../lib/storage/settings'
@@ -64,11 +64,7 @@ function PracticeReading({ day, spec, now, onDone }: { day: number; spec: Extrac
     getSetting<string[]>(`program:questions:${day}`).then(setQuestions).catch(() => {})
     if (wantsPacer) {
       comprehensionHistory()
-        .then(async (history) => {
-          const last = await db.readingSessions.where('kind').anyOf('practica', 'diagnostico', 'retest').reverse().sortBy('startedAt')
-          const base = last.find((s) => s.textKind === text.kind && s.wpm)?.wpm ?? 250
-          setPacer(suggestPacerWpm(history, text.kind, base))
-        })
+        .then(async (history) => setPacer(suggestPacerWpm(history, text.kind, await baseWpm(text.kind))))
         .catch(() => setPacer(250))
     }
   }, [day, wantsPacer, text.kind])

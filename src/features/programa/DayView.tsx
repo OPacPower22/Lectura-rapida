@@ -4,7 +4,7 @@ import { getDayPlan, PROGRAM_DAYS } from '../../content/programa'
 import { t } from '../../i18n'
 import { currentDay, isDayComplete, stepsFor } from '../../lib/program'
 import type { ProgramDay, ProgramStep } from '../../lib/storage/db'
-import { completeDay, completeStep, getProgramDays, startDay } from '../../lib/storage/program'
+import { completeDay, completeStepAndMaybeDay, getProgramDays, startDay } from '../../lib/storage/program'
 import type { Clock } from '../../lib/stopwatch'
 import { ExerciseStep } from './ExerciseStep'
 import { primary } from './exercises/common'
@@ -29,7 +29,12 @@ export function DayView({ now }: { now?: Clock }) {
         if (active) setLocked(current)
         return
       }
-      const p = existing ?? (await startDay(day))
+      let p = existing ?? (await startDay(day))
+      // Reparación: todos los pasos hechos pero el día sin marcar (p. ej. se cerró la pestaña a mitad).
+      if (!p.completedAt && isDayComplete(getDayPlan(day), p)) {
+        await completeDay(day)
+        p = { ...p, completedAt: Date.now() }
+      }
       if (active) {
         setProgress(p)
         setCompleted(!!p.completedAt)
@@ -42,12 +47,10 @@ export function DayView({ now }: { now?: Clock }) {
 
   const done = useCallback(
     async (step: ProgramStep) => {
-      const updated = await completeStep(day, step)
+      const plan = getDayPlan(day)
+      const updated = await completeStepAndMaybeDay(day, step, (p) => isDayComplete(plan, p))
       setProgress(updated)
-      if (isDayComplete(getDayPlan(day), updated)) {
-        await completeDay(day)
-        setCompleted(true)
-      }
+      if (updated.completedAt) setCompleted(true)
     },
     [day],
   )
@@ -105,4 +108,10 @@ export function DayView({ now }: { now?: Clock }) {
       )}
     </section>
   )
+}
+
+/** Vista del día con estado propio por día: al cambiar de día se monta de nuevo. */
+export function DayViewRoute({ now }: { now?: Clock }) {
+  const { day } = useParams()
+  return <DayView key={day} now={now} />
 }

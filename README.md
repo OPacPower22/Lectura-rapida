@@ -17,7 +17,7 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 ## Ya disponible
 
 - **Programa de 28 días** (unos 20 min diarios) con el método **L.E.E.R.+R.**: 28 micro-lecciones con sus fuentes, ejercicios (atención, bloque de enfoque, hojeo y escaneo con tiempo, preguntas previas, mapas, explicar en voz alta, fichas, esquema de un trabajo) y lecturas medidas. Re-tests en los días 7, 14, 21 y 28 y modo mantenimiento después ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)).
-- **Retención:** recuerdo libre tras cada lectura, **fichas con repetición espaciada (FSRS)** —también automáticas desde el glosario— y cuestionarios de retención a 24 horas y 7 días.
+- **Retención:** recuerdo libre tras cada lectura medida (con comparación con el texto y autoevaluación), **fichas con repetición espaciada (FSRS)** —también automáticas desde el glosario— y cuestionarios de retención a 24 horas y 7 días.
 - **Atención:** sesiones guiadas de respiración de 2, 5 y 10 minutos con contador de regresos.
 - **Marcapasos con ajuste según tu comprensión** (−10 % si baja del 70 %, +5 % si supera el 80 % dos veces).
 - **Diagnóstico** de velocidad (ppm), comprensión, Índice de Lectura Efectiva (ppm × comprensión) y divagación de la atención, con textos narrativo, expositivo y denso.

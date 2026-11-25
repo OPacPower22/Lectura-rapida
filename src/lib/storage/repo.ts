@@ -36,3 +36,7 @@ export async function listSessions(): Promise<SessionSummary[]> {
 export async function updateSessionRecall(sessionId: number, recall: string): Promise<void> {
   await db.readingSessions.update(sessionId, { recall })
 }
+
+export async function updateSessionRecallGrade(sessionId: number, recallGrade: 'alto' | 'medio' | 'bajo'): Promise<void> {
+  await db.readingSessions.update(sessionId, { recallGrade })
+}

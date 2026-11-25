@@ -351,4 +351,10 @@ export const es = {
   'physical.review': 'Revisar',
   'physical.saveAnyway': 'Guardar igual',
   'physical.reestimate': 'Volver a estimar palabras por página',
+  'recall.compare': 'Guardar y comparar con el texto',
+  'recall.compareHelp': 'Compara lo que recordaste con el texto. ¿Cuánto de lo importante recordaste?',
+  'recall.grade.alto': 'Casi todo',
+  'recall.grade.medio': 'Una parte',
+  'recall.grade.bajo': 'Poco',
+  'recall.selfAssessed': 'Registrado como autoevaluado.',
 } as const

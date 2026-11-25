@@ -24,6 +24,8 @@ export interface DayPlan {
   title: string
   exercise: ExerciseSpec
   reading: ReadingSpec
+  /** El ejercicio trabaja sobre lo leído (mapa, fichas): va después de la lectura. */
+  exerciseAfterReading?: boolean
 }
 
 const plans = dias as DayPlan[]

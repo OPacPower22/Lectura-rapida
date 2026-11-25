@@ -7,6 +7,7 @@ import { countWords } from '../../lib/text'
 import { ResultsCard, type ResultsData } from '../diagnostico/ResultsCard'
 import { computeResults } from '../diagnostico/results'
 import { ReadingView, type ReadingOutcome } from './ReadingView'
+import { RecallStep } from '../diagnostico/RecallStep'
 
 const LANGS = ['es', 'en', 'fr', 'pt', 'it', 'de'] as const
 
@@ -17,6 +18,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
   const [step, setStep] = useState<'edit' | 'reading' | 'results'>('edit')
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
+  const [sessionId, setSessionId] = useState<number | undefined>()
 
   const words = useMemo(() => countWords(text, lang), [text, lang])
 
@@ -25,7 +27,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
     setResults(data)
     setStep('results')
     try {
-      await saveSession({
+      const id = await saveSession({
         session: {
           kind: 'libre',
           title: title.trim() || undefined,
@@ -38,6 +40,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
         },
         probes: outcome.probes,
       })
+      setSessionId(id)
     } catch {
       setSaveError(true)
     }
@@ -61,6 +64,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
     return (
       <div className="space-y-6">
         <ResultsCard data={results} saveError={saveError} />
+        <RecallStep sessionId={sessionId} lang={lang} compareText={text} />
         <div className="mx-auto max-w-prose">
           <button
             type="button"

@@ -2,13 +2,12 @@ import { useState, type ReactNode } from 'react'
 import type { PracticeText } from '../../content/types'
 import { t } from '../../i18n'
 import { PROBE_RANGE_DIAGNOSTICO, PROBE_RANGE_PROGRAMA } from '../../lib/probes'
-import { addCard } from '../../lib/storage/cards'
-import { saveSession, updateSessionRecall } from '../../lib/storage/repo'
+import { saveSession } from '../../lib/storage/repo'
 import type { Clock } from '../../lib/stopwatch'
 import { LeaveGuard } from '../lector/LeaveGuard'
 import { ReadingView, type ReadingOutcome } from '../lector/ReadingView'
-import { CardForm } from '../retencion/CardForm'
 import { Quiz } from './Quiz'
+import { RecallStep } from './RecallStep'
 import { ResultsCard, type ResultsData } from './ResultsCard'
 import { computeResults } from './results'
 
@@ -39,10 +38,6 @@ export function TextTestFlow({ text, role, pacerWpm, now, ownQuestions, onDone, 
   const [saveError, setSaveError] = useState(false)
   const [sessionId, setSessionId] = useState<number | undefined>()
   const [comp, setComp] = useState(0)
-  const [recall, setRecall] = useState('')
-  const [recallSaved, setRecallSaved] = useState(false)
-  const [cardOpen, setCardOpen] = useState(false)
-  const [cardSaved, setCardSaved] = useState(false)
 
   async function submitQuiz(answers: number[]) {
     if (!outcome) return
@@ -132,50 +127,7 @@ export function TextTestFlow({ text, role, pacerWpm, now, ownQuestions, onDone, 
   return (
     <div className="space-y-6">
       {results && <ResultsCard data={results} saveError={saveError} purpose={purpose.trim() || undefined} />}
-      <section className="mx-auto max-w-prose space-y-3 rounded-lg border border-line bg-surface p-4">
-        <h2 className="text-xl font-semibold">{t('recall.title')}</h2>
-        <p className="text-sm text-muted">{t('recall.help')}</p>
-        <label className="block">
-          <span className="mb-1 block font-medium">{t('recall.label')}</span>
-          <textarea
-            value={recall}
-            onChange={(e) => {
-              setRecall(e.target.value)
-              setRecallSaved(false)
-            }}
-            rows={4}
-            className="w-full rounded border border-line-strong bg-surface p-2"
-          />
-        </label>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="rounded-md border border-line-strong px-4 py-2"
-            disabled={!recall.trim() || sessionId === undefined}
-            onClick={async () => {
-              await updateSessionRecall(sessionId!, recall.trim())
-              setRecallSaved(true)
-            }}
-          >
-            {t('recall.save')}
-          </button>
-          <button type="button" className="rounded-md border border-line-strong px-4 py-2" onClick={() => setCardOpen((o) => !o)}>
-            {t('recall.card')}
-          </button>
-        </div>
-        {recallSaved && <p role="status">{t('recall.saved')}</p>}
-        {cardOpen && (
-          <CardForm
-            onSave={async (front, back) => {
-              await addCard({ kind: 'ficha', front, back, lang: text.lang })
-              setCardOpen(false)
-              setCardSaved(true)
-            }}
-            onCancel={() => setCardOpen(false)}
-          />
-        )}
-        {cardSaved && <p role="status">{t('recall.cardSaved')}</p>}
-      </section>
+      <RecallStep sessionId={sessionId} lang={text.lang} compareText={text.body} />
       {footer}
       {onDone && (
         <div className="mx-auto max-w-prose">
@@ -183,7 +135,6 @@ export function TextTestFlow({ text, role, pacerWpm, now, ownQuestions, onDone, 
             type="button"
             className={primary}
             onClick={async () => {
-              if (recall.trim() && sessionId !== undefined && !recallSaved) await updateSessionRecall(sessionId, recall.trim())
               onDone({ sessionId, comp })
             }}
           >

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { t } from '../../i18n'
 import type { StoredCard } from '../../lib/storage/db'
@@ -36,20 +36,28 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
     }
   }, [queue, reviewed, onFinished])
 
+  const busy = useRef(false)
   const grade = useCallback(
     async (g: Grade) => {
-      if (!current) return
-      await gradeCard(current.id!, g, new Date())
-      setShown(false)
-      setReviewed((n) => n + 1)
-      setQueue((q) => (q ? q.slice(1) : q))
+      // Un doble clic o una tecla repetida no deben calificar dos veces ni saltar fichas.
+      if (!current || busy.current) return
+      busy.current = true
+      try {
+        await gradeCard(current.id!, g, new Date())
+        setShown(false)
+        setReviewed((n) => n + 1)
+        setQueue((q) => (q && q[0]?.id === current.id ? q.slice(1) : q))
+      } finally {
+        busy.current = false
+      }
     },
     [current],
   )
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (!current || (e.target as HTMLElement)?.closest?.('input, textarea, select')) return
+      if (!current || e.repeat || e.ctrlKey || e.altKey || e.metaKey) return
+      if ((e.target as HTMLElement)?.closest?.('input, textarea, select, button, a')) return
       if (e.key === ' ' && !shown) {
         e.preventDefault()
         show()

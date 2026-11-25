@@ -27,3 +27,21 @@ export async function completeStep(day: number, step: ProgramStep): Promise<Prog
 export async function completeDay(day: number): Promise<void> {
   await db.programDays.update(day, { completedAt: Date.now() })
 }
+
+/**
+ * Completa un paso y, si con él el día queda completo, marca el día en la misma transacción
+ * (evita un día con todos los pasos hechos pero sin `completedAt`).
+ */
+export async function completeStepAndMaybeDay(
+  day: number,
+  step: ProgramStep,
+  isComplete: (p: ProgramDay) => boolean,
+): Promise<ProgramDay> {
+  return db.transaction('rw', db.programDays, async () => {
+    const current = (await db.programDays.get(day)) ?? { day, startedAt: Date.now(), steps: {} }
+    const updated: ProgramDay = { ...current, steps: { ...current.steps, [step]: current.steps[step] ?? Date.now() } }
+    if (!updated.completedAt && isComplete(updated)) updated.completedAt = Date.now()
+    await db.programDays.put(updated)
+    return updated
+  })
+}

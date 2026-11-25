@@ -48,4 +48,24 @@ describe('retención diferida', () => {
     const ids = retentionQuestions(text).map((q) => q.id)
     expect(ids).toEqual([...text.questions].map((q) => q.id).sort().slice(0, 5))
   })
+
+  it('guardar dos veces la misma retención solo registra una', async () => {
+    const sessionId = await quizAt(t0)
+    await Promise.all([saveRetention(sessionId, 'diag-expositivo', 1, [0, 0, 0, 0, 0]), saveRetention(sessionId, 'diag-expositivo', 1, [0, 0, 0, 0, 0])])
+    expect((await db.quizResults.toArray()).filter((q) => q.deferred)).toHaveLength(1)
+  })
+
+  it('la comprensión inmediata se compara con las mismas 5 preguntas', async () => {
+    const text = getPracticeText('diag-expositivo')!
+    const retained = new Set(retentionQuestions(text).map((q) => q.id))
+    // Respuestas: correctas solo en las preguntas que NO se repiten → inmediata sobre las 5 = 0 %
+    const answers = text.questions.map((q) => (retained.has(q.id) ? (q.answerIndex + 1) % 4 : q.answerIndex))
+    await saveSession({
+      session: { kind: 'diagnostico', textId: 'diag-expositivo', textKind: 'expositivo', lang: 'es', startedAt: t0 - 60000, endedAt: t0, activeMs: 60000, words: 700, wpm: 700 },
+      probes: [],
+      quiz: { textId: 'diag-expositivo', answers, correct: answers.filter((a, i) => a === text.questions[i].answerIndex).length, total: text.questions.length, deferred: false, at: t0 },
+    })
+    const [pending] = await pendingRetention(t0 + 25 * H)
+    expect(pending.immediate).toBe(0)
+  })
 })

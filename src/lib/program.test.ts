@@ -36,6 +36,17 @@ describe('motor del programa', () => {
     expect(stepsFor(getDayPlan(2))).toEqual(['lesson', 'exercise', 'reading'])
   })
 
+  it('los ejercicios que trabajan sobre lo leído van después de la lectura', () => {
+    for (const day of [13, 15, 18, 19, 22, 25]) expect(stepsFor(getDayPlan(day)), `día ${day}`).toEqual(['lesson', 'reading', 'exercise'])
+  })
+
+  it('el mínimo de minutos admite varios bloques en el mismo día', () => {
+    const day: ProgramDay = { day: 27, startedAt: 1000, steps: {} }
+    const block = (startedAt: number) => session({ startedAt, kind: 'documento', activeMs: 15 * 60000 })
+    expect(ownReadingDone(day, [block(2000), block(3000)], 30)).toBe(true)
+    expect(ownReadingDone(day, [block(2000)], 30)).toBe(false)
+  })
+
   it('isDayComplete exige todos los pasos', () => {
     const plan = getDayPlan(2)
     expect(isDayComplete(plan, { day: 2, startedAt: 1, steps: { lesson: 1, exercise: 1 } })).toBe(false)

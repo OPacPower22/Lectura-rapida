@@ -7,7 +7,7 @@ export const DocumentReaderPage = lazy(() => import('../features/lector/Document
 export const LibraryPage = lazy(() => import('../features/biblioteca/LibraryPage').then((m) => ({ default: m.LibraryPage })))
 export const PhysicalSessionPage = lazy(() => import('../features/sesion-fisica/PhysicalSessionPage').then((m) => ({ default: m.PhysicalSessionPage })))
 export const ProgramPage = lazy(() => import('../features/programa/ProgramPage').then((m) => ({ default: m.ProgramPage })))
-export const DayView = lazy(() => import('../features/programa/DayView').then((m) => ({ default: m.DayView })))
+export const DayView = lazy(() => import('../features/programa/DayView').then((m) => ({ default: m.DayViewRoute })))
 export const GlossaryPage = lazy(() => import('../features/glosario/GlossaryPage').then((m) => ({ default: m.GlossaryPage })))
 export const AttentionPage = lazy(() => import('../features/atencion/AttentionPage').then((m) => ({ default: m.AttentionPage })))
 export const CardsPage = lazy(() => import('../features/retencion/CardsPage').then((m) => ({ default: m.CardsPage })))
