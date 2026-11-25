@@ -1,0 +1,311 @@
+[
+  {
+    "day": 1,
+    "title": "Diagnóstico",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "diagnostico"
+    }
+  },
+  {
+    "day": 2,
+    "title": "Qué es leer",
+    "exercise": {
+      "type": "atencion",
+      "minutes": 2
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-1"
+    }
+  },
+  {
+    "day": 3,
+    "title": "Atención: notar y volver",
+    "exercise": {
+      "type": "atencion",
+      "minutes": 5
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-2"
+    }
+  },
+  {
+    "day": 4,
+    "title": "Entorno y bloques de enfoque",
+    "exercise": {
+      "type": "enfoque"
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-3"
+    }
+  },
+  {
+    "day": 5,
+    "title": "Propósito y prelectura",
+    "exercise": {
+      "type": "hojeo",
+      "textId": "practica-4",
+      "seconds": 90
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-4"
+    }
+  },
+  {
+    "day": 6,
+    "title": "Lectura activa: preguntas",
+    "exercise": {
+      "type": "preguntas",
+      "count": 3
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-5"
+    }
+  },
+  {
+    "day": 7,
+    "title": "Primer re-test",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "retest",
+      "textId": "retest-1"
+    }
+  },
+  {
+    "day": 8,
+    "title": "Fijaciones y regresiones",
+    "exercise": {
+      "type": "atencion",
+      "minutes": 2
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 9,
+    "title": "Marcapasos y ritmo",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "propio",
+      "pacer": true
+    }
+  },
+  {
+    "day": 10,
+    "title": "Hojear",
+    "exercise": {
+      "type": "hojeo",
+      "textId": "practica-2",
+      "seconds": 60
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 11,
+    "title": "Escanear",
+    "exercise": {
+      "type": "escaneo",
+      "textId": "practica-2"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 12,
+    "title": "Elegir la velocidad",
+    "exercise": {
+      "type": "enfoque"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 13,
+    "title": "Vocabulario y glosario",
+    "exercise": {
+      "type": "fichas",
+      "count": 3
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 14,
+    "title": "Segundo re-test",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "retest",
+      "textId": "retest-2"
+    }
+  },
+  {
+    "day": 15,
+    "title": "Estructura del texto",
+    "exercise": {
+      "type": "mapa"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 16,
+    "title": "Inferencia y crítica",
+    "exercise": {
+      "type": "preguntas",
+      "count": 3
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-3"
+    }
+  },
+  {
+    "day": 17,
+    "title": "El método completo",
+    "exercise": {
+      "type": "enfoque"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 18,
+    "title": "Notas que sirven",
+    "exercise": {
+      "type": "fichas",
+      "count": 3
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 19,
+    "title": "Mapas conceptuales",
+    "exercise": {
+      "type": "mapa"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 20,
+    "title": "Textos densos",
+    "exercise": {
+      "type": "atencion",
+      "minutes": 5
+    },
+    "reading": {
+      "type": "texto",
+      "textId": "practica-3",
+      "pacer": true
+    }
+  },
+  {
+    "day": 21,
+    "title": "Tercer re-test",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "retest",
+      "textId": "retest-3"
+    }
+  },
+  {
+    "day": 22,
+    "title": "Recuerdo activo",
+    "exercise": {
+      "type": "fichas",
+      "count": 5
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 23,
+    "title": "Repetición espaciada",
+    "exercise": {
+      "type": "repaso"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 24,
+    "title": "Explicar para entender",
+    "exercise": {
+      "type": "explicar",
+      "seconds": 60
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 25,
+    "title": "Sintetizar fuentes",
+    "exercise": {
+      "type": "mapa"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 26,
+    "title": "De las fichas al esquema",
+    "exercise": {
+      "type": "esquema"
+    },
+    "reading": {
+      "type": "propio"
+    }
+  },
+  {
+    "day": 27,
+    "title": "Sesión real",
+    "exercise": {
+      "type": "enfoque"
+    },
+    "reading": {
+      "type": "propio",
+      "minMinutes": 30
+    }
+  },
+  {
+    "day": 28,
+    "title": "Test final",
+    "exercise": {
+      "type": "ninguno"
+    },
+    "reading": {
+      "type": "retest",
+      "textId": "retest-4"
+    }
+  }
+]
