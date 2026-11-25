@@ -72,6 +72,9 @@ export function HomePage() {
             {t('nav.diagnostic')}
           </Link>
         )}
+        <Link to="/biblioteca" className={linkClass}>
+          {t('home.libraryCta')}
+        </Link>
         <Link to="/leer" className={linkClass}>
           {t('home.readCta')}
         </Link>

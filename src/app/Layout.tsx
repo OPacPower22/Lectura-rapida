@@ -5,7 +5,7 @@ import { t } from '../i18n'
 const items = [
   { to: '/', label: 'nav.home', end: true },
   { to: '/diagnostico', label: 'nav.diagnostic', end: false },
-  { to: '/leer', label: 'nav.read', end: false },
+  { to: '/biblioteca', label: 'nav.library', end: false },
   { to: '/progreso', label: 'nav.progress', end: false },
 ] as const
 

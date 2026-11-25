@@ -23,6 +23,7 @@
   --err-bg: #fef2f2;
   --err-line: #fca5a5;
   --err-ink: #991b1b;
+  --mark: #fde68a;
 }
 
 [data-theme='sepia'] {
@@ -46,6 +47,7 @@
   --err-bg: #fbe4dc;
   --err-line: #e4a08c;
   --err-ink: #8a1c12;
+  --mark: #f0cf72;
 }
 
 [data-theme='dark'] {
@@ -69,6 +71,7 @@
   --err-bg: #450a0a;
   --err-line: #991b1b;
   --err-ink: #fecaca;
+  --mark: #854d0e;
 }
 
 @theme inline {
@@ -92,6 +95,7 @@
   --color-err-bg: var(--err-bg);
   --color-err-line: var(--err-line);
   --color-err-ink: var(--err-ink);
+  --color-mark: var(--mark);
 }
 
 body {

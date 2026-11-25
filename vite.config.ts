@@ -23,6 +23,11 @@ export default defineConfig({
         start_url: base,
         scope: base,
         display: 'standalone',
+        share_target: {
+          action: `${base}compartir`,
+          method: 'GET',
+          params: { title: 'title', text: 'text', url: 'url' },
+        },
         background_color: '#fafaf9',
         theme_color: '#1d4ed8',
         icons: [

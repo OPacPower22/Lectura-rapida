@@ -27,7 +27,7 @@ function chaptersFrom(root: Element): Chapter[] {
 
 export function importHtml(html: string, opts: { url?: string } = {}): ImportedDocument {
   const parsed = new DOMParser().parseFromString(html, 'text/html')
-  const pageTitle = clean(parsed.title)
+  const pageTitle = clean(parsed.title) || clean(parsed.querySelector('h1')?.textContent ?? '')
   const article = new Readability(parsed.cloneNode(true) as Document).parse()
 
   let chapters: Chapter[] = []

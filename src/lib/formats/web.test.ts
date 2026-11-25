@@ -31,6 +31,11 @@ describe('importHtml', () => {
     expect(doc.chapters.map((c) => c.title).slice(-2)).toEqual(['Segunda parte', 'Tercera parte'])
   })
 
+  it('usa el primer h1 como título si el HTML pegado no trae <title>', () => {
+    const html = `<html><body><article><h1>Artículo pegado</h1>${[1, 2, 3, 4, 5].map(paragraph).join('')}</article></body></html>`
+    expect(importHtml(html).title).toBe('Artículo pegado')
+  })
+
   it('rechaza una página sin contenido', () => {
     expect(() => importHtml('<html><body></body></html>')).toThrow(ImportError)
   })
