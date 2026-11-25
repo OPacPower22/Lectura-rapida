@@ -1,43 +1,31 @@
-# Descripción del proyecto — Lectura Rápida: Comprensión y Retención
+# Descripción del proyecto — Lectura Rápida
 
-## Descripción corta (para GitHub / tienda / pitch — 280 caracteres)
+## Descripción corta (≤ 280 caracteres)
 
-App que enseña lectura rápida con comprensión y retención. Diagnóstico, entrenador ocular, lector RSVP, currículo de 28 días y repetición espaciada para pasar de ~200 a 600+ ppm sin perder lo leído.
+App web instalable que entrena la atención, la lectura activa, la velocidad flexible y la retención con métodos basados en evidencia. Mide tu velocidad, comprensión y atención reales, y convierte lo que lees en trabajos propios.
 
 ## Descripción larga
 
-**Lectura Rápida — Comprensión y Retención** es una aplicación que enseña a dominar la lectura rápida en el menor tiempo posible, sin sacrificar comprensión ni memoria.
+**Lectura Rápida** enseña a leer mejor cualquier material (estudio, investigación, libros, trazados y proyectos de instrucción) para entenderlo, recordarlo y usarlo en el menor tiempo razonable.
 
-La mayoría de las apps de velocidad solo miden cuántas palabras por minuto lees. Esta app cambia el sistema completo: cómo mueves los ojos, cómo procesas bloques de significado, cómo comprendes la estructura de un texto y cómo lo fijas en memoria.
+La mayoría de las apps de "lectura rápida" solo empujan las palabras por minuto, muchas veces con técnicas que la investigación no respalda. Esta app trabaja sobre lo que sí funciona:
 
-### Qué hace
+1. **Atención:** entrenamiento breve y sondeos durante la lectura para notar y reducir la divagación.
+2. **Propósito y prelectura:** leer siempre con una pregunta y un mapa del texto.
+3. **Velocidad flexible:** rápido donde se puede y lento donde hace falta. Hojear y escanear como herramientas, no como "lectura".
+4. **Retención:** recuerdo activo y repetición espaciada de fichas y vocabulario.
+5. **Producción:** fichas con su fuente, organizadas en proyectos de escritura exportables a Word.
 
-1. **Te diagnostica** — Velocidad base, comprensión y retención real.
-2. **Te entrena** — Mecánica ocular, reducción de subvocalización y regresiones, lectura por chunks y velocidad flexible.
-3. **Te enseña a comprender** — Prelectura, estructura, inferencia y lectura activa.
-4. **Te hace recordar** — Recuerdo activo, resumen, mapas y repetición espaciada a 24h, 3 y 7 días.
-5. **Te mide** — Con el Índice de Lectura Efectiva (ppm × comprensión), la única métrica que importa.
+Lee PDF, EPUB, artículos web y texto pegado, e incluye sesiones guiadas para libros físicos. Funciona sin conexión y sin cuenta, y tus datos se quedan en tu dispositivo.
 
-### Para quién
+### Resultado esperado
 
-Estudiantes, profesionales, opositores, docentes y lectores voraces que necesitan leer mucho, entenderlo y recordarlo cuando importa.
-
-### Resultado prometido
-
-En 28 días, 20 minutos al día: leer 2-3x más rápido, con comprensión ≥80% y retención a 7 días ≥60%.
-
-### Diferenciador
-
-No es velocidad ciega. Si la comprensión cae, la velocidad baja. La app no te deja avanzar rápido si no estás entendiendo.
+No promete una cifra de ppm. Promete medición honesta y progreso visible en velocidad por tipo de texto, comprensión, retención y atención, con un programa de 28 días de unos 20 minutos diarios.
 
 ### Stack
 
-PWA con React + TypeScript + Vite + Tailwind. Offline-first, sin necesidad de cuenta para empezar, con datos locales y exportación.
+PWA con React, TypeScript, Vite, Tailwind e IndexedDB (Dexie). Funciona sin conexión.
 
-### Estado
+### Etiquetas
 
-Plano maestro + README + estructura inicial. MVP en construcción: Diagnóstico + Entrenador + Lector RSVP + Test de comprensión.
-
-### Etiquetas / Topics
-
-`lectura-rapida` `comprension-lectora` `retencion` `speed-reading` `aprendizaje` `memoria` `pwa` `react` `typescript` `educacion`
+`lectura` `comprension-lectora` `atencion` `retencion` `repeticion-espaciada` `aprendizaje` `pwa` `react` `typescript` `educacion`
