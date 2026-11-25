@@ -6,7 +6,7 @@ export type TextKind = 'narrativo' | 'expositivo' | 'denso'
 
 export interface ReadingSession {
   id?: number
-  kind: 'diagnostico' | 'libre' | 'documento' | 'fisico'
+  kind: 'diagnostico' | 'retest' | 'practica' | 'libre' | 'documento' | 'fisico'
   textId?: string
   title?: string
   purpose?: string

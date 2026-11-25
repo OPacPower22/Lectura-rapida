@@ -6,6 +6,7 @@ import { t } from '../i18n'
 
 const items = [
   { to: '/', label: 'nav.home', end: true },
+  { to: '/programa', label: 'nav.program', end: false },
   { to: '/diagnostico', label: 'nav.diagnostic', end: false },
   { to: '/biblioteca', label: 'nav.library', end: false },
   { to: '/repasar', label: 'nav.review', end: false },

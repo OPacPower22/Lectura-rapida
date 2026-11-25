@@ -30,16 +30,18 @@ interface Props {
   rng?: () => number
   /** Ofrece el marcapasos opcional (no en el diagnóstico, que mide la línea base). */
   allowPacer?: boolean
+  /** Velocidad sugerida del marcapasos; si se indica, empieza activado. */
+  initialPacerWpm?: number
 }
 
-export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer }: Props) {
+export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer, initialPacerWpm }: Props) {
   const session = useReadingSession({ probeRange, now, rng })
   const [fontIndex, setFontIndex] = useState(1)
   const distractedButton = useRef<HTMLButtonElement>(null)
   const paragraphs = useMemo(() => splitParagraphs(body), [body])
   useFocusAfterProbe(session.probeOpen, distractedButton)
-  const [pacerOn, setPacerOn] = useState(false)
-  const [pacerWpm, setPacerWpm] = useState(250)
+  const [pacerOn, setPacerOn] = useState(initialPacerWpm !== undefined)
+  const [pacerWpm, setPacerWpm] = useState(initialPacerWpm ?? 250)
   const pacer = usePacer({
     enabled: pacerOn && session.status === 'reading',
     wpm: pacerWpm,

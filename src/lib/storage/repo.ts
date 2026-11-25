@@ -32,3 +32,7 @@ export async function listSessions(): Promise<SessionSummary[]> {
     quiz: quizzes.find((q) => q.sessionId === session.id && !q.deferred),
   }))
 }
+
+export async function updateSessionRecall(sessionId: number, recall: string): Promise<void> {
+  await db.readingSessions.update(sessionId, { recall })
+}

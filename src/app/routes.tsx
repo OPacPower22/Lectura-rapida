@@ -10,6 +10,8 @@ import { HistoryPage } from '../features/progreso/HistoryPage'
 import { PhysicalSessionPage } from '../features/sesion-fisica/PhysicalSessionPage'
 import { CardsPage } from '../features/retencion/CardsPage'
 import { AttentionPage } from '../features/atencion/AttentionPage'
+import { DayView } from '../features/programa/DayView'
+import { ProgramPage } from '../features/programa/ProgramPage'
 import { ReviewPage } from '../features/retencion/ReviewPage'
 import { Layout } from './Layout'
 
@@ -29,6 +31,8 @@ export const routes: RouteObject[] = [
       { path: 'repasar', element: <ReviewPage /> },
       { path: 'fichas', element: <CardsPage /> },
       { path: 'atencion', element: <AttentionPage /> },
+      { path: 'programa', element: <ProgramPage /> },
+      { path: 'programa/dia/:day', element: <DayView /> },
     ],
   },
 ]
