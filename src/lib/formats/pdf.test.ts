@@ -1,12 +1,13 @@
 // @vitest-environment node
 /// <reference types="node" />
 import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { importPdf } from './pdf'
 import { ImportError } from './types'
 
 const fixture = async (name: string) => {
-  const buf = await readFile(new URL(`../../../tests/fixtures/${name}`, import.meta.url))
+  const buf = await readFile(resolve(process.cwd(), 'tests/fixtures', name))
   return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
 }
 
