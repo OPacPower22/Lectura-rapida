@@ -6,6 +6,7 @@ import { HomePage } from '../features/inicio/HomePage'
 import { DocumentReaderPage } from '../features/lector/DocumentReaderPage'
 import { PasteReadPage } from '../features/lector/PasteReadPage'
 import { HistoryPage } from '../features/progreso/HistoryPage'
+import { PhysicalSessionPage } from '../features/sesion-fisica/PhysicalSessionPage'
 import { Layout } from './Layout'
 
 export const routes: RouteObject[] = [
@@ -16,6 +17,7 @@ export const routes: RouteObject[] = [
       { path: 'diagnostico', element: <DiagnosticPage /> },
       { path: 'biblioteca', element: <LibraryPage /> },
       { path: 'biblioteca/importar', element: <ImportPage /> },
+      { path: 'biblioteca/fisico', element: <PhysicalSessionPage /> },
       { path: 'biblioteca/:id', element: <DocumentReaderPage /> },
       { path: 'leer', element: <PasteReadPage /> },
       { path: 'progreso', element: <HistoryPage /> },

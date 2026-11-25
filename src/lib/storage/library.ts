@@ -49,3 +49,10 @@ export async function deleteDocument(id: number): Promise<void> {
     if (others === 0) await db.sources.delete(doc.sourceId)
   })
 }
+
+/** Libros físicos: fuentes de tipo libro sin documento digital asociado. */
+export async function listPhysicalBooks(): Promise<Source[]> {
+  const books = await db.sources.where('type').equals('libro').toArray()
+  const withDocs = new Set((await db.documents.toArray()).map((d) => d.sourceId))
+  return books.filter((b) => !withDocs.has(b.id!)).sort((a, b) => b.createdAt - a.createdAt)
+}
