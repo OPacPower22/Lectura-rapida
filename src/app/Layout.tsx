@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { countDue } from '../lib/storage/cards'
 import { ThemePicker } from '../features/ajustes/ThemePicker'
 import { t } from '../i18n'
 
@@ -7,6 +8,7 @@ const items = [
   { to: '/', label: 'nav.home', end: true },
   { to: '/diagnostico', label: 'nav.diagnostic', end: false },
   { to: '/biblioteca', label: 'nav.library', end: false },
+  { to: '/repasar', label: 'nav.review', end: false },
   { to: '/progreso', label: 'nav.progress', end: false },
   { to: '/glosario', label: 'nav.glossary', end: false },
 ] as const
@@ -28,6 +30,13 @@ function useHeaderHeight(ref: React.RefObject<HTMLElement | null>) {
 export function Layout() {
   const header = useRef<HTMLElement>(null)
   useHeaderHeight(header)
+  const location = useLocation()
+  const [due, setDue] = useState(0)
+  useEffect(() => {
+    countDue(new Date())
+      .then(setDue)
+      .catch(() => setDue(0))
+  }, [location])
   return (
     <div className="min-h-screen bg-page text-ink">
       <header ref={header} className="sticky top-0 z-10 border-b border-line bg-surface">
@@ -42,7 +51,7 @@ export function Layout() {
                   `rounded px-2 py-1.5 text-sm sm:px-3 sm:py-2 sm:text-base ${isActive ? 'bg-accent text-on-accent' : 'hover:bg-hover'}`
                 }
               >
-                {t(item.label)}
+                {item.label === 'nav.review' && due > 0 ? t('nav.reviewCount', { count: due }) : t(item.label)}
               </NavLink>
             ))}
           </nav>

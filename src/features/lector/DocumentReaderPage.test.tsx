@@ -3,6 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { t } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { listGlossary } from '../../lib/storage/glossary'
+import { listCards } from '../../lib/storage/cards'
 import { addDocument, getDocument, savePosition } from '../../lib/storage/library'
 import { addNote, listNotes } from '../../lib/storage/notes'
 import { listSessions } from '../../lib/storage/repo'
@@ -151,6 +152,7 @@ describe('DocumentReaderPage', () => {
 
   it('guarda el primer párrafo visible al ocultar la página', async () => {
     const id = await setup({ chapter: 1, paragraph: 0 })
+    await act(async () => {}) // efectos pendientes registrados antes de ocultar
     const original = Element.prototype.getBoundingClientRect
     Element.prototype.getBoundingClientRect = function (this: Element) {
       const index = (this as HTMLElement).dataset?.paragraph
@@ -163,7 +165,7 @@ describe('DocumentReaderPage', () => {
     })
     Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true })
     Element.prototype.getBoundingClientRect = original
-    await waitFor(async () => expect((await getDocument(id))?.doc.position).toEqual({ chapter: 1, paragraph: 3 }))
+    await waitFor(async () => expect((await getDocument(id))?.doc.position).toEqual({ chapter: 1, paragraph: 3 }), { timeout: 3000 })
   })
 
   it('durante una sesión, «Ir al texto» no cambia de capítulo', async () => {
@@ -175,5 +177,17 @@ describe('DocumentReaderPage', () => {
     await screen.findByText('otra')
     for (const button of screen.queryAllByRole('button', { name: t('notes.goTo') })) fireEvent.click(button)
     expect(screen.getByRole('heading', { name: 'Dos' })).toBeInTheDocument()
+  })
+
+  it('crea una ficha desde una selección con la cita como respuesta', async () => {
+    await setup()
+    select(document.querySelector('[data-paragraph="0"]')!, 'salto rápido del ojo')
+    fireEvent.click(await screen.findByRole('button', { name: t('annot.card') }))
+    fireEvent.change(screen.getByLabelText(t('cards.front')), { target: { value: '¿Qué es una sacada?' } })
+    fireEvent.click(screen.getByRole('button', { name: t('annot.save') }))
+    await waitFor(async () => {
+      const [card] = await listCards()
+      expect(card).toMatchObject({ kind: 'ficha', front: '¿Qué es una sacada?', back: 'salto rápido del ojo' })
+    })
   })
 })

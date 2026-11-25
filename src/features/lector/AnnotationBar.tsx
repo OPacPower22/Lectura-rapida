@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { t } from '../../i18n'
 import type { NoteKind } from '../../lib/storage/db'
+import { CardForm } from '../retencion/CardForm'
 
-type Mode = 'menu' | 'note' | 'glossary'
+type Mode = 'menu' | 'note' | 'glossary' | 'card'
 
 interface Props {
   quote: string
   onHighlight(): void
   onNote(kind: Exclude<NoteKind, 'subrayado'>, text: string): void
   onGlossary(entry: { term: string; definition: string; translation?: string }): void
+  onCard(front: string, back: string): void
   onCancel(): void
 }
 
@@ -17,7 +19,7 @@ const primary = 'rounded bg-accent px-4 py-2 font-medium text-on-accent hover:bg
 const field = 'w-full rounded border border-line-strong bg-surface p-2'
 
 /** Barra fija inferior para anotar la selección actual. */
-export function AnnotationBar({ quote, onHighlight, onNote, onGlossary, onCancel }: Props) {
+export function AnnotationBar({ quote, onHighlight, onNote, onGlossary, onCard, onCancel }: Props) {
   const [mode, setMode] = useState<Mode>('menu')
   const [kind, setKind] = useState<Exclude<NoteKind, 'subrayado'>>('idea')
   const [text, setText] = useState('')
@@ -26,7 +28,7 @@ export function AnnotationBar({ quote, onHighlight, onNote, onGlossary, onCancel
   const [translation, setTranslation] = useState('')
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface p-3 shadow-lg">
+    <div role="region" aria-label={t('annot.region')} className="fixed inset-x-0 bottom-0 z-20 max-h-[70vh] overflow-auto border-t border-line bg-surface p-3 shadow-lg">
       <div className="mx-auto max-w-prose space-y-2">
         <p className="truncate text-sm text-muted">«{quote}»</p>
         {mode === 'menu' && (
@@ -40,11 +42,15 @@ export function AnnotationBar({ quote, onHighlight, onNote, onGlossary, onCancel
             <button type="button" className={action} onMouseDown={(e) => e.preventDefault()} onClick={() => setMode('glossary')}>
               {t('annot.glossary')}
             </button>
+            <button type="button" className={action} onMouseDown={(e) => e.preventDefault()} onClick={() => setMode('card')}>
+              {t('annot.card')}
+            </button>
             <button type="button" className={action} onClick={onCancel}>
               {t('annot.cancel')}
             </button>
           </div>
         )}
+        {mode === 'card' && <CardForm initialBack={quote} onSave={onCard} onCancel={onCancel} />}
         {mode === 'note' && (
           <form
             className="space-y-2"

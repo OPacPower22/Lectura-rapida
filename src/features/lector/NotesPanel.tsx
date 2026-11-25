@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { t } from '../../i18n'
 import type { Note } from '../../lib/storage/db'
+import { CardForm } from '../retencion/CardForm'
 
 interface Props {
   notes: Note[]
@@ -9,11 +10,13 @@ interface Props {
   canGoTo?(note: Note): boolean
   onUpdate(id: number, text: string): void
   onDelete(id: number): void
+  onCard?(note: Note, front: string, back: string): void
 }
 
-export function NotesPanel({ notes, onGoTo, canGoTo = () => true, onUpdate, onDelete }: Props) {
+export function NotesPanel({ notes, onGoTo, canGoTo = () => true, onUpdate, onDelete, onCard }: Props) {
   const [editing, setEditing] = useState<number | null>(null)
   const [draft, setDraft] = useState('')
+  const [carding, setCarding] = useState<number | null>(null)
 
   return (
     <details className="rounded-lg border border-line bg-surface p-4" open={notes.length > 0}>
@@ -60,10 +63,27 @@ export function NotesPanel({ notes, onGoTo, canGoTo = () => true, onUpdate, onDe
               >
                 {t('notes.edit')}
               </button>
+              {onCard && (
+                <button type="button" className="text-accent-ink underline" onClick={() => setCarding(note.id!)}>
+                  {t('notes.toCard')}
+                </button>
+              )}
               <button type="button" className="text-err-ink underline" onClick={() => onDelete(note.id!)}>
                 {t('notes.delete')}
               </button>
             </div>
+            {carding === note.id && onCard && (
+              <div className="mt-2">
+                <CardForm
+                  initialBack={[note.quote, note.text].filter(Boolean).join('\n')}
+                  onSave={(front, back) => {
+                    onCard(note, front, back)
+                    setCarding(null)
+                  }}
+                  onCancel={() => setCarding(null)}
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>

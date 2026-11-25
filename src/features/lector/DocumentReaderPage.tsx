@@ -5,6 +5,7 @@ import { computeWpm } from '../../lib/metrics'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
 import type { Note, NoteKind, Source, StoredDocument, TextAnchor } from '../../lib/storage/db'
 import { addGlossaryEntry } from '../../lib/storage/glossary'
+import { addCard } from '../../lib/storage/cards'
 import { getDocument, savePosition } from '../../lib/storage/library'
 import { addNote, deleteNote, listNotes, updateNoteText } from '../../lib/storage/notes'
 import { saveSession } from '../../lib/storage/repo'
@@ -496,6 +497,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
         canGoTo={(note) => !(reading || phase === 'confirm') || note.anchor?.chapter === chapter}
         onUpdate={(id, text) => updateNoteText(id, text).then(reloadNotes)}
         onDelete={(id) => deleteNote(id).then(reloadNotes)}
+        onCard={(note, front, back) => addCard({ kind: 'ficha', front, back, lang: note.lang, sourceId: note.sourceId })}
       />
 
       {crossWarning && (
@@ -510,6 +512,11 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
           onHighlight={() => annotate('subrayado', '')}
           onNote={(kind, text) => annotate(kind, text)}
           onGlossary={addToGlossary}
+          onCard={async (front, back) => {
+            await addCard({ kind: 'ficha', front, back, lang: doc.lang, sourceId: doc.sourceId })
+            window.getSelection()?.removeAllRanges()
+            setSelection(null)
+          }}
           onCancel={() => {
             window.getSelection()?.removeAllRanges()
             setSelection(null)
