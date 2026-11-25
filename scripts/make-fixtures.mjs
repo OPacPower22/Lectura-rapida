@@ -53,6 +53,35 @@ async function makePdf() {
   await writeFile(new URL('escaneado.pdf', out), await scanned.save())
 }
 
+async function makeLayoutPdfs() {
+  // Dos columnas con las mismas líneas base (revistas maquetadas).
+  const cols = await PDFDocument.create()
+  const font = await cols.embedFont(StandardFonts.Helvetica)
+  const page = cols.addPage([595, 842])
+  const left = ['Columna izquierda, primera línea', 'que sigue en la segunda línea', 'y termina en la tercera.']
+  const right = ['Columna derecha, primera línea', 'que sigue en la segunda línea', 'y termina en la tercera.']
+  left.forEach((text, i) => page.drawText(text, { x: 50, y: 740 - i * 16, size: 12, font }))
+  right.forEach((text, i) => page.drawText(text, { x: 320, y: 740 - i * 16, size: 12, font }))
+  await writeFile(new URL('columnas.pdf', out), await cols.save())
+
+  // Libro: encabezados alternos, número de página al pie y párrafos marcados solo con sangría.
+  const book = await PDFDocument.create()
+  const bf = await book.embedFont(StandardFonts.Helvetica)
+  const pages = [
+    [[68, 'Primer párrafo del libro, que empieza con sangría'], [50, 'y termina aquí.'], [68, 'Segundo párrafo, también con sangría, que continúa'], [50, 'en la página siguiente sin cortar la']],
+    [[50, 'frase a la mitad.'], [68, 'Tercer párrafo de la segunda página.']],
+    [[68, 'Cuarto párrafo en la tercera página.']],
+    [[68, 'Quinto y último párrafo.']],
+  ]
+  pages.forEach((lines, i) => {
+    const pg = book.addPage([595, 842])
+    pg.drawText(i % 2 === 0 ? 'Capítulo primero' : 'Libro de prueba', { x: 250, y: 800, size: 10, font: bf })
+    lines.forEach(([x, text], j) => pg.drawText(text, { x, y: 740 - j * 16, size: 12, font: bf }))
+    pg.drawText(String(i + 1), { x: 290, y: 40, size: 10, font: bf })
+  })
+  await writeFile(new URL('libro.pdf', out), await book.save())
+}
+
 function epubFiles({ drm = false } = {}) {
   const zip = new JSZip()
   zip.file('mimetype', 'application/epub+zip', { compression: 'STORE' })
@@ -108,5 +137,6 @@ async function makeEpubs() {
 }
 
 await makePdf()
+await makeLayoutPdfs()
 await makeEpubs()
 console.log('Fixtures generados en tests/fixtures/')

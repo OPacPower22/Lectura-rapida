@@ -10,17 +10,44 @@ export interface PdfLine {
 
 const SENTENCE_END = /[.!?:;»"”)\]]$/
 
-/** Líneas repetidas en la misma posición en más de la mitad de las páginas (encabezados y pies). */
-function repeatedLines(lines: PdfLine[]): Set<string> {
-  const pages = new Set(lines.map((l) => l.page))
-  if (pages.size < 2) return new Set()
-  const seen = new Map<string, Set<number>>()
-  for (const l of lines) {
-    const key = `${l.text.trim()}@${Math.round(l.y)}`
-    if (!seen.has(key)) seen.set(key, new Set())
-    seen.get(key)!.add(l.page)
+const PAGE_NUMBER = /^\s*(\d+|[ivxlcdm]+)\s*$/i
+
+/**
+ * Encabezados y pies de página:
+ * - líneas idénticas en la misma posición en al menos 2 páginas y el 30 % de ellas (cubre encabezados
+ *   alternos de páginas pares e impares);
+ * - en la primera y última línea de cada página, si es corta (≤ 4 palabras), lo mismo ignorando los
+ *   dígitos («Capítulo 3 · 45»);
+ * - números de página sueltos (arábigos o romanos) en la primera o última línea.
+ */
+function marginLines(lines: PdfLine[]): Set<PdfLine> {
+  const drop = new Set<PdfLine>()
+  const pages = [...new Set(lines.map((l) => l.page))]
+  const bands = new Set<PdfLine>()
+  for (const page of pages) {
+    const onPage = lines.filter((l) => l.page === page)
+    bands.add(onPage.reduce((a, b) => (b.y > a.y ? b : a)))
+    bands.add(onPage.reduce((a, b) => (b.y < a.y ? b : a)))
   }
-  return new Set([...seen].filter(([, p]) => p.size / pages.size > 0.5).map(([k]) => k))
+  if (pages.length >= 2) {
+    const count = (key: (l: PdfLine) => string, pool: PdfLine[]) => {
+      const seen = new Map<string, Set<number>>()
+      for (const l of pool) {
+        const k = key(l)
+        if (!seen.has(k)) seen.set(k, new Set())
+        seen.get(k)!.add(l.page)
+      }
+      for (const l of pool) {
+        const n = seen.get(key(l))!.size
+        if (n >= 2 && n / pages.length >= 0.3) drop.add(l)
+      }
+    }
+    count((l) => `${l.text.trim()}@${Math.round(l.y)}`, lines)
+    const short = [...bands].filter((l) => l.text.replace(/\d+/g, '').trim().split(/\s+/).length <= 4)
+    count((l) => `${l.text.trim().replace(/\d+/g, '#')}@${Math.round(l.y)}`, short)
+  }
+  for (const l of bands) if (PAGE_NUMBER.test(l.text)) drop.add(l)
+  return drop
 }
 
 /** Ordena las líneas de una página: columna izquierda completa y luego la derecha, de arriba abajo. */
@@ -45,8 +72,9 @@ function joinLines(previous: string, next: string): string {
  * respeta columnas, une guiones de fin de línea y conserva la página de inicio de cada párrafo.
  */
 export function paragraphsFromLines(lines: PdfLine[]): { text: string; page: number }[] {
-  const repeated = repeatedLines(lines)
-  const kept = lines.filter((l) => l.text.trim() && !repeated.has(`${l.text.trim()}@${Math.round(l.y)}`))
+  const nonEmpty = lines.filter((l) => l.text.trim())
+  const margins = marginLines(nonEmpty)
+  const kept = nonEmpty.filter((l) => !margins.has(l))
 
   const pages = [...new Set(kept.map((l) => l.page))].sort((a, b) => a - b)
   const result: { text: string; page: number }[] = []
@@ -55,12 +83,17 @@ export function paragraphsFromLines(lines: PdfLine[]): { text: string; page: num
   for (const page of pages) {
     for (const column of readingOrder(kept.filter((l) => l.page === page))) {
       let prevInColumn: PdfLine | null = null
+      const leftEdge = Math.min(...column.map((l) => l.x))
       for (const line of column) {
         const text = line.text.replace(/\s+/g, ' ').trim()
+        const endsSentence = result.length > 0 && SENTENCE_END.test(result[result.length - 1].text)
+        // Sangría de primera línea: empieza claramente a la derecha del margen de la columna.
+        const indented = line.x > leftEdge + 0.6 * line.height
         let startNew: boolean
         if (!previous) startNew = true
-        else if (prevInColumn) startNew = prevInColumn.y - line.y > 1.5 * Math.max(line.height, prevInColumn.height) * 1.2
-        else startNew = SENTENCE_END.test(result[result.length - 1].text)
+        else if (prevInColumn) {
+          startNew = prevInColumn.y - line.y > 1.5 * Math.max(line.height, prevInColumn.height) * 1.2 || (indented && endsSentence)
+        } else startNew = endsSentence
 
         if (startNew) result.push({ text, page: line.page })
         else result[result.length - 1].text = joinLines(result[result.length - 1].text, text)

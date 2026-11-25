@@ -36,8 +36,46 @@ describe('importPdf', () => {
   })
 
   it('rechaza datos que no son un PDF', async () => {
-    const bytes = new Uint8Array(64).map((_, i) => i).buffer
-    await expect(importPdf(bytes, { getDocument })).rejects.toBeInstanceOf(ImportError)
-    await expect(importPdf(bytes, { getDocument })).rejects.toMatchObject({ code: 'invalid' })
+    const bytes = () => new Uint8Array(64).map((_, i) => i).buffer
+    await expect(importPdf(bytes(), { getDocument })).rejects.toBeInstanceOf(ImportError)
+    await expect(importPdf(bytes(), { getDocument })).rejects.toMatchObject({ code: 'invalid' })
+  })
+
+  it('separa dos columnas aunque compartan las líneas base', async () => {
+    const doc = await importPdf(await fixture('columnas.pdf'), { getDocument })
+    expect(doc.chapters[0].paragraphs).toEqual([
+      'Columna izquierda, primera línea que sigue en la segunda línea y termina en la tercera.',
+      'Columna derecha, primera línea que sigue en la segunda línea y termina en la tercera.',
+    ])
+  })
+
+  it('quita encabezados alternos y números de página, respeta sangrías y páginas', async () => {
+    const doc = await importPdf(await fixture('libro.pdf'), { getDocument })
+    const [chapter] = doc.chapters
+    expect(chapter.paragraphs).toEqual([
+      'Primer párrafo del libro, que empieza con sangría y termina aquí.',
+      'Segundo párrafo, también con sangría, que continúa en la página siguiente sin cortar la frase a la mitad.',
+      'Tercer párrafo de la segunda página.',
+      'Cuarto párrafo en la tercera página.',
+      'Quinto y último párrafo.',
+    ])
+    expect(chapter.pages).toEqual([1, 1, 2, 3, 4])
+  })
+
+  it('libera el documento de pdfjs al terminar', async () => {
+    const destroyed = vi.fn()
+    const tracked = ((args: Parameters<typeof getDocument>[0]) => {
+      const task = getDocument(args)
+      const original = task.destroy.bind(task)
+      task.destroy = async () => {
+        destroyed()
+        return original()
+      }
+      return task
+    }) as typeof getDocument
+    await importPdf(await fixture('muestra.pdf'), { getDocument: tracked })
+    expect(destroyed).toHaveBeenCalled()
+    await expect(importPdf(await fixture('escaneado.pdf'), { getDocument: tracked })).rejects.toMatchObject({ code: 'no-text' })
+    expect(destroyed).toHaveBeenCalledTimes(2)
   })
 })

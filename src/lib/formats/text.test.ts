@@ -10,6 +10,10 @@ describe('importPlainText', () => {
     expect(doc.source).toMatchObject({ type: 'documento', title: 'Notas' })
   })
 
+  it('normaliza los espacios dentro de cada párrafo', () => {
+    expect(importPlainText('Uno  dos\ttres\n  cuatro').chapters[0].paragraphs).toEqual(['Uno dos tres cuatro'])
+  })
+
   it('usa la URL como fuente web', () => {
     const doc = importPlainText('Texto.', { title: 'Artículo', url: 'https://ejemplo.org/a' })
     expect(doc.source).toMatchObject({ type: 'web', url: 'https://ejemplo.org/a' })
