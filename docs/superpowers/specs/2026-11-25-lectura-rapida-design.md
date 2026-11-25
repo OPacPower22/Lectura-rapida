@@ -1,7 +1,7 @@
 # Diseño — Lectura Rápida: atención, comprensión y retención
 
 - **Fecha:** 2026-11-25
-- **Estado:** borrador para aprobación
+- **Estado:** revisado con las respuestas del propietario; pendiente de aprobación
 - **Sustituye a:** `PLANO.md`, `METODO.md` y `CURRICULO.md` de la raíz (se reescribirán a partir de este documento una vez aprobado).
 
 ---
@@ -152,7 +152,7 @@ Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso r
 - **Cuaderno:** todas las notas y fichas, filtrables por fuente, etiqueta y proyecto.
 - **Fuentes:** registro de cada obra (autor, título, año, editorial, URL, tipo) para citar.
 - **Proyecto de escritura** (trazado, plancha, proyecto de instrucción, trabajo de estudio): tema, tesis o pregunta, esquema por secciones; se arrastran fichas a cada sección.
-- Exportación del proyecto a **Markdown** (y texto plano) con esquema, citas y bibliografía en formato APA simplificado.
+- Exportación del proyecto a **Word (.docx)**, editable, con título, esquema por secciones, citas con página y bibliografía en formato APA simplificado (librería `docx`). También a Markdown.
 
 ### 7.8 Progreso
 - Gráficas por semana: ppm por tipo de texto, comprensión, retención diferida, tasa de divagación y minutos de práctica.
@@ -162,6 +162,7 @@ Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso r
 ### 7.9 Biblioteca y lecciones
 - 28 micro-lecciones en Markdown (una por día), escritas para este proyecto, con fuentes al pie.
 - **Textos de práctica:** al menos 12 para v1 (diagnóstico y re-tests en tres tipos: narrativo, expositivo y denso), con preguntas curadas. Objetivo de 30 en fases posteriores.
+- **Temas:** generales (filosofía, historia, ciencia, ética, literatura, etc.). La biblioteca no incluye material masónico; ese lo carga el usuario y permanece solo en su dispositivo.
 - Origen del contenido: textos escritos para el proyecto o de dominio público con autor fallecido hace más de 100 años (criterio que cubre también la legislación mexicana, la más estricta en el mundo hispano). Las traducciones se tratan como obras protegidas salvo que también cumplan el criterio.
 - El contenido es datos (Markdown/JSON en `src/content/`), separado del código.
 
@@ -184,7 +185,7 @@ Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso r
 
 - **Tipo:** PWA *local-first*, sin servidor. Instalable y funcional sin conexión.
 - **Stack:** React + TypeScript + Vite; Tailwind CSS; Zustand para estado de UI; Dexie (IndexedDB) para datos y archivos; `vite-plugin-pwa`; Vitest para lógica; Playwright para flujos críticos.
-- **Librerías de formato:** `pdfjs-dist`, `jszip` (EPUB), `@mozilla/readability`, `ts-fsrs`.
+- **Librerías de formato:** `pdfjs-dist`, `jszip` (EPUB), `@mozilla/readability`, `ts-fsrs`, `docx` (exportación Word).
 - **Despliegue:** GitHub Pages mediante GitHub Actions, desde el mismo repositorio.
 - **Punto de extensión (v2):** una interfaz `SyncProvider` y una interfaz `QuestionGenerator` sin implementación en v1, para añadir sincronización e IA sin reescribir módulos.
 
@@ -212,7 +213,7 @@ tests/            e2e con Playwright
 | **1 — Esqueleto y medición** | Proyecto Vite, PWA, almacenamiento, lector de texto pegado, cronómetro, cálculo de ppm, cuestionario, sondeos, diagnóstico con 3 textos | Un usuario hace el diagnóstico completo sin conexión y ve ppm, comprensión y divagación |
 | **2 — Formatos y lectura activa** | PDF, EPUB, web pegada y compartida, sesión de libro físico, subrayado, notas, glosario, marcapasos | Se lee y anota un PDF, un EPUB, un artículo web y un libro físico |
 | **3 — Programa y retención** | 28 lecciones, programa diario, fichas con FSRS, recuerdo libre, re-test a 24 h, módulo de atención completo, 12 textos | Días 1-7 completables de principio a fin; repasos programados correctos |
-| **4 — Cuaderno, proyectos y progreso** | Fuentes, proyectos de escritura, exportación Markdown, gráficas, CSV, respaldo | Un trazado de ejemplo se arma con fichas de 3 fuentes y se exporta |
+| **4 — Cuaderno, proyectos y progreso** | Fuentes, proyectos de escritura, exportación .docx y Markdown, gráficas, CSV, respaldo | Un trazado de ejemplo se arma con fichas de 3 fuentes y se exporta a .docx que abre correctamente en Word y LibreOffice |
 | **5 — Pulido y publicación** | Accesibilidad (teclado, contraste AA, lector de pantalla), rendimiento (Lighthouse ≥ 90), despliegue en GitHub Pages | App instalable desde la URL pública y usable sin conexión |
 | **6 — Validación** | Uso real 28 días, ajuste de textos, preguntas y reglas de progresión según datos | Informe con resultados reales |
 
@@ -244,9 +245,9 @@ tests/            e2e con Playwright
 3. Programa de **28 días, ~20 min/día**, con avance por días completados.
 4. **12 textos** de práctica en v1 (30 después).
 5. Repetición espaciada con **FSRS** (`ts-fsrs`).
-6. Exportación de proyectos en **Markdown** en v1 (DOCX queda para después).
+6. Exportación de proyectos a **.docx** y Markdown en v1 (decidido por el propietario).
 7. Despliegue en **GitHub Pages**.
-8. Criterio de dominio público: autor fallecido hace **más de 100 años**.
+8. Biblioteca de **temas generales** (decidido por el propietario). Criterio de dominio público: autor fallecido hace **más de 100 años**.
 9. Sondeos de atención cada **2-4 min** aleatorios durante el programa.
 10. **Un solo usuario por dispositivo** (sin perfiles en v1).
 11. Los documentos de la raíz (`PLANO.md`, `METODO.md`, `CURRICULO.md`) se **reescriben en `docs/`** a partir de este diseño y se eliminan de la raíz; el README se corrige (badges, estructura real, URL real del repositorio).
