@@ -1,5 +1,5 @@
 import { useState, type ClipboardEvent } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { t } from '../../i18n'
 import { LANGS, normalizeLang, type Lang } from '../../i18n/langs'
 import { importPdf } from '../../lib/formats/pdf'
@@ -127,25 +127,37 @@ export function ImportPage() {
     <section className="mx-auto max-w-prose space-y-5">
       <h1 className="text-3xl font-bold">{t('import.title')}</h1>
 
-      <div role="tablist" className="flex flex-wrap gap-2">
-        {(['file', 'paste'] as const).map((id) => (
-          <button
-            key={id}
-            role="tab"
-            aria-selected={tab === id}
-            onClick={() => setTab(id)}
-            className={`rounded px-3 py-2 ${tab === id ? 'bg-accent text-on-accent' : 'border border-line-strong'}`}
-          >
-            {t(id === 'file' ? 'import.tab.file' : 'import.tab.paste')}
-          </button>
-        ))}
-        <button role="tab" aria-selected={false} onClick={() => navigate('/biblioteca/fisico')} className="rounded border border-line-strong px-3 py-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <div role="tablist" aria-label={t('import.title')} className="flex flex-wrap gap-2">
+          {(['file', 'paste'] as const).map((id, i, all) => (
+            <button
+              key={id}
+              id={`tab-${id}`}
+              role="tab"
+              type="button"
+              aria-selected={tab === id}
+              aria-controls={`panel-${id}`}
+              tabIndex={tab === id ? 0 : -1}
+              onClick={() => setTab(id)}
+              onKeyDown={(e) => {
+                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+                const next = all[(i + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length]
+                setTab(next)
+                document.getElementById(`tab-${next}`)?.focus()
+              }}
+              className={`rounded px-3 py-2 ${tab === id ? 'bg-accent text-on-accent' : 'border border-line-strong'}`}
+            >
+              {t(id === 'file' ? 'import.tab.file' : 'import.tab.paste')}
+            </button>
+          ))}
+        </div>
+        <Link to="/biblioteca/fisico" className="rounded border border-line-strong px-3 py-2 hover:bg-hover">
           {t('import.tab.physical')}
-        </button>
+        </Link>
       </div>
 
       {tab === 'file' && (
-        <div className="space-y-2">
+        <div role="tabpanel" id="panel-file" aria-labelledby="tab-file" className="space-y-2">
           <label className="block">
             <span className="mb-1 block font-medium">{t('import.fileLabel')}</span>
             <input
@@ -161,7 +173,7 @@ export function ImportPage() {
       )}
 
       {tab === 'paste' && (
-        <div className="space-y-2">
+        <div role="tabpanel" id="panel-paste" aria-labelledby="tab-paste" className="space-y-2">
           {sharedUrl && <p className="rounded border border-line bg-accent-soft p-3 text-accent-ink">{t('import.sharedUrl', { url: sharedUrl })}</p>}
           <label className="block">
             <span className="mb-1 block font-medium">{t('import.pasteLabel')}</span>

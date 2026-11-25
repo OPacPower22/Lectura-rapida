@@ -1,19 +1,11 @@
+import { Suspense, type ReactNode } from 'react'
 import type { RouteObject } from 'react-router-dom'
-import { ImportPage } from '../features/biblioteca/ImportPage'
-import { LibraryPage } from '../features/biblioteca/LibraryPage'
 import { DiagnosticPage } from '../features/diagnostico/DiagnosticPage'
-import { GlossaryPage } from '../features/glosario/GlossaryPage'
 import { HomePage } from '../features/inicio/HomePage'
-import { DocumentReaderPage } from '../features/lector/DocumentReaderPage'
-import { PasteReadPage } from '../features/lector/PasteReadPage'
-import { HistoryPage } from '../features/progreso/HistoryPage'
-import { PhysicalSessionPage } from '../features/sesion-fisica/PhysicalSessionPage'
-import { CardsPage } from '../features/retencion/CardsPage'
-import { AttentionPage } from '../features/atencion/AttentionPage'
-import { DayView } from '../features/programa/DayView'
-import { ProgramPage } from '../features/programa/ProgramPage'
-import { ReviewPage } from '../features/retencion/ReviewPage'
 import { Layout } from './Layout'
+import * as Pages from './lazyPages'
+
+const deferred = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>
 
 export const routes: RouteObject[] = [
   {
@@ -21,18 +13,18 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <HomePage /> },
       { path: 'diagnostico', element: <DiagnosticPage /> },
-      { path: 'biblioteca', element: <LibraryPage /> },
-      { path: 'biblioteca/importar', element: <ImportPage /> },
-      { path: 'biblioteca/fisico', element: <PhysicalSessionPage /> },
-      { path: 'biblioteca/:id', element: <DocumentReaderPage /> },
-      { path: 'leer', element: <PasteReadPage /> },
-      { path: 'progreso', element: <HistoryPage /> },
-      { path: 'glosario', element: <GlossaryPage /> },
-      { path: 'repasar', element: <ReviewPage /> },
-      { path: 'fichas', element: <CardsPage /> },
-      { path: 'atencion', element: <AttentionPage /> },
-      { path: 'programa', element: <ProgramPage /> },
-      { path: 'programa/dia/:day', element: <DayView /> },
+      { path: 'biblioteca', element: deferred(<Pages.LibraryPage />) },
+      { path: 'biblioteca/importar', element: deferred(<Pages.ImportPage />) },
+      { path: 'biblioteca/fisico', element: deferred(<Pages.PhysicalSessionPage />) },
+      { path: 'biblioteca/:id', element: deferred(<Pages.DocumentReaderPage />) },
+      { path: 'leer', element: deferred(<Pages.PasteReadPage />) },
+      { path: 'progreso', element: deferred(<Pages.HistoryPage />) },
+      { path: 'glosario', element: deferred(<Pages.GlossaryPage />) },
+      { path: 'repasar', element: deferred(<Pages.ReviewPage />) },
+      { path: 'fichas', element: deferred(<Pages.CardsPage />) },
+      { path: 'atencion', element: deferred(<Pages.AttentionPage />) },
+      { path: 'programa', element: deferred(<Pages.ProgramPage />) },
+      { path: 'programa/dia/:day', element: deferred(<Pages.DayView />) },
     ],
   },
 ]

@@ -190,4 +190,17 @@ describe('DocumentReaderPage', () => {
       expect(card).toMatchObject({ kind: 'ficha', front: '¿Qué es una sacada?', back: 'salto rápido del ojo' })
     })
   })
+
+  it('al hacer clic en el texto sin seleccionar, se cierra la barra de anotación', async () => {
+    await setup()
+    const p0 = document.querySelector('[data-paragraph="0"]')!
+    select(p0, 'salto rápido')
+    expect(await screen.findByRole('region', { name: t('annot.region') })).toBeInTheDocument()
+    const range = document.createRange()
+    range.setStart(p0.firstChild!, 2)
+    window.getSelection()!.removeAllRanges()
+    window.getSelection()!.addRange(range)
+    fireEvent.mouseUp(p0)
+    await waitFor(() => expect(screen.queryByRole('region', { name: t('annot.region') })).not.toBeInTheDocument())
+  })
 })

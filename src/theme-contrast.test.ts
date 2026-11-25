@@ -37,6 +37,10 @@ describe.each(['light', 'sepia', 'dark'])('tema %s', (name) => {
   ])('%s sobre %s cumple AA (4,5:1)', (fg, bg) => {
     expect(contrast(v[fg], v[bg])).toBeGreaterThanOrEqual(4.5)
   })
+  it('los bordes de los controles se distinguen (WCAG 1.4.11, ≥ 3:1)', () => {
+    expect(contrast(v['line-strong'], v.surface)).toBeGreaterThanOrEqual(3)
+    expect(contrast(v['line-strong'], v.page)).toBeGreaterThanOrEqual(3)
+  })
   it('el resaltado del marcapasos se distingue del fondo (≥ 1,5:1)', () => {
     expect(contrast(v.pace, v.page)).toBeGreaterThanOrEqual(1.5)
   })

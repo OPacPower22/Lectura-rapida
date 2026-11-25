@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import JSZip from 'jszip'
 import { importEpub } from './epub'
+import { t } from '../../i18n'
 
 const fixture = async (name: string) => {
   const buf = await readFile(resolve(process.cwd(), 'tests/fixtures', name))
@@ -42,5 +43,13 @@ describe('importEpub', () => {
 
   it('rechaza archivos que no son EPUB', async () => {
     await expect(importEpub(new ArrayBuffer(10))).rejects.toMatchObject({ code: 'invalid' })
+  })
+
+  it('usa un título de respaldo traducible si falta dc:title', async () => {
+    const zip = await JSZip.loadAsync(await fixture('muestra.epub'))
+    const opf = (await zip.file('OEBPS/content.opf')!.async('text')).replace(/<dc:title>[^<]*<\/dc:title>/, '')
+    zip.file('OEBPS/content.opf', opf)
+    const doc = await importEpub(await zip.generateAsync({ type: 'arraybuffer' }))
+    expect(doc.title).toBe(t('import.untitledBook'))
   })
 })

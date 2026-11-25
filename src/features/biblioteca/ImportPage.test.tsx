@@ -85,4 +85,17 @@ describe('ImportPage', () => {
     expect(screen.getByRole('button', { name: t('import.save') })).toBeEnabled()
     spy.mockRestore()
   })
+
+  it('pestañas accesibles: flechas, panel asociado y libro físico como enlace', async () => {
+    renderAt('/biblioteca/importar')
+    const fileTab = screen.getByRole('tab', { name: t('import.tab.file') })
+    expect(fileTab).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', fileTab.id)
+    fireEvent.keyDown(fileTab, { key: 'ArrowRight' })
+    const pasteTab = screen.getByRole('tab', { name: t('import.tab.paste') })
+    expect(pasteTab).toHaveAttribute('aria-selected', 'true')
+    expect(document.activeElement).toBe(pasteTab)
+    expect(screen.queryByRole('tab', { name: t('import.tab.physical') })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: t('import.tab.physical') })).toBeInTheDocument()
+  })
 })

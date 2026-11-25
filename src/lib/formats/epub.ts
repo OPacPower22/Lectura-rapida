@@ -1,4 +1,5 @@
 import JSZip from 'jszip'
+import { t } from '../../i18n'
 import type { Chapter } from '../storage/db'
 import { hasWords, ImportError, MAX_IMPORT_BYTES, type ImportedDocument } from './types'
 
@@ -102,7 +103,7 @@ export async function importEpub(data: ArrayBuffer): Promise<ImportedDocument> {
   }
   if (chapters.length === 0) throw new ImportError('no-content')
 
-  const title = meta('title') ?? 'Libro sin título'
+  const title = meta('title') ?? t('import.untitledBook')
   const author = meta('creator')
   return {
     title,

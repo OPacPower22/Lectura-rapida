@@ -135,4 +135,30 @@ describe('PhysicalSessionPage', () => {
     expect(row.session.lang).toBe('en')
     expect((await db.notes.toArray())[0].lang).toBe('en')
   })
+
+  it('pide revisar una sesión poco creíble y permite guardarla igual', async () => {
+    await startNewBook()
+    now = 600000
+    fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
+    change(t('physical.endPage'), '190')
+    fireEvent.click(screen.getByRole('button', { name: t('physical.save') }))
+    expect(await screen.findByText(t('physical.implausible', { pages: 181, wpm: 5430 }))).toBeInTheDocument()
+    expect(await listSessions()).toEqual([])
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: t('physical.saveAnyway') }))
+    })
+    expect((await listSessions())[0].session.pages).toEqual({ from: 10, to: 190 })
+  })
+
+  it('permite volver a estimar las palabras por página de un libro', async () => {
+    const id = await addSource({ type: 'libro', title: 'Libro guardado' })
+    await db.settings.put({ key: `wpp:${id}`, value: 250 })
+    renderPage()
+    fireEvent.click(await screen.findByRole('radio', { name: 'Libro guardado' }))
+    fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+    fireEvent.change(await screen.findByLabelText(t('physical.startPage')), { target: { value: '1' } })
+    fireEvent.click(await screen.findByRole('button', { name: t('diag.continue') }))
+    fireEvent.click(screen.getByRole('button', { name: t('physical.reestimate') }))
+    expect(screen.getByLabelText(t('physical.linesPerPage'))).toBeInTheDocument()
+  })
 })

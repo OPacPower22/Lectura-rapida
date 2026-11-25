@@ -60,6 +60,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
   const [endPage, setEndPage] = useState('')
   const [recall, setRecall] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [implausible, setImplausible] = useState<{ pages: number; wpm: number } | null>(null)
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
 
@@ -142,7 +143,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
     setNoteOpen(false)
   }
 
-  async function saveReading() {
+  async function saveReading(confirmed = false) {
     if (!outcome || !source || !wpp) return
     const from = toInt(startPage)
     const to = toInt(endPage)
@@ -155,6 +156,14 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
       return
     }
     setError(null)
+    const pages = to - from + 1
+    const speed = computeWpm(words, outcome.activeMs)
+    // Más de 100 páginas o más de 1000 ppm: probablemente un error al escribir la página.
+    if (!confirmed && (pages > 100 || (speed !== null && speed > 1000))) {
+      setImplausible({ pages, wpm: speed ?? 0 })
+      return
+    }
+    setImplausible(null)
     const data = computeResults({ ...outcome, words })
     setResults(data)
     setStep('results')
@@ -295,6 +304,10 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
       {step === 'ready' && (
         <div className="space-y-4">
           <p>{t('physical.ready')}</p>
+          {wpp && <p className="text-sm text-muted">{t('physical.wppResult', { wpp })}</p>}
+          <button type="button" className="text-accent-ink underline" onClick={() => setStep('wpp')}>
+            {t('physical.reestimate')}
+          </button>
           <button
             type="button"
             className={primary}
@@ -371,6 +384,19 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
             <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
               {t('physical.endBeforeStart')}
             </p>
+          )}
+          {implausible && (
+            <div role="alert" className="space-y-2 rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
+              <p>{t('physical.implausible', implausible)}</p>
+              <div className="flex gap-2">
+                <button type="button" className="rounded border border-warn-strong px-3 py-1" onClick={() => setImplausible(null)}>
+                  {t('physical.review')}
+                </button>
+                <button type="button" className="rounded border border-warn-strong px-3 py-1" onClick={() => saveReading(true)}>
+                  {t('physical.saveAnyway')}
+                </button>
+              </div>
+            </div>
           )}
           <button type="submit" className={primary}>
             {t('physical.save')}

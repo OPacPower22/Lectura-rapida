@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import type { Chapter } from '../storage/db'
 import { paragraphsFromLines, type PdfLine } from './pdfLayout'
 import { hasWords, ImportError, MAX_IMPORT_BYTES, type ImportedDocument } from './types'
@@ -154,7 +155,7 @@ async function extract(
   } catch {
     // Metadatos opcionales.
   }
-  const title = info.Title?.trim() || opts.fileName?.replace(/\.pdf$/i, '') || 'Documento PDF'
+  const title = info.Title?.trim() || opts.fileName?.replace(/\.pdf$/i, '') || t('import.untitledPdf')
   const author = info.Author?.trim() || undefined
   return {
     title,

@@ -344,4 +344,11 @@ export const es = {
   'outline.topic': 'Tema',
   'outline.thesis': 'Tesis',
   'outline.section': 'Sección {n}',
+  'docreader.pageAlt': 'Página {page} del PDF original',
+  'import.untitledBook': 'Libro sin título',
+  'import.untitledPdf': 'Documento PDF',
+  'physical.implausible': 'Revisa los datos: {pages} páginas en esta sesión equivalen a unas {wpm} ppm, una velocidad poco creíble para leer con comprensión.',
+  'physical.review': 'Revisar',
+  'physical.saveAnyway': 'Guardar igual',
+  'physical.reestimate': 'Volver a estimar palabras por página',
 } as const

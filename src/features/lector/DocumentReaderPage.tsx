@@ -205,7 +205,15 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   const captureSelection = useCallback(() => {
     if (!data) return
     const sel = window.getSelection()
-    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return
+    if (!sel || sel.rangeCount === 0) return
+    if (sel.isCollapsed) {
+      // Un clic en el texto sin seleccionar cierra la barra y el aviso (no si se escribe en la barra).
+      if (sel.anchorNode && articleRef.current?.contains(sel.anchorNode)) {
+        setSelection(null)
+        setCrossWarning(false)
+      }
+      return
+    }
     const range = sel.getRangeAt(0)
     if (!articleRef.current?.contains(range.commonAncestorContainer)) return
     const anchor = rangeToAnchor(range, chapter)
@@ -413,7 +421,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       )}
 
       {!reading && phase === 'free' && <p className="text-sm text-muted">{t('docreader.startHelp')}</p>}
-      <div inert={session.probeOpen || undefined}>
+      <div inert={session.probeOpen || pdfPage !== null || undefined}>
         <div ref={toolbarRef} className="sticky top-[var(--header-h,0px)] z-[1] bg-page">
         {reading ? (
           <>
@@ -489,16 +497,17 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
             )
           })}
         </article>
+        <NotesPanel
+          notes={notes}
+          onGoTo={goToNote}
+          canGoTo={(note) => !(reading || phase === 'confirm') || note.anchor?.chapter === chapter}
+          onUpdate={(id, text) => updateNoteText(id, text).then(reloadNotes)}
+          onDelete={(id) => deleteNote(id).then(reloadNotes)}
+          onCard={(note, front, back) => addCard({ kind: 'ficha', front, back, lang: note.lang, sourceId: note.sourceId })}
+        />
       </div>
 
-      <NotesPanel
-        notes={notes}
-        onGoTo={goToNote}
-        canGoTo={(note) => !(reading || phase === 'confirm') || note.anchor?.chapter === chapter}
-        onUpdate={(id, text) => updateNoteText(id, text).then(reloadNotes)}
-        onDelete={(id) => deleteNote(id).then(reloadNotes)}
-        onCard={(note, front, back) => addCard({ kind: 'ficha', front, back, lang: note.lang, sourceId: note.sourceId })}
-      />
+
 
       {crossWarning && (
         <p role="status" className="fixed inset-x-0 bottom-0 z-20 border-t border-warn-line bg-warn-bg p-3 text-center text-warn-ink">

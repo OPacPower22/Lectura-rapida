@@ -9,7 +9,12 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null
     closeButton.current?.focus()
+    return () => opener?.focus?.()
+  }, [])
+
+  useEffect(() => {
     let cancelled = false
     let task: { destroy(): Promise<void> } | null = null
     ;(async () => {
@@ -38,7 +43,17 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
   }, [file, page])
 
   return (
-    <div className="fixed inset-0 z-30 overflow-auto bg-black/60 p-4" onKeyDown={(e) => e.key === 'Escape' && onClose()}>
+    <div
+      className="fixed inset-0 z-30 overflow-auto bg-black/60 p-4"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') onClose()
+        // Único control enfocable: el foco no sale del diálogo.
+        if (e.key === 'Tab') {
+          e.preventDefault()
+          closeButton.current?.focus()
+        }
+      }}
+    >
       <div role="dialog" aria-modal="true" aria-labelledby="pdf-page-title" className="mx-auto max-w-4xl rounded-lg bg-surface p-4">
         <div className="mb-2 flex items-center justify-between">
           <h2 id="pdf-page-title" className="font-semibold">
@@ -48,7 +63,7 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
             {t('docreader.close')}
           </button>
         </div>
-        {error ? <p role="alert">{t('import.error.invalid')}</p> : <canvas ref={canvas} className="mx-auto max-w-full bg-white" />}
+        {error ? <p role="alert">{t('import.error.invalid')}</p> : <canvas ref={canvas} role="img" aria-label={t('docreader.pageAlt', { page })} className="mx-auto max-w-full bg-white" />}
       </div>
     </div>
   )
