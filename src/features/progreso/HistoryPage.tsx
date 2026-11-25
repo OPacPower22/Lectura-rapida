@@ -17,6 +17,7 @@ function Row({ summary }: { summary: SessionSummary }) {
       <td className="pr-3">
         {t(`history.kind.${session.kind}`)}
         {session.textKind && ` · ${t(`textKind.${session.textKind}`)}`}
+        {session.title && <span className="block text-muted">{session.title}</span>}
       </td>
       <td className="pr-3">{session.lang}</td>
       <td className="pr-3">{session.wpm ?? DASH}</td>
@@ -29,16 +30,22 @@ function Row({ summary }: { summary: SessionSummary }) {
 
 export function HistoryPage() {
   const [sessions, setSessions] = useState<SessionSummary[] | null>(null)
+  const [loadError, setLoadError] = useState(false)
 
   useEffect(() => {
     listSessions()
       .then(setSessions)
-      .catch(() => setSessions([]))
+      .catch(() => setLoadError(true))
   }, [])
 
   return (
     <section className="mx-auto max-w-4xl space-y-4">
       <h1 className="text-3xl font-bold">{t('history.title')}</h1>
+      {loadError && (
+        <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
+          {t('history.loadError')}
+        </p>
+      )}
       {sessions !== null && sessions.length === 0 && <p>{t('history.empty')}</p>}
       {sessions !== null && sessions.length > 0 && (
         <div className="overflow-x-auto">

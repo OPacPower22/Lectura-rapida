@@ -98,4 +98,47 @@ describe('ReadingView', () => {
     fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
     expect(onFinish.mock.calls[0][0].words).toBe(countWords(body, 'es'))
   })
+
+  it('al volver a la pestaña el sondeo usa el tiempo restante', () => {
+    setup()
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    act(() => {
+      vi.advanceTimersByTime(30000)
+    })
+    setVisibility('hidden')
+    act(() => {
+      vi.advanceTimersByTime(100000)
+    })
+    setVisibility('visible')
+    act(() => {
+      vi.advanceTimersByTime(14999)
+    })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('con el sondeo abierto el fondo es inerte, Escape no lo cierra y el foco vuelve a «Me distraje»', () => {
+    setup()
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    act(() => {
+      vi.advanceTimersByTime(45000)
+    })
+    const article = screen.getByRole('article')
+    expect(article.closest('[inert]')).not.toBeNull()
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: t('probe.text') }))
+    expect(article.closest('[inert]')).toBeNull()
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: t('reader.distracted') }))
+  })
+
+  it('los botones de letra incluyen el texto visible en su nombre', () => {
+    setup()
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    expect(screen.getByRole('button', { name: /A−/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /A\+/ })).toBeInTheDocument()
+  })
 })

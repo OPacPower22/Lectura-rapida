@@ -21,7 +21,7 @@ function Metric({ label, children }: { label: string; children: ReactNode }) {
   )
 }
 
-export function ResultsCard({ data, saveError }: { data: ResultsData; saveError?: boolean }) {
+export function ResultsCard({ data, saveError, purpose }: { data: ResultsData; saveError?: boolean; purpose?: string }) {
   return (
     <section className="mx-auto max-w-prose space-y-4" aria-labelledby="results-title">
       <h2 id="results-title" className="text-2xl font-semibold">
@@ -31,6 +31,9 @@ export function ResultsCard({ data, saveError }: { data: ResultsData; saveError?
         <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
           {t('results.saveError')}
         </p>
+      )}
+      {purpose && (
+        <p className="rounded border border-line bg-accent-soft p-3 text-accent-ink">{t('results.purpose', { purpose })}</p>
       )}
       <dl className="grid gap-3 sm:grid-cols-2">
         <Metric label={t('results.speed')}>

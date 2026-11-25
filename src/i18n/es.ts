@@ -4,8 +4,8 @@ export const es = {
   'reader.start': 'Empezar a leer',
   'reader.finish': 'Terminé',
   'reader.distracted': 'Me distraje',
-  'reader.fontSmaller': 'Reducir letra',
-  'reader.fontLarger': 'Aumentar letra',
+  'reader.fontSmaller': 'A− (reducir letra)',
+  'reader.fontLarger': 'A+ (aumentar letra)',
   'reader.instructions':
     'Lee a tu ritmo normal, buscando entender. Si notas que te distrajiste, pulsa «Me distraje» y vuelve al texto.',
   'probe.question': '¿Dónde estaba tu atención justo ahora?',
@@ -94,4 +94,7 @@ export const es = {
   'theme.light': 'Claro',
   'theme.sepia': 'Sepia',
   'theme.dark': 'Oscuro (nocturno)',
+  'history.loadError': 'No se pudo leer el historial en este dispositivo.',
+  'storage.dismiss': 'Entendido',
+  'results.purpose': 'Tu pregunta: «{purpose}». Intenta responderla ahora de memoria.',
 } as const

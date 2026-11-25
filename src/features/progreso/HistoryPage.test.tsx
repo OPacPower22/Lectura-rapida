@@ -2,6 +2,8 @@ import { render, screen, within } from '@testing-library/react'
 import { db, type ReadingSession } from '../../lib/storage/db'
 import { saveSession } from '../../lib/storage/repo'
 import { HistoryPage } from './HistoryPage'
+import * as repo from '../../lib/storage/repo'
+import { t } from '../../i18n'
 
 const session: Omit<ReadingSession, 'id'> = {
   kind: 'diagnostico',
@@ -43,5 +45,19 @@ describe('HistoryPage', () => {
     expect(within(oldest).getByText('80 %')).toBeInTheDocument()
     expect(within(oldest).getByText('160')).toBeInTheDocument()
     expect(within(oldest).getByText('50 %')).toBeInTheDocument()
+  })
+
+  it('distingue un error de almacenamiento de un historial vacío', async () => {
+    const spy = vi.spyOn(repo, 'listSessions').mockRejectedValue(new Error('bloqueado'))
+    render(<HistoryPage />)
+    expect(await screen.findByText(t('history.loadError'))).toBeInTheDocument()
+    expect(screen.queryByText(t('history.empty'))).not.toBeInTheDocument()
+    spy.mockRestore()
+  })
+
+  it('muestra el título de la sesión cuando existe', async () => {
+    await saveSession({ session: { ...session, kind: 'libre', title: 'Mi artículo' }, probes: [] })
+    render(<HistoryPage />)
+    expect(await screen.findByText(/Mi artículo/)).toBeInTheDocument()
   })
 })

@@ -40,6 +40,7 @@ export function DiagnosticPage({ now }: { now?: Clock }) {
         session: {
           kind: 'diagnostico',
           textId: text.id,
+          purpose: purpose.trim() || undefined,
           textKind: text.kind,
           lang: text.lang,
           startedAt: outcome.startedAt,
@@ -129,7 +130,7 @@ export function DiagnosticPage({ now }: { now?: Clock }) {
 
   return (
     <div className="space-y-6">
-      {results && <ResultsCard data={results} saveError={saveError} />}
+      {results && <ResultsCard data={results} saveError={saveError} purpose={purpose.trim() || undefined} />}
       <div className="mx-auto flex max-w-prose flex-wrap gap-3">
         <Link to="/progreso" className={primaryButton}>
           {t('diag.toProgress')}

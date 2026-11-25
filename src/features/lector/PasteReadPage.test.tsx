@@ -27,6 +27,7 @@ describe('PasteReadPage', () => {
       target: { value: 'word '.repeat(100) },
     })
     fireEvent.change(screen.getByLabelText(t('paste.langLabel')), { target: { value: 'en' } })
+    fireEvent.change(screen.getByLabelText(t('paste.titleLabel')), { target: { value: 'Mi artículo' } })
     fireEvent.click(screen.getByRole('button', { name: t('paste.prepare') }))
     fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
     now = 60000
@@ -34,7 +35,7 @@ describe('PasteReadPage', () => {
     expect(await screen.findByText('100 ppm')).toBeInTheDocument()
     await waitFor(async () => {
       const [row] = await listSessions()
-      expect(row.session).toMatchObject({ kind: 'libre', lang: 'en', words: 100, wpm: 100 })
+      expect(row.session).toMatchObject({ kind: 'libre', lang: 'en', words: 100, wpm: 100, title: 'Mi artículo' })
       expect(row.quiz).toBeUndefined()
     })
   })

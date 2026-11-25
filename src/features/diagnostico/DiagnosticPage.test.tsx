@@ -32,7 +32,7 @@ const fixture: PracticeText = {
 
 vi.mock('../../content', () => ({ diagnosticTextFor: () => fixture }))
 
-async function completeFlow() {
+async function completeFlow(purpose = '') {
   let now = 0
   render(
     <MemoryRouter>
@@ -40,6 +40,7 @@ async function completeFlow() {
     </MemoryRouter>,
   )
   fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+  if (purpose) fireEvent.change(screen.getByLabelText(t('diag.purposeLabel')), { target: { value: purpose } })
   fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
   fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
   now = 120000
@@ -73,5 +74,14 @@ describe('DiagnosticPage', () => {
     await completeFlow()
     expect(await screen.findByText(t('results.saveError'))).toBeInTheDocument()
     expect(screen.getByText('50 %')).toBeInTheDocument()
+  })
+
+  it('guarda la pregunta de propósito y la muestra en los resultados', async () => {
+    await completeFlow('¿Cuánto mide la Tierra?')
+    expect(await screen.findByText(/¿Cuánto mide la Tierra\?/)).toBeInTheDocument()
+    await waitFor(async () => {
+      const [row] = await listSessions()
+      expect(row.session.purpose).toBe('¿Cuánto mide la Tierra?')
+    })
   })
 })

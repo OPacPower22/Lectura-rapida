@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { t } from '../../i18n'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
 import { saveSession } from '../../lib/storage/repo'
@@ -18,7 +18,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
 
-  const words = countWords(text, lang)
+  const words = useMemo(() => countWords(text, lang), [text, lang])
 
   async function finish(outcome: ReadingOutcome) {
     const data = computeResults(outcome)
@@ -28,6 +28,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
       await saveSession({
         session: {
           kind: 'libre',
+          title: title.trim() || undefined,
           lang,
           startedAt: outcome.startedAt,
           endedAt: outcome.endedAt,
