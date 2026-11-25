@@ -20,10 +20,12 @@
 | 4 — Cuaderno, proyectos y progreso | Fuentes, proyectos de escritura, exportación a .docx y Markdown, gráficas, respaldo | Trazado de ejemplo exportado a .docx | Pendiente |
 | 5 — Pulido y publicación | Accesibilidad, rendimiento, GitHub Pages | App instalable desde la URL pública | Pendiente |
 | 6 — Validación | Uso real durante 28 días y ajustes | Informe con resultados | Pendiente |
+| 7 — Apps en tiendas (futuro) | Google Play y App Store reutilizando la app web | App aprobada en ambas tiendas | Pendiente |
 
 Cada fase tiene su propio plan en `docs/superpowers/plans/`, escrito cuando la fase empieza.
 
 ## Futuro
 
+- **Apps en Google Play y App Store** (fase 7): se empaquetará la misma app web. Costos verificados: Google Play US$25 (pago único, con prueba cerrada de 12 testers durante 14 días para cuentas personales); Apple 99 USD/año. Detalle en la sección 8 ter del diseño.
 - La app está preparada para varios idiomas: más adelante podrá servir para aprender idiomas leyendo (sección 8 bis del diseño).
 - Sincronización entre dispositivos e IA para generar preguntas, como extensiones opcionales.

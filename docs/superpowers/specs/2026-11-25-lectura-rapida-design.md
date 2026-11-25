@@ -167,6 +167,7 @@ Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso r
 - El contenido es datos (Markdown/JSON en `src/content/`), separado del código.
 
 ### 7.10 Ajustes y datos
+- **Tema visual de toda la app** (implementado): automático según el sistema, claro, sepia y oscuro (nocturno). Colores semánticos con contraste AA en los tres temas; la elección se recuerda en el dispositivo.
 - Tema, tipografía, duración de sondeos, sonido y vibración.
 - **Respaldo:** exportar e importar todo (datos y documentos) en un único archivo; recordatorio de respaldo semanal dentro de la app.
 - Petición de almacenamiento persistente (`navigator.storage.persist()`) para que el navegador no borre los datos.
@@ -191,6 +192,22 @@ El propietario quiere que, más adelante, la app sirva para **aprender otros idi
 - **Interfaz traducible:** ningún texto de la interfaz va escrito en los componentes; todos salen de un catálogo (`src/i18n/es.ts`) para poder añadir otros idiomas.
 - **Glosario bilingüe:** la entrada de glosario admite un campo opcional de traducción.
 - **Módulo futuro "Leer para aprender idiomas"** (no en v1): textos graduados por nivel, lectura extensiva y vocabulario con repetición espaciada. Dato de referencia para graduar textos: para comprender sin ayuda un texto se necesita conocer en torno al 98 % de sus palabras (Hu y Nation, 2000, *Reading in a Foreign Language*, 13(1)); la app podría estimar esa cobertura con el glosario del usuario.
+
+## 8 ter. App en Google Play y App Store (futuro)
+
+El propietario quiere, más adelante, distribuir la app en las tiendas. La estrategia es **reutilizar la misma app web**, no reescribirla.
+
+| Vía | Cómo | A favor | En contra |
+| :--- | :--- | :--- | :--- |
+| **Android con TWA** (Trusted Web Activity) | Empaquetar la PWA con Bubblewrap o PWABuilder | Se actualiza sola con cada publicación web; mínimo trabajo | Exige servir `/.well-known/assetlinks.json` en la **raíz del dominio**: con GitHub Pages de proyecto (`opacpower22.github.io/Lectura-rapida/`) no es posible; requiere dominio propio o un sitio de usuario |
+| **Android e iOS con Capacitor** | La app web va empaquetada dentro de un contenedor nativo | Un solo código para ambas tiendas; funciona sin conexión; permite funciones nativas | Cada actualización pasa por revisión de la tienda |
+
+**Requisitos y costos verificados (25-11-2026, fuentes oficiales):**
+- **Google Play:** registro de US$25, pago único. Las cuentas personales creadas después del 13-11-2023 deben hacer una **prueba cerrada con al menos 12 testers durante 14 días continuos** antes de publicar en producción (Play Console Help, respuesta 14151465).
+- **Apple App Store:** Apple Developer Program, **99 USD por año**. La regla 4.2 (*Minimum Functionality*) exige "funciones, contenido e interfaz que la eleven por encima de un sitio web reempaquetado"; para reducir el riesgo de rechazo, la versión iOS debe aportar funciones nativas (por ejemplo, notificaciones locales para los repasos, recibir documentos desde "Compartir" y respaldo en Archivos). Compilar para iOS requiere macOS con Xcode o un servicio de compilación en la nube.
+- Ambas tiendas piden una **política de privacidad** publicada.
+
+**Preparación desde ahora (sin costo):** ruta base configurable (`VITE_BASE`), datos con respaldo exportable para poder migrarlos, y no depender de funciones del navegador sin alternativa. La decisión entre TWA y Capacitor se toma al iniciar esa fase (Fase 7).
 
 ## 9. Arquitectura
 
@@ -227,6 +244,7 @@ tests/            e2e con Playwright
 | **4 — Cuaderno, proyectos y progreso** | Fuentes, proyectos de escritura, exportación .docx y Markdown, gráficas, CSV, respaldo | Un trazado de ejemplo se arma con fichas de 3 fuentes y se exporta a .docx que abre correctamente en Word y LibreOffice |
 | **5 — Pulido y publicación** | Accesibilidad (teclado, contraste AA, lector de pantalla), rendimiento (Lighthouse ≥ 90), despliegue en GitHub Pages | App instalable desde la URL pública y usable sin conexión |
 | **6 — Validación** | Uso real 28 días, ajuste de textos, preguntas y reglas de progresión según datos | Informe con resultados reales |
+| **7 — Apps en tiendas (futuro)** | Empaquetado para Google Play y App Store (sección 8 ter), funciones nativas para iOS, política de privacidad | App aprobada en ambas tiendas |
 
 ## 11. Flujo de trabajo con Git
 - Commits con Conventional Commits (`feat:`, `fix:`, `docs:`, `content:`, `test:`, `chore:`).
@@ -266,3 +284,5 @@ tests/            e2e con Playwright
 13. El respaldo permite **excluir los archivos PDF/EPUB** para generar un archivo ligero (solo datos y notas).
 14. Los sondeos en libro físico usan **sonido suave** por defecto; vibración solo donde el navegador la soporte (no en iOS).
 15. Preparación multilingüe (sección 8 bis) desde v1: campo `lang`, `Intl.Segmenter`, métricas por idioma y catálogo de textos de interfaz. El módulo de idiomas se diseñará aparte cuando toque.
+16. **Tema visual** con colores semánticos (automático, claro, sepia, oscuro), añadido a petición del propietario antes de la fase 2.
+17. **Apps en tiendas** como fase 7 futura, reutilizando la app web (sección 8 ter).
