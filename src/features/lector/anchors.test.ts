@@ -40,6 +40,14 @@ describe('rangeToAnchor', () => {
     expect(rangeToAnchor(range, 0)).toBe('cross-paragraph')
   })
 
+  it('un triple clic (fin al inicio del párrafo siguiente) ancla el párrafo completo', () => {
+    const [a, b] = setupParagraphs('<p data-paragraph="0">primero entero</p><p data-paragraph="1">segundo</p>')
+    const range = document.createRange()
+    range.setStart(a.firstChild!, 0)
+    range.setEnd(b, 0)
+    expect(rangeToAnchor(range, 0)).toEqual({ chapter: 0, paragraph: 0, start: 0, end: 14 })
+  })
+
   it('devuelve null fuera de un párrafo o con selección vacía', () => {
     setupParagraphs('<div id="fuera">texto</div><p data-paragraph="0">dentro</p>')
     const outside = document.createRange()

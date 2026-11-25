@@ -112,3 +112,47 @@ test('fase 2: leer y anotar PDF, EPUB, web y libro físico, también sin conexi�
     await expect(page.getByRole('link', { name: 'Continuar' })).toHaveCount(3)
   })
 })
+
+test('«Compartir» abre la pantalla de importación con el enlace', async ({ page }) => {
+  await page.goto('./compartir?title=Nota&url=https%3A%2F%2Fejemplo.org%2Fa')
+  await expect(page.getByRole('heading', { name: 'Añadir a la biblioteca' })).toBeVisible()
+  await expect(page.getByText(/https:\/\/ejemplo\.org\/a/)).toBeVisible()
+})
+
+test('la posición de lectura se conserva al salir por el menú y al recargar', async ({ page }) => {
+  await page.goto('./#/biblioteca/importar')
+  await page.getByRole('tab', { name: 'Pegar texto o artículo' }).click()
+  const text = Array.from({ length: 80 }, (_, i) => `Párrafo número ${i} con varias palabras para ocupar espacio en la pantalla del lector.`).join('\n\n')
+  await page.getByLabel('Pega aquí el texto o el artículo').fill(text)
+  await page.getByRole('button', { name: 'Procesar' }).click()
+  await page.getByRole('button', { name: 'Guardar y abrir' }).click()
+  await page.locator('[data-paragraph="40"]').scrollIntoViewIfNeeded()
+  await page.evaluate(() => {
+    const el = document.querySelector('[data-paragraph="40"]') as HTMLElement
+    window.scrollTo(0, window.scrollY + el.getBoundingClientRect().top - 150)
+  })
+  await page.waitForTimeout(400)
+  const firstVisible = async () =>
+    page.evaluate(() => {
+      const header = document.querySelector('header')!.getBoundingClientRect().bottom
+      const els = [...document.querySelectorAll<HTMLElement>('[data-paragraph]')]
+      const el = els.find((p) => {
+        const r = p.getBoundingClientRect()
+        return (r.top + r.bottom) / 2 > header + 60
+      })
+      return Number(el?.dataset.paragraph)
+    })
+  const before = await firstVisible()
+  expect(before).toBeGreaterThan(30)
+
+  await page.getByRole('link', { name: 'Biblioteca' }).click()
+  await page.getByRole('link', { name: 'Continuar' }).click()
+  await page.locator('[data-paragraph="0"]').waitFor()
+  await page.waitForTimeout(400)
+  expect(Math.abs((await firstVisible()) - before)).toBeLessThanOrEqual(1)
+
+  await page.reload()
+  await page.locator('[data-paragraph="0"]').waitFor()
+  await page.waitForTimeout(400)
+  expect(Math.abs((await firstVisible()) - before)).toBeLessThanOrEqual(1)
+})

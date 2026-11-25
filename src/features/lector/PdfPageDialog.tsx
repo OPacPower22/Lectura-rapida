@@ -11,10 +11,14 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
   useEffect(() => {
     closeButton.current?.focus()
     let cancelled = false
+    let task: { destroy(): Promise<void> } | null = null
     ;(async () => {
       try {
         const pdfjs = await loadPdfjs()
-        const pdf = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise
+        const loading = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) })
+        task = loading
+        if (cancelled) return
+        const pdf = await loading.promise
         const p = await pdf.getPage(page)
         const width = Math.min(window.innerWidth - 48, 900)
         const viewport = p.getViewport({ scale: width / p.getViewport({ scale: 1 }).width })
@@ -29,6 +33,7 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
     })()
     return () => {
       cancelled = true
+      task?.destroy().catch(() => {})
     }
   }, [file, page])
 

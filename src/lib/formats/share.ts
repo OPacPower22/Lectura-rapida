@@ -12,3 +12,9 @@ export function shareTargetToImportHash(location: { pathname: string; search: st
   const query = params.toString()
   return `#/biblioteca/importar${query ? `?${query}` : ''}`
 }
+
+/** Si la app se abrió desde «Compartir», reescribe la URL hacia la pantalla de importación. */
+export function applyShareTarget(base: string): void {
+  const hash = shareTargetToImportHash(window.location, base)
+  if (hash) window.history.replaceState(null, '', base + hash)
+}

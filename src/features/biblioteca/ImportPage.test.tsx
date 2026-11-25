@@ -3,6 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { t } from '../../i18n'
 import { ImportError } from '../../lib/formats/types'
 import { db } from '../../lib/storage/db'
+import * as library from '../../lib/storage/library'
 import { listDocuments } from '../../lib/storage/library'
 import { ImportPage } from './ImportPage'
 
@@ -71,5 +72,17 @@ describe('ImportPage', () => {
       const [entry] = await listDocuments()
       expect(entry.source).toMatchObject({ type: 'web', url: 'https://ejemplo.org/a', title: 'Nota' })
     })
+  })
+
+  it('si falla el almacenamiento al guardar, muestra el error y permite reintentar', async () => {
+    const spy = vi.spyOn(library, 'addDocument').mockRejectedValueOnce(new Error('QuotaExceededError'))
+    renderAt('/biblioteca/importar')
+    fireEvent.click(screen.getByRole('tab', { name: t('import.tab.paste') }))
+    fireEvent.change(screen.getByLabelText(t('import.pasteLabel')), { target: { value: 'Un texto breve.' } })
+    fireEvent.click(screen.getByRole('button', { name: t('import.process') }))
+    fireEvent.click(await screen.findByRole('button', { name: t('import.save') }))
+    expect(await screen.findByText(t('import.error.storage'))).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: t('import.save') })).toBeEnabled()
+    spy.mockRestore()
   })
 })

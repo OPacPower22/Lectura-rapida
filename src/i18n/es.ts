@@ -210,4 +210,7 @@ export const es = {
   'glossary.source': 'Fuente: {title}',
   'glossary.confirmDelete': '¿Borrar «{term}» del glosario?',
   'history.pages': 'págs. {from}-{to}',
+  'import.error.storage':
+    'No se pudo guardar en este dispositivo (quizá falta espacio). Libera espacio o prueba con un archivo más pequeño.',
+  'physical.bookLang': 'Idioma del libro',
 } as const

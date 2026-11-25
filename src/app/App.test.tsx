@@ -3,6 +3,8 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { t } from '../i18n'
 import { db } from '../lib/storage/db'
 import { routes } from './routes'
+import { App } from './App'
+import { applyShareTarget } from '../lib/formats/share'
 
 beforeEach(async () => {
   await db.delete()
@@ -56,5 +58,16 @@ describe('aviso al abandonar una lectura', () => {
     })
     expect(confirm).not.toHaveBeenCalled()
     expect(router.state.location.pathname).toBe('/progreso')
+  })
+})
+
+describe('recibir contenido desde «Compartir»', () => {
+  it('abre la pantalla de importación con los datos compartidos', async () => {
+    window.history.replaceState(null, '', '/Lectura-rapida/compartir?title=Nota&url=https%3A%2F%2Fejemplo.org%2Fa')
+    applyShareTarget('/Lectura-rapida/')
+    render(<App />)
+    expect(await screen.findByRole('heading', { name: t('import.title') })).toBeInTheDocument()
+    expect(screen.getByText(/https:\/\/ejemplo\.org\/a/)).toBeInTheDocument()
+    window.history.replaceState(null, '', '/')
   })
 })

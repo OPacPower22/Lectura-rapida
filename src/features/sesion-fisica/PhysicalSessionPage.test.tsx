@@ -21,13 +21,14 @@ function renderPage() {
 
 const change = (label: string, value: string) => fireEvent.change(screen.getByLabelText(label), { target: { value } })
 
-async function startNewBook() {
+async function startNewBook(lang?: string) {
   renderPage()
   fireEvent.click(await screen.findByRole('radio', { name: t('physical.newBook') }))
   change(t('physical.bookTitle'), 'Libro de papel')
   change(t('physical.bookAuthor'), 'Autor Clásico')
   fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
   fireEvent.change(await screen.findByLabelText(t('physical.startPage')), { target: { value: '10' } })
+  if (lang) change(t('physical.bookLang'), lang)
   fireEvent.click(await screen.findByRole('button', { name: t('diag.continue') }))
   for (const n of [1, 2, 3]) change(t('physical.wordsInLine', { n }), '10')
   change(t('physical.linesPerPage'), '30')
@@ -95,5 +96,43 @@ describe('PhysicalSessionPage', () => {
     fireEvent.change(await screen.findByLabelText(t('physical.startPage')), { target: { value: '1' } })
     fireEvent.click(await screen.findByRole('button', { name: t('diag.continue') }))
     expect(screen.getByRole('button', { name: t('reader.start') })).toBeInTheDocument()
+  })
+
+  it('sigue contando con la pantalla bloqueada (el teléfono queda a un lado)', async () => {
+    await startNewBook()
+    now = 30000
+    Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true })
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+    now = 600000
+    Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true })
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+    fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
+    change(t('physical.endPage'), '19')
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: t('physical.save') }))
+    })
+    const [row] = await listSessions()
+    expect(row.session).toMatchObject({ activeMs: 600000, wpm: 300 })
+  })
+
+  it('registra el idioma del libro en la sesión y en las notas', async () => {
+    await startNewBook('en')
+    fireEvent.click(screen.getByRole('button', { name: t('physical.quickNote') }))
+    change(t('annot.text'), 'Key idea')
+    fireEvent.click(screen.getByRole('button', { name: t('annot.save') }))
+    now = 600000
+    await waitFor(async () => expect(await db.notes.count()).toBe(1))
+    fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
+    change(t('physical.endPage'), '19')
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: t('physical.save') }))
+    })
+    const [row] = await listSessions()
+    expect(row.session.lang).toBe('en')
+    expect((await db.notes.toArray())[0].lang).toBe('en')
   })
 })

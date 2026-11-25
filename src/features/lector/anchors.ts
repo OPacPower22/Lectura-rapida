@@ -9,12 +9,21 @@ function paragraphOf(node: Node): HTMLElement | null {
  * Convierte una selección en un ancla (capítulo, párrafo, inicio, fin) sobre el texto plano del párrafo.
  * Devuelve 'cross-paragraph' si la selección abarca varios párrafos y null si no hay texto seleccionado.
  */
-export function rangeToAnchor(range: Range, chapter: number): TextAnchor | 'cross-paragraph' | null {
+export function rangeToAnchor(input: Range, chapter: number): TextAnchor | 'cross-paragraph' | null {
+  let range = input
   if (range.collapsed) return null
   const startP = paragraphOf(range.startContainer)
   const endP = paragraphOf(range.endContainer)
   if (!startP || !endP) return null
-  if (startP !== endP) return 'cross-paragraph'
+  if (startP !== endP) {
+    // Triple clic: la selección termina al inicio del párrafo siguiente → es el párrafo completo.
+    const beforeEnd = document.createRange()
+    beforeEnd.selectNodeContents(endP)
+    beforeEnd.setEnd(range.endContainer, range.endOffset)
+    if (beforeEnd.toString().length > 0 || startP.nextElementSibling !== endP) return 'cross-paragraph'
+    range = range.cloneRange()
+    range.setEnd(startP, startP.childNodes.length)
+  }
 
   const before = document.createRange()
   before.selectNodeContents(startP)

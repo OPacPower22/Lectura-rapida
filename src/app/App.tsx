@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 
-const router = createHashRouter(routes)
-
 export function App() {
+  // El router se crea al montar, después de que main.tsx haya ajustado la URL (p. ej. «Compartir»).
+  const [router] = useState(() => createHashRouter(routes))
   return <RouterProvider router={router} />
 }

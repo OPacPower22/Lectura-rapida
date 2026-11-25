@@ -27,8 +27,14 @@ export interface ReadingSessionApi {
  * Lógica de una sesión de lectura medida: cronómetro de tiempo activo, sondeos de atención
  * y pausa automática cuando la pestaña se oculta.
  */
-export function useReadingSession(opts: { probeRange: ProbeRange; now?: Clock; rng?: () => number }): ReadingSessionApi {
-  const { probeRange, now, rng } = opts
+export function useReadingSession(opts: {
+  probeRange: ProbeRange
+  now?: Clock
+  rng?: () => number
+  /** Pausar al ocultar la pestaña (por defecto). En libro físico es false: se lee fuera de la pantalla. */
+  pauseWhenHidden?: boolean
+}): ReadingSessionApi {
+  const { probeRange, now, rng, pauseWhenHidden = true } = opts
   const [status, setStatus] = useState<SessionStatus>('idle')
   const [probeOpen, setProbeOpen] = useState(false)
   const stopwatch = useRef<Stopwatch | null>(null)
@@ -38,7 +44,7 @@ export function useReadingSession(opts: { probeRange: ProbeRange; now?: Clock; r
   const probeOpenRef = useRef(false)
 
   useEffect(() => {
-    if (status !== 'reading') return
+    if (status !== 'reading' || !pauseWhenHidden) return
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') {
         stopwatch.current?.pause()
@@ -50,7 +56,7 @@ export function useReadingSession(opts: { probeRange: ProbeRange; now?: Clock; r
     }
     document.addEventListener('visibilitychange', onVisibility)
     return () => document.removeEventListener('visibilitychange', onVisibility)
-  }, [status])
+  }, [status, pauseWhenHidden])
 
   useEffect(() => () => timer.current?.cancel(), [])
 

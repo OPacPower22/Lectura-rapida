@@ -28,6 +28,12 @@ type Phase = 'free' | 'confirm' | 'results'
 
 const NO_PARAGRAPHS: string[] = []
 
+/** Sin diseño calculado (elementos ocultos o entorno sin layout) no se puede medir la posición. */
+function hasLayout(els: (HTMLElement | null)[]): boolean {
+  const first = els.find(Boolean)
+  return !!first && first.getBoundingClientRect().height > 0
+}
+
 const outline = 'rounded border border-line-strong px-3 py-1 hover:bg-hover disabled:opacity-50'
 const primary = 'rounded-md bg-accent px-4 py-2 font-medium text-on-accent hover:bg-accent-hover'
 
@@ -57,6 +63,12 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   const visible = useRef(0)
   const lastSeen = useRef(0)
   const chapterRef = useRef(0)
+  const loaded = useRef(false)
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  const sessionReading = useRef(false)
+  useEffect(() => {
+    sessionReading.current = session.status === 'reading'
+  }, [session.status])
   useEffect(() => {
     chapterRef.current = chapter
   }, [chapter])
@@ -74,6 +86,13 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
     if (pacer) paragraphRefs.current[pacer.paragraph]?.scrollIntoView?.({ block: 'center', behavior: 'smooth' })
   }, [pacer?.paragraph]) // eslint-disable-line react-hooks/exhaustive-deps -- solo al cambiar de párrafo
 
+  /** Alto ocupado arriba por la cabecera y la barra fijas. */
+  const topOffset = useCallback(() => {
+    const header = document.querySelector('header')?.offsetHeight ?? 0
+    const bar = toolbarRef.current?.offsetHeight ?? 0
+    return header + bar
+  }, [])
+
   const reloadNotes = useCallback(() => listNotes({ documentId: docId }).then(setNotes), [docId])
 
   useEffect(() => {
@@ -81,6 +100,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       .then((found) => {
         setData(found ?? null)
         if (found) {
+          loaded.current = true
           setChapter(found.doc.position.chapter)
           visible.current = found.doc.position.paragraph
           pendingScroll.current = found.doc.position.paragraph
@@ -89,7 +109,8 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       .catch(() => setData(null))
     reloadNotes().catch(() => setNotes([]))
     return () => {
-      savePosition(docId, { chapter: chapterRef.current, paragraph: visible.current }).catch(() => {})
+      if (loaded.current) savePosition(docId, { chapter: chapterRef.current, paragraph: visible.current }).catch(() => {})
+      loaded.current = false
     }
   }, [docId, reloadNotes])
 
@@ -98,28 +119,87 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
     if (target === null) return
     const el = paragraphRefs.current[target]
     if (el) {
+      el.style.scrollMarginTop = `${topOffset() + 8}px`
       el.scrollIntoView({ block: 'start' })
       pendingScroll.current = null
     }
-  }, [data, chapter])
+  }, [data, chapter, topOffset])
+
+  /** Primer párrafo cuyo centro queda por debajo de la barra fija (búsqueda binaria). */
+  const computeVisible = useCallback((): number => {
+    const els = paragraphRefs.current
+    if (!hasLayout(els)) return visible.current
+    const offset = topOffset()
+    let lo = 0
+    let hi = els.length - 1
+    let found = els.length - 1
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1
+      const r = els[mid]?.getBoundingClientRect()
+      if (r && (r.top + r.bottom) / 2 > offset) {
+        found = mid
+        hi = mid - 1
+      } else lo = mid + 1
+    }
+    return Math.max(0, found)
+  }, [topOffset])
+
+  /** Último párrafo visible por completo (para proponer hasta dónde se leyó). */
+  const computeLastSeen = useCallback((): number => {
+    const els = paragraphRefs.current
+    if (!hasLayout(els)) return visible.current
+    let lo = 0
+    let hi = els.length - 1
+    let found = 0
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1
+      const r = els[mid]?.getBoundingClientRect()
+      if (r && r.bottom <= window.innerHeight) {
+        found = mid
+        lo = mid + 1
+      } else hi = mid - 1
+    }
+    return found
+  }, [])
+
+  const persistPosition = useCallback(() => {
+    if (!loaded.current) return
+    savePosition(docId, { chapter: chapterRef.current, paragraph: visible.current }).catch(() => {})
+  }, [docId])
 
   useEffect(() => {
-    if (!data || typeof IntersectionObserver === 'undefined') return
-    const inView = new Set<number>()
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        const index = Number((entry.target as HTMLElement).dataset.paragraph)
-        if (entry.isIntersecting) inView.add(index)
-        else inView.delete(index)
-      }
-      if (inView.size > 0) {
-        visible.current = Math.min(...inView)
-        lastSeen.current = Math.max(lastSeen.current, ...inView)
-      }
-    })
-    paragraphRefs.current.forEach((el) => el && observer.observe(el))
-    return () => observer.disconnect()
-  }, [data, chapter])
+    if (!data) return
+    let frame = 0
+    let saveTimer: ReturnType<typeof setTimeout> | undefined
+    const onScroll = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        visible.current = computeVisible()
+        if (sessionReading.current) lastSeen.current = Math.max(lastSeen.current, computeLastSeen())
+      })
+      clearTimeout(saveTimer)
+      saveTimer = setTimeout(persistPosition, 1500)
+    }
+    const onHide = () => {
+      if (document.visibilityState !== 'hidden') return
+      visible.current = computeVisible()
+      persistPosition()
+    }
+    const onPageHide = () => {
+      visible.current = computeVisible()
+      persistPosition()
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    document.addEventListener('visibilitychange', onHide)
+    window.addEventListener('pagehide', onPageHide)
+    return () => {
+      cancelAnimationFrame(frame)
+      clearTimeout(saveTimer)
+      window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('visibilitychange', onHide)
+      window.removeEventListener('pagehide', onPageHide)
+    }
+  }, [data, chapter, computeVisible, computeLastSeen, persistPosition])
 
   const captureSelection = useCallback(() => {
     if (!data) return
@@ -162,8 +242,9 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   }
 
   function start() {
+    visible.current = computeVisible()
     setStartParagraph(visible.current)
-    lastSeen.current = visible.current
+    lastSeen.current = Math.max(visible.current, computeLastSeen())
     setPhase('free')
     session.start()
   }
@@ -238,10 +319,16 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   function goToNote(note: Note) {
     if (!note.anchor) return
     if (note.anchor.chapter !== chapter) {
+      // Durante una sesión cronometrada no se cambia de capítulo (la medición es de un capítulo).
+      if (reading || phase === 'confirm') return
       setChapter(note.anchor.chapter)
       pendingScroll.current = note.anchor.paragraph
     } else {
-      paragraphRefs.current[note.anchor.paragraph]?.scrollIntoView({ block: 'center' })
+      const el = paragraphRefs.current[note.anchor.paragraph]
+      if (el) {
+        el.style.scrollMarginTop = `${topOffset() + 8}px`
+        el.scrollIntoView({ block: 'start' })
+      }
     }
   }
 
@@ -326,9 +413,11 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
 
       {!reading && phase === 'free' && <p className="text-sm text-muted">{t('docreader.startHelp')}</p>}
       <div inert={session.probeOpen || undefined}>
+        <div ref={toolbarRef} className="sticky top-[var(--header-h,0px)] z-[1] bg-page">
         {reading ? (
           <>
             <ReadingToolbar
+              sticky={false}
               ref={distractedRef}
               onFont={changeFont}
               onDistracted={session.markDistracted}
@@ -344,7 +433,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
           </>
         ) : (
           phase === 'free' && (
-            <div className="sticky top-0 z-[1] mb-4 flex flex-wrap items-center gap-2 border-b border-line bg-page/95 py-2">
+            <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-line py-2 text-sm sm:text-base">
               <button type="button" onClick={() => changeFont(-1)} aria-label={t('reader.fontSmaller')} className={outline}>
                 A−
               </button>
@@ -359,6 +448,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
             </div>
           )
         )}
+        </div>
 
         <article
           ref={articleRef}
@@ -378,7 +468,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
               <p
                 key={i}
                 data-paragraph={i}
-                className="scroll-mt-32"
+
                 ref={(el) => {
                   paragraphRefs.current[i] = el
                 }}
@@ -403,6 +493,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       <NotesPanel
         notes={notes}
         onGoTo={goToNote}
+        canGoTo={(note) => !(reading || phase === 'confirm') || note.anchor?.chapter === chapter}
         onUpdate={(id, text) => updateNoteText(id, text).then(reloadNotes)}
         onDelete={(id) => deleteNote(id).then(reloadNotes)}
       />

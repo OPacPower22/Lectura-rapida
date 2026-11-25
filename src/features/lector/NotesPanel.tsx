@@ -5,11 +5,13 @@ import type { Note } from '../../lib/storage/db'
 interface Props {
   notes: Note[]
   onGoTo(note: Note): void
+  /** Si se puede saltar a la nota ahora (p. ej. no a otro capítulo durante una sesión). */
+  canGoTo?(note: Note): boolean
   onUpdate(id: number, text: string): void
   onDelete(id: number): void
 }
 
-export function NotesPanel({ notes, onGoTo, onUpdate, onDelete }: Props) {
+export function NotesPanel({ notes, onGoTo, canGoTo = () => true, onUpdate, onDelete }: Props) {
   const [editing, setEditing] = useState<number | null>(null)
   const [draft, setDraft] = useState('')
 
@@ -43,7 +45,7 @@ export function NotesPanel({ notes, onGoTo, onUpdate, onDelete }: Props) {
               note.text && <p className="mt-1">{note.text}</p>
             )}
             <div className="mt-1 flex flex-wrap gap-3 text-sm">
-              {note.anchor && (
+              {note.anchor && canGoTo(note) && (
                 <button type="button" className="text-accent-ink underline" onClick={() => onGoTo(note)}>
                   {t('notes.goTo')}
                 </button>

@@ -8,7 +8,7 @@ import { importPlainText } from '../../lib/formats/text'
 import { ImportError, MAX_IMPORT_BYTES, type ImportedDocument } from '../../lib/formats/types'
 import { importHtml } from '../../lib/formats/web'
 import type { DocumentFormat } from '../../lib/storage/db'
-import { addDocument } from '../../lib/storage/library'
+import * as library from '../../lib/storage/library'
 import { countWords } from '../../lib/text'
 
 type Tab = 'file' | 'paste'
@@ -111,11 +111,16 @@ export function ImportPage() {
       (sum, c) => sum + c.paragraphs.reduce((s, p) => s + countWords(p, lang), 0),
       0,
     )
-    const id = await addDocument({
-      source: { ...imported.source, title: finalTitle, author: author.trim() || undefined },
-      doc: { format, lang, title: finalTitle, chapters: imported.chapters, words, file },
-    })
-    navigate(`/biblioteca/${id}`)
+    try {
+      const id = await library.addDocument({
+        source: { ...imported.source, title: finalTitle, author: author.trim() || undefined },
+        doc: { format, lang, title: finalTitle, chapters: imported.chapters, words, file },
+      })
+      navigate(`/biblioteca/${id}`)
+    } catch {
+      setError('storage')
+      setSaving(false)
+    }
   }
 
   return (

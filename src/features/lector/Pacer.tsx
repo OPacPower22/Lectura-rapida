@@ -44,7 +44,7 @@ export function PacedParagraph({ text, word }: { text: string; word: number }) {
         return (
           <span key={i}>
             <span
-              className={active ? 'rounded-sm bg-accent-soft text-accent-ink' : undefined}
+              className={active ? 'rounded-sm bg-pace text-ink' : undefined}
               data-pacer-start={i === word ? '' : undefined}
             >
               {token}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { t } from '../../i18n'
+import { LANGS, type Lang } from '../../i18n/langs'
 import { computeWpm } from '../../lib/metrics'
 import { estimateWordsPerPage, physicalWords } from '../../lib/physical'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
@@ -10,6 +11,7 @@ import { saveSession } from '../../lib/storage/repo'
 import { getSetting, setSetting } from '../../lib/storage/settings'
 import type { Clock } from '../../lib/stopwatch'
 import { playChime, vibrate } from '../../lib/sound'
+import { keepScreenOn } from '../../lib/wakeLock'
 import { ResultsCard, type ResultsData } from '../diagnostico/ResultsCard'
 import { computeResults } from '../diagnostico/results'
 import { LeaveGuard } from '../lector/LeaveGuard'
@@ -61,7 +63,8 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
 
-  const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now })
+  const [lang, setLang] = useState<Lang>('es')
+  const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now, pauseWhenHidden: false })
   const distractedRef = useRef<HTMLButtonElement>(null)
   useFocusAfterProbe(session.probeOpen, distractedRef)
 
@@ -75,6 +78,11 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
       vibrate()
     }
   }, [session.probeOpen])
+
+  useEffect(() => {
+    if (session.status !== 'reading') return
+    return keepScreenOn()
+  }, [session.status])
 
   useEffect(() => {
     if (session.status !== 'reading') return
@@ -104,6 +112,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
     if (!chosen) return
     setSource(chosen)
     setWpp((await getSetting<number>(`wpp:${chosen.id}`)) ?? null)
+    setLang((await getSetting<Lang>(`lang:${chosen.id}`)) ?? 'es')
     setStep('start')
   }
 
@@ -127,7 +136,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
       page: toInt(notePage) > 0 ? toInt(notePage) : undefined,
       kind: 'idea',
       text: noteText.trim(),
-      lang: 'es',
+      lang,
     })
     setNoteText('')
     setNoteOpen(false)
@@ -155,7 +164,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
           kind: 'fisico',
           title: source.title,
           sourceId: source.id,
-          lang: 'es',
+          lang,
           pages: { from, to },
           purpose: purpose.trim() || undefined,
           recall: recall.trim() || undefined,
@@ -226,12 +235,22 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault()
+            if (source) setSetting(`lang:${source.id}`, lang).catch(() => {})
             setStep(wpp ? 'ready' : 'wpp')
           }}
         >
           <p className="text-xl font-medium">«{source?.title}»</p>
           <Field label={t('physical.startPage')}>
             <input inputMode="numeric" value={startPage} onChange={(e) => setStartPage(e.target.value)} className={field} />
+          </Field>
+          <Field label={t('physical.bookLang')}>
+            <select value={lang} onChange={(e) => setLang(e.target.value as Lang)} className="rounded border border-line-strong bg-surface p-2">
+              {LANGS.map((l) => (
+                <option key={l} value={l}>
+                  {t(`lang.${l}`)}
+                </option>
+              ))}
+            </select>
           </Field>
           <Field label={t('diag.purposeLabel')}>
             <textarea value={purpose} onChange={(e) => setPurpose(e.target.value)} rows={2} className={field} />
