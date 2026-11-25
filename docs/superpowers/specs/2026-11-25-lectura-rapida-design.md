@@ -1,7 +1,7 @@
 # Diseño — Lectura Rápida: atención, comprensión y retención
 
 - **Fecha:** 2026-11-25
-- **Estado:** revisado con las respuestas del propietario; pendiente de aprobación
+- **Estado:** aprobado por el propietario (2026-11-25)
 - **Sustituye a:** `PLANO.md`, `METODO.md` y `CURRICULO.md` de la raíz (se reescribirán a partir de este documento una vez aprobado).
 
 ---
@@ -181,6 +181,17 @@ Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso r
 | Divagación | ver 7.5 | Sondeos |
 | ILE | ppm × comprensión | Solo con comprensión objetiva |
 
+## 8 bis. Preparada para varios idiomas (futuro)
+
+El propietario quiere que, más adelante, la app sirva para **aprender otros idiomas leyendo**. En v1 todo es en español, pero la arquitectura no debe impedirlo:
+
+- **Idioma como dato:** cada documento, texto de práctica, lección, nota, ficha y entrada de glosario lleva un campo `lang` (código BCP 47: `es`, `en`, `fr`…). Nada asume español en la lógica.
+- **Conteo de palabras por idioma:** se usa `Intl.Segmenter` con el `lang` del texto, que también segmenta idiomas sin espacios (chino, japonés).
+- **Métricas separadas por idioma:** la velocidad y la comprensión en un idioma aprendido no son comparables con las del idioma materno; el progreso se muestra por idioma.
+- **Interfaz traducible:** ningún texto de la interfaz va escrito en los componentes; todos salen de un catálogo (`src/i18n/es.ts`) para poder añadir otros idiomas.
+- **Glosario bilingüe:** la entrada de glosario admite un campo opcional de traducción.
+- **Módulo futuro "Leer para aprender idiomas"** (no en v1): textos graduados por nivel, lectura extensiva y vocabulario con repetición espaciada. Dato de referencia para graduar textos: para comprender sin ayuda un texto se necesita conocer en torno al 98 % de sus palabras (Hu y Nation, 2000, *Reading in a Foreign Language*, 13(1)); la app podría estimar esa cobertura con el glosario del usuario.
+
 ## 9. Arquitectura
 
 - **Tipo:** PWA *local-first*, sin servidor. Instalable y funcional sin conexión.
@@ -254,3 +265,4 @@ tests/            e2e con Playwright
 12. El repositorio es **público**: solo se versiona contenido propio o de dominio público; los documentos y notas del usuario nunca salen de su dispositivo.
 13. El respaldo permite **excluir los archivos PDF/EPUB** para generar un archivo ligero (solo datos y notas).
 14. Los sondeos en libro físico usan **sonido suave** por defecto; vibración solo donde el navegador la soporte (no en iOS).
+15. Preparación multilingüe (sección 8 bis) desde v1: campo `lang`, `Intl.Segmenter`, métricas por idioma y catálogo de textos de interfaz. El módulo de idiomas se diseñará aparte cuando toque.
