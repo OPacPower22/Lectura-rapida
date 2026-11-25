@@ -6,7 +6,7 @@ La forma más sólida de leer más rápido sin perder comprensión es conocer m�
 
 ## Qué dice la investigación
 
-Para comprender un texto sin ayuda conviene conocer alrededor del 98 % de sus palabras, es decir, no más de una desconocida cada cincuenta. Por debajo de ese umbral la comprensión cae con rapidez. Y el conocimiento previo funciona de forma parecida: un texto sobre un tema que dominas se lee más deprisa y se recuerda mejor que uno sobre un tema nuevo, aunque tengan la misma dificultad gramatical.
+En estudios con lectores de una segunda lengua, para comprender un texto sin ayuda hizo falta conocer alrededor del 98 % de sus palabras, es decir, no más de una desconocida cada cincuenta. Cuantas más palabras desconocidas, peor fue la comprensión. En la lengua materna el umbral exacto puede variar, pero la relación entre vocabulario y comprensión es la misma. Y el conocimiento previo funciona de forma parecida: un texto sobre un tema que dominas se lee más deprisa y se recuerda mejor que uno sobre un tema nuevo, aunque tengan la misma dificultad gramatical.
 
 ## El glosario personal
 

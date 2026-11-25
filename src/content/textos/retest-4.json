@@ -24,9 +24,9 @@
       "prompt": "¿Por qué la distancia al Sol no explica las estaciones?",
       "options": [
         "Los hemisferios tienen estaciones opuestas a la vez",
-        "Porque la Tierra no se mueve alrededor del Sol en verano",
-        "Porque el Sol cambia de tamaño durante el año",
-        "Porque la órbita es muy alargada"
+        "La Tierra no se mueve alrededor del Sol en verano",
+        "El Sol cambia de tamaño durante el año",
+        "La órbita es muy alargada"
       ],
       "answerIndex": 0
     },
@@ -71,9 +71,9 @@
       "type": "literal",
       "prompt": "¿Por qué en el ecuador las estaciones se distinguen más por las lluvias?",
       "options": [
-        "Porque allí no llega la luz del Sol",
-        "Porque el eje terrestre no está inclinado en esa franja",
-        "Porque los océanos son más cálidos",
+        "Allí no llega la luz del Sol",
+        "El eje terrestre no está inclinado en esa franja",
+        "Los océanos son más cálidos",
         "La inclinación y el día cambian poco"
       ],
       "answerIndex": 3
@@ -83,10 +83,10 @@
       "type": "inferencial",
       "prompt": "¿Por qué las semanas más cálidas llegan después del solsticio?",
       "options": [
-        "Porque el Sol tarda en llegar",
+        "El Sol tarda en llegar",
         "Océanos y tierra tardan en calentarse y enfriarse",
-        "Porque la Tierra se aleja del Sol en verano",
-        "Porque el día más largo es en septiembre"
+        "La Tierra se aleja del Sol en verano",
+        "El día más largo es en septiembre"
       ],
       "answerIndex": 1
     },

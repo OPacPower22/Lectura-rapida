@@ -15,7 +15,7 @@ Ten en cuenta que dos textos nunca son exactamente iguales, aunque se hayan escr
 
 ## La retención importa tanto como la velocidad
 
-Mañana y dentro de una semana, la app te volverá a hacer algunas preguntas del texto de hoy. Recordar después de un tiempo es la prueba real de que leíste bien. La curva del olvido es empinada al principio: sin repasar, buena parte de lo leído se pierde en uno o dos días.
+Mañana y dentro de una semana, la app te volverá a hacer algunas preguntas del texto de hoy. Recordar después de un tiempo es la prueba real de que leíste bien. El olvido es más rápido al principio y luego se frena: así lo describió Ebbinghaus con listas de sílabas sin sentido, y estudios modernos lo han replicado. Con textos con significado se olvida más despacio, pero el patrón general se mantiene: lo que no se repasa se va perdiendo.
 
 ## Cómo aplicarlo hoy
 

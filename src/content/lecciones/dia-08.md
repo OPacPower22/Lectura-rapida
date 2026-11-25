@@ -20,4 +20,4 @@ Al leer, los ojos hacen pequeñas paradas (fijaciones) de unos 200 a 250 miliseg
 
 Practica dos minutos de atención y luego lee un texto de tu biblioteca, o un libro físico, en una sesión cronometrada. Observa cuándo vuelves atrás y por qué. Al terminar, anota en una nota qué tipo de regresiones predominaron. Es información valiosa: si casi todas son por distracción, tu trabajo está en la atención; si son por dificultad, en el vocabulario y el conocimiento previo.
 
-**Fuentes:** Rayner (1998), *Psychological Bulletin*, 124(3); Rayner, Schotter, Masson, Potter y Treiman (2016), *Psychological Science in the Public Interest*, 17(1); Schotter, Angele y Rayner (2012), *Attention, Perception, & Psychophysics*, 74(1).
+**Fuentes:** Rayner (1998), *Psychological Bulletin*, 124(3); Rayner, Schotter, Masson, Potter y Treiman (2016), *Psychological Science in the Public Interest*, 17(1); Schotter, Tran y Rayner (2014), *Psychological Science*, 25(6).

@@ -59,10 +59,10 @@
       "type": "inferencial",
       "prompt": "¿Por qué la diferencia de sombras indicaba que la Tierra es curva?",
       "options": [
-        "Porque el sol estaba más cerca de Siena que de Alejandría ese día",
-        "Porque en Siena el sol iluminaba los pozos todo el año",
+        "El sol estaba más cerca de Siena que de Alejandría ese día",
+        "En Siena el sol iluminaba los pozos todo el año",
         "Con rayos paralelos y suelo plano, todas las varillas darían igual sombra",
-        "Porque las varillas de Alejandría eran más altas que las que se usaban en Siena"
+        "Las varillas de Alejandría eran más altas que las que se usaban en Siena"
       ],
       "answerIndex": 2
     },

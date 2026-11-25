@@ -36,9 +36,9 @@
       "prompt": "¿Por qué acelerar un argumento filosófico da «otro resultado»?",
       "options": [
         "El proceso es lo que produce la comprensión",
-        "Porque se leen menos páginas en total",
-        "Porque cambia el texto",
-        "Porque el autor escribió para lectores lentos y pacientes"
+        "Se leen menos páginas en total",
+        "Cambia el texto",
+        "El autor escribió para lectores lentos y pacientes"
       ],
       "answerIndex": 0
     },
@@ -59,10 +59,10 @@
       "type": "inferencial",
       "prompt": "¿Por qué ir despacio puede ahorrar tiempo?",
       "options": [
-        "Porque se leen menos libros al año",
+        "Se leen menos libros al año",
         "Deja una comprensión que evita relecturas",
-        "Porque los textos lentos son más breves",
-        "Porque se omiten los párrafos difíciles y largos"
+        "Los textos lentos son más breves",
+        "Se omiten los párrafos difíciles y largos"
       ],
       "answerIndex": 1
     },

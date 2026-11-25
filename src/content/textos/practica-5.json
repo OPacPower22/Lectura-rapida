@@ -47,10 +47,10 @@
       "type": "inferencial",
       "prompt": "¿Por qué la abuela pedía que le leyeran las cartas?",
       "options": [
-        "Porque no veía bien las letras",
-        "Porque no sabía leer en absoluto ni una palabra",
+        "No veía bien las letras",
+        "No sabía leer en absoluto ni una palabra",
         "Le avergonzaba que la vieran tardar",
-        "Porque le gustaba la voz de Julián"
+        "Le gustaba la voz de Julián"
       ],
       "answerIndex": 2
     },
@@ -71,7 +71,7 @@
       "type": "inferencial",
       "prompt": "¿Qué descubrió Julián al oír leer despacio a su abuela?",
       "options": [
-        "Detalles que nunca había notado",
+        "Que había detalles que nunca había notado",
         "Que los cuentos estaban mal escritos",
         "Que ella inventaba partes de las historias leídas",
         "Que leer despacio aburre"

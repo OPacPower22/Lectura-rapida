@@ -45,12 +45,12 @@
     {
       "id": "p2d",
       "type": "literal",
-      "prompt": "¿Qué observaron Wilson y McNaughton en ratas?",
+      "prompt": "¿Qué observaron Wilson y McNaughton en ratas durante el sueño?",
       "options": [
         "Las ratas soñaban con comida",
         "Las ratas sin sueño aprendían el laberinto antes",
         "El hipocampo se apagaba de noche",
-        "Las neuronas repetían el recorrido al dormir"
+        "Que se reactivaban juntas las neuronas del laberinto"
       ],
       "answerIndex": 3
     },
@@ -60,9 +60,9 @@
       "prompt": "¿Por qué es mala estrategia estudiar toda la noche antes de un examen?",
       "options": [
         "Sacrifica el proceso que fija lo estudiado",
-        "Porque de noche se lee más despacio",
-        "Porque el examen suele ser por la mañana temprano",
-        "Porque cansa la vista"
+        "De noche se lee más despacio",
+        "El examen suele ser por la mañana temprano",
+        "Cansa la vista"
       ],
       "answerIndex": 0
     },

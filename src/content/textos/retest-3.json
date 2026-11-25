@@ -35,10 +35,10 @@
       "type": "literal",
       "prompt": "¿Por qué la penicilina quedó casi diez años como curiosidad de laboratorio?",
       "options": [
-        "Porque nadie leyó la publicación de Fleming",
+        "Nadie leyó la publicación de Fleming",
         "Era difícil de aislar e inestable",
-        "Porque resultó tóxica para los glóbulos blancos",
-        "Porque solo actuaba contra hongos"
+        "Resultó tóxica para los glóbulos blancos",
+        "Solo actuaba contra hongos"
       ],
       "answerIndex": 1
     },

@@ -59,10 +59,10 @@
       "type": "inferencial",
       "prompt": "Según el texto, ¿por qué la voz interior no estorba la lectura?",
       "options": [
-        "Porque acelera los movimientos de los ojos al leer",
-        "Porque sustituye a la memoria a largo plazo",
+        "Acelera los movimientos de los ojos al leer",
+        "Sustituye a la memoria a largo plazo",
         "Mantiene las palabras disponibles para integrarlas",
-        "Porque elimina todas las distracciones del entorno"
+        "Elimina todas las distracciones del entorno"
       ],
       "answerIndex": 2
     },
@@ -83,7 +83,7 @@
       "type": "literal",
       "prompt": "¿Qué muestran las revisiones sobre los programas de entrenamiento de la memoria de trabajo?",
       "options": [
-        "La mejora no se transfiere de forma fiable",
+        "Que la mejora no se transfiere de forma fiable",
         "Que duplican la comprensión",
         "Que solo sirven en niños",
         "Que empeoran el razonamiento"

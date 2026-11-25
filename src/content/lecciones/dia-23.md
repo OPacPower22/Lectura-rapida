@@ -6,7 +6,7 @@ Olvidamos rápido al principio y más despacio después. Si repasamos justo cuan
 
 ## Por qué funciona
 
-Que repartir el estudio en el tiempo es mejor que concentrarlo en una sola sesión es uno de los hallazgos más sólidos de la psicología del aprendizaje, replicado en cientos de experimentos. La curva del olvido que describió Ebbinghaus en el siglo XIX se ha replicado en estudios modernos: sin repaso, buena parte de lo aprendido se pierde en uno o dos días.
+Que repartir el estudio en el tiempo es mejor que concentrarlo en una sola sesión es uno de los hallazgos más sólidos de la psicología del aprendizaje, replicado en cientos de experimentos. La curva del olvido que describió Ebbinghaus en el siglo XIX, con listas de sílabas sin sentido, se ha replicado en estudios modernos: el olvido es rápido al principio y después se frena. Con material que tiene significado se olvida más despacio, pero sin repaso también se pierde.
 
 ## Cómo lo hace la app
 

@@ -59,10 +59,10 @@
       "type": "inferencial",
       "prompt": "¿Por qué los tipos móviles resultaron menos prácticos en China?",
       "options": [
-        "Porque el papel chino era demasiado frágil para prensas",
+        "El papel chino era demasiado frágil para prensas",
         "Por los miles de caracteres de su escritura",
-        "Porque el emperador prohibió los talleres privados",
-        "Porque no se conocía ninguna tinta"
+        "El emperador prohibió los talleres privados",
+        "No se conocía ninguna tinta"
       ],
       "answerIndex": 1
     },

@@ -73,6 +73,7 @@
 - Roediger, H. L. y Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. *Psychological Science*, 17(3), 249-255.
 - Rosenshine, B., Meister, C. y Chapman, S. (1996). Teaching students to generate questions: A review of the intervention studies. *Review of Educational Research*, 66(2), 181-221.
 - Schooler, J. W., Reichle, E. D. y Halpern, D. V. (2004). Zoning out while reading. En D. T. Levin (Ed.), *Thinking and seeing* (pp. 203-226). MIT Press.
+- Schotter, E. R., Tran, R. y Rayner, K. (2014). Don't believe what you read (only once): Comprehension is supported by regressions during reading. *Psychological Science*, 25(6), 1218-1226.
 - Schotter, E. R., Angele, B. y Rayner, K. (2012). Parafoveal processing in reading. *Attention, Perception, & Psychophysics*, 74(1), 5-35.
 - Slamecka, N. J. y Graf, P. (1978). The generation effect: Delineation of a phenomenon. *Journal of Experimental Psychology: Human Learning and Memory*, 4(6), 592-604.
 - Smallwood, J. y Schooler, J. W. (2006). The restless mind. *Psychological Bulletin*, 132(6), 946-958.

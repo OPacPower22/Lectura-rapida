@@ -72,6 +72,18 @@ describe('textos de práctica', () => {
     }
   })
 
+  it('la forma gramatical no delata la respuesta (no es la única que empieza distinto)', () => {
+    const first = (o: string) => o.trim().split(/\s+/)[0].toLowerCase().replace(/[^\p{L}]/gu, '')
+    for (const text of texts) {
+      const cued = text.questions.filter((q) => {
+        const words = q.options.map(first)
+        const others = words.filter((_, i) => i !== q.answerIndex)
+        return others.every((w) => w === others[0]) && words[q.answerIndex] !== others[0]
+      })
+      expect(cued.map((q) => q.id), text.id).toEqual([])
+    }
+  })
+
   it('la opción más corta tampoco delata la respuesta', () => {
     for (const text of texts) {
       const shortestIsCorrect = text.questions.filter((q) => {

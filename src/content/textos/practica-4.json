@@ -12,9 +12,9 @@
       "prompt": "¿Por qué se considera al castor un ingeniero de ecosistemas?",
       "options": [
         "Al cambiar el medio crea hábitats para otros",
-        "Porque construye nidos en los árboles altos",
-        "Porque vive solo en ríos de montaña",
-        "Porque come peces"
+        "Construye nidos en los árboles altos",
+        "Vive solo en ríos de montaña",
+        "Come peces"
       ],
       "answerIndex": 0
     },
@@ -23,10 +23,10 @@
       "type": "literal",
       "prompt": "¿A qué se debe el color anaranjado de sus incisivos?",
       "options": [
-        "A la corteza que come",
-        "A un pigmento de las algas del río",
+        "Al tipo de corteza que come",
+        "Al pigmento de las algas del río",
         "Al hierro de su esmalte",
-        "A su edad avanzada"
+        "Al paso de los años"
       ],
       "answerIndex": 2
     },
