@@ -114,6 +114,11 @@ Tras el día 28, el **modo mantenimiento** propone a diario repaso espaciado, un
 ### 7.1 Inicio
 Qué toca hoy (día del programa o mantenimiento), repasos pendientes y acceso rápido a "leer ahora". Sin registro: se abre y se usa.
 
+**Tablero de inicio (fase 4, a petición del propietario):** la pantalla de inicio pasa a ser un tablero con:
+- botones grandes por actividad: prueba de velocidad (diagnóstico o re-test), lectura de comprensión (texto de práctica con cuestionario), continuar el programa del día, repasar fichas, sesión de atención, leer de mi biblioteca, libro físico y glosario;
+- estadísticas guardadas: última velocidad por tipo de texto, comprensión, retención a 24 h y 7 días, divagación, racha de días de práctica, fichas pendientes y minutos de la semana, con una gráfica breve de evolución;
+- un acceso a "Progreso" con el detalle completo.
+
 ### 7.2 Diagnóstico y re-tests
 - Lectura cronometrada de un texto de la biblioteca (600-900 palabras).
 - 8-10 preguntas de opción múltiple: literales, inferenciales y de idea central.
@@ -241,7 +246,7 @@ tests/            e2e con Playwright
 | **1 — Esqueleto y medición** | Proyecto Vite, PWA, almacenamiento, lector de texto pegado, cronómetro, cálculo de ppm, cuestionario, sondeos, diagnóstico con 3 textos | Un usuario hace el diagnóstico completo sin conexión y ve ppm, comprensión y divagación |
 | **2 — Formatos y lectura activa** | PDF, EPUB, web pegada y compartida, sesión de libro físico, subrayado, notas, glosario, marcapasos | Se lee y anota un PDF, un EPUB, un artículo web y un libro físico |
 | **3 — Programa y retención** | 28 lecciones, programa diario, fichas con FSRS, recuerdo libre, re-test a 24 h, módulo de atención completo, 12 textos | Días 1-7 completables de principio a fin; repasos programados correctos |
-| **4 — Cuaderno, proyectos y progreso** | Fuentes, proyectos de escritura, exportación .docx y Markdown, gráficas, CSV, respaldo | Un trazado de ejemplo se arma con fichas de 3 fuentes y se exporta a .docx que abre correctamente en Word y LibreOffice |
+| **4 — Cuaderno, proyectos y progreso** | Fuentes, proyectos de escritura, exportación .docx y Markdown, gráficas, **tablero de inicio** (7.1), CSV, respaldo | Un trazado de ejemplo se arma con fichas de 3 fuentes y se exporta a .docx que abre correctamente en Word y LibreOffice |
 | **5 — Pulido y publicación** | Accesibilidad (teclado, contraste AA, lector de pantalla), rendimiento (Lighthouse ≥ 90), despliegue en GitHub Pages | App instalable desde la URL pública y usable sin conexión |
 | **6 — Validación** | Uso real 28 días, ajuste de textos, preguntas y reglas de progresión según datos | Informe con resultados reales |
 | **7 — Apps en tiendas (futuro)** | Empaquetado para Google Play y App Store (sección 8 ter), funciones nativas para iOS, política de privacidad | App aprobada en ambas tiendas |
@@ -286,3 +291,4 @@ tests/            e2e con Playwright
 15. Preparación multilingüe (sección 8 bis) desde v1: campo `lang`, `Intl.Segmenter`, métricas por idioma y catálogo de textos de interfaz. El módulo de idiomas se diseñará aparte cuando toque.
 16. **Tema visual** con colores semánticos (automático, claro, sepia, oscuro), añadido a petición del propietario antes de la fase 2.
 17. **Apps en tiendas** como fase 7 futura, reutilizando la app web (sección 8 ter).
+18. **Tablero de inicio** con botones por actividad y estadísticas guardadas, en la fase 4 (sección 7.1), a petición del propietario.
