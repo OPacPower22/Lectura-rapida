@@ -14,7 +14,10 @@ function Row({ summary }: { summary: SessionSummary }) {
   return (
     <tr className="border-b border-stone-200">
       <td className="py-2 pr-3">{dateFormat.format(session.startedAt)}</td>
-      <td className="pr-3">{t(`history.kind.${session.kind}`)}</td>
+      <td className="pr-3">
+        {t(`history.kind.${session.kind}`)}
+        {session.textKind && ` · ${t(`textKind.${session.textKind}`)}`}
+      </td>
       <td className="pr-3">{session.lang}</td>
       <td className="pr-3">{session.wpm ?? DASH}</td>
       <td className="pr-3">{comp === null ? DASH : pct(comp)}</td>

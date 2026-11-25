@@ -43,6 +43,22 @@ describe('textos de práctica', () => {
     }
   })
 
+  it('las respuestas correctas ocupan todas las posiciones', () => {
+    const positions = new Set(texts.flatMap((t) => t.questions.map((q) => q.answerIndex)))
+    expect(positions).toEqual(new Set([0, 1, 2, 3]))
+  })
+
+  it('la opción más larga no delata la respuesta', () => {
+    for (const text of texts) {
+      const longestIsCorrect = text.questions.filter((q) => {
+        const lengths = q.options.map((o) => o.length)
+        const max = Math.max(...lengths)
+        return lengths[q.answerIndex] === max && lengths.filter((l) => l === max).length === 1
+      }).length
+      expect(longestIsCorrect / text.questions.length).toBeLessThanOrEqual(0.4)
+    }
+  })
+
   it('busca por id', () => {
     expect(getPracticeText('diag-expositivo')?.kind).toBe('expositivo')
     expect(getPracticeText('no-existe')).toBeUndefined()

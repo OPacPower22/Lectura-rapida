@@ -10,10 +10,10 @@
       "type": "literal",
       "prompt": "¿Qué institución dirigió Eratóstenes?",
       "options": [
-        "La Academia de Atenas",
+        "La Biblioteca de Pérgamo",
         "La Biblioteca de Alejandría",
-        "El observatorio de Siena",
-        "El Liceo de Aristóteles"
+        "La Academia de Atenas",
+        "El observatorio real de Siena"
       ],
       "answerIndex": 1
     },
@@ -22,91 +22,96 @@
       "type": "literal",
       "prompt": "¿De dónde procede principalmente lo que sabemos del método de Eratóstenes?",
       "options": [
-        "De su obra original, conservada completa",
-        "De inscripciones en un pozo de Siena",
-        "Del resumen de un autor posterior, Cleomedes",
-        "De los diarios de navegantes del Renacimiento"
+        "Su propio tratado conservado",
+        "Las notas de sus agrimensores",
+        "Una copia medieval de su obra completa",
+        "El resumen de un autor posterior, Cleomedes"
       ],
-      "answerIndex": 2
+      "answerIndex": 3
     },
     {
       "id": "e3",
       "type": "literal",
       "prompt": "¿Qué ángulo midió aproximadamente en Alejandría?",
       "options": [
-        "Una décima parte de la circunferencia",
-        "Unos 15 grados",
-        "Una quincuagésima parte de la circunferencia, unos 7,2 grados",
-        "Medio grado"
+        "Una cincuentava parte del círculo, unos 7,2°",
+        "Una décima parte del círculo, unos 36°",
+        "Una centésima parte del círculo, unos 3,6°",
+        "Una quincuagésima parte del día, unos 29 minutos"
       ],
-      "answerIndex": 2
+      "answerIndex": 0
     },
     {
       "id": "e4",
       "type": "literal",
       "prompt": "¿Qué distancia tomó entre Alejandría y Siena?",
-      "options": ["500 estadios", "5000 estadios", "50 000 estadios", "250 000 estadios"],
+      "options": [
+        "500 estadios",
+        "5000 estadios",
+        "50 000 estadios",
+        "252 000 estadios"
+      ],
       "answerIndex": 1
     },
     {
       "id": "e5",
       "type": "inferencial",
-      "prompt": "¿Por qué la diferencia de sombras probaba que la Tierra es curva?",
+      "prompt": "¿Por qué la diferencia de sombras indicaba que la Tierra es curva?",
       "options": [
-        "Porque con rayos paralelos y superficie plana todas las varillas darían la misma sombra",
-        "Porque el sol estaba más cerca de Siena que de Alejandría",
-        "Porque en Alejandría había más nubes",
-        "Porque las varillas tenían longitudes distintas"
+        "Porque el sol estaba más cerca de Siena que de Alejandría ese día",
+        "Porque en Siena el sol iluminaba los pozos todo el año",
+        "Con rayos paralelos y suelo plano, todas las varillas darían igual sombra",
+        "Porque las varillas de Alejandría eran más altas que las que se usaban en Siena"
       ],
-      "answerIndex": 0
+      "answerIndex": 2
     },
     {
       "id": "e6",
       "type": "inferencial",
       "prompt": "¿Por qué no se puede decir con exactitud cuánto se equivocó Eratóstenes?",
       "options": [
-        "Porque la Tierra ha cambiado de tamaño",
-        "Porque no se sabe con certeza qué longitud de estadio usó",
-        "Porque Cleomedes alteró las cifras",
-        "Porque el ángulo no se midió al mediodía"
+        "La Tierra ha cambiado de tamaño",
+        "Cleomedes redondeó las cifras",
+        "El ángulo se midió en un día equivocado",
+        "No se sabe qué longitud de estadio utilizó"
       ],
-      "answerIndex": 1
+      "answerIndex": 3
     },
     {
       "id": "e7",
       "type": "inferencial",
       "prompt": "¿Qué explica, según el texto, que el resultado fuera tan bueno pese a las imprecisiones?",
       "options": [
-        "Que usó instrumentos modernos",
-        "Que repitió la medición muchas veces",
-        "Que varios errores se compensaron en parte entre sí",
-        "Que Siena está exactamente sobre el trópico"
+        "Varios errores se compensaron en parte entre sí",
+        "Repitió la medición durante muchos solsticios",
+        "Siena está justo al sur de Alejandría",
+        "Los agrimensores midieron la distancia con gran exactitud"
       ],
-      "answerIndex": 2
+      "answerIndex": 0
     },
     {
       "id": "e8",
       "type": "idea-central",
       "prompt": "¿Qué destaca el texto como lo más valioso del trabajo de Eratóstenes?",
       "options": [
-        "La cifra exacta que obtuvo",
+        "La cifra casi exacta de la circunferencia terrestre",
+        "Haber reunido mediciones de muchos viajeros distintos",
         "El razonamiento: supuestos explícitos, medición y cálculo",
-        "Haber viajado a Siena para medir",
-        "Haber corregido a los navegantes de su época"
+        "Haber demostrado por primera vez que la Tierra gira sobre su eje"
       ],
-      "answerIndex": 1
+      "answerIndex": 2
     },
     {
       "id": "e9",
       "type": "idea-central",
       "prompt": "¿Qué enseñanza final propone el texto?",
       "options": [
-        "Los datos mejores siempre producen mejores resultados",
-        "La ciencia antigua era más precisa que la moderna",
-        "Un buen razonamiento con datos modestos puede superar a uno malo con datos mejores",
-        "Los navegantes nunca confiaron en los geógrafos"
+        "Los navegantes del Renacimiento corrigieron los errores de los antiguos",
+        "Razonar bien con datos modestos puede superar a razonar mal con datos mejores",
+        "Las mediciones repetidas con mejores instrumentos siempre se acercan más a la verdad",
+        "La geografía antigua dependía más de la intuición que del cálculo"
       ],
-      "answerIndex": 2
+      "answerIndex": 1
     }
   ]
 }

@@ -37,6 +37,8 @@ describe('HistoryPage', () => {
     expect(within(newest).getByText('300')).toBeInTheDocument()
     expect(within(newest).getByText('en')).toBeInTheDocument()
     expect(within(newest).getAllByText('—').length).toBeGreaterThanOrEqual(2)
+    expect(within(oldest).getByText('Diagnóstico · Expositivo')).toBeInTheDocument()
+    expect(within(newest).getByText('Texto propio')).toBeInTheDocument()
     expect(within(oldest).getByText('200')).toBeInTheDocument()
     expect(within(oldest).getByText('80 %')).toBeInTheDocument()
     expect(within(oldest).getByText('160')).toBeInTheDocument()

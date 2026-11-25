@@ -84,4 +84,7 @@ export const es = {
   'history.wandering': 'Divagación',
   'history.kind.diagnostico': 'Diagnóstico',
   'history.kind.libre': 'Texto propio',
+  'textKind.narrativo': 'Narrativo',
+  'textKind.expositivo': 'Expositivo',
+  'textKind.denso': 'Denso',
 } as const

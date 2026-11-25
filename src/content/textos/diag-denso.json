@@ -10,82 +10,82 @@
       "type": "literal",
       "prompt": "¿Qué dos sentidos de libertad distingue el texto?",
       "options": [
-        "Libertad política y libertad económica",
-        "No estar impedido desde fuera y ser capaz de orientarse por razones propias",
-        "Libertad de expresión y libertad de pensamiento",
-        "Libertad individual y libertad colectiva"
+        "Elegir entre opciones y no arrepentirse después de elegir",
+        "Libertad frente al Estado y libertad frente a la sociedad",
+        "No estar impedido desde fuera y poder orientarse por razones propias",
+        "Actuar sin presiones externas y actuar siempre según los propios deseos inmediatos"
       ],
-      "answerIndex": 1
+      "answerIndex": 2
     },
     {
       "id": "d2",
       "type": "literal",
       "prompt": "Según el autor, ¿qué caracteriza a la persona atenta?",
       "options": [
-        "Que nunca se distrae",
-        "Que controla cada uno de sus pensamientos",
-        "Que advierte que se ha distraído y puede volver",
-        "Que evita leer textos difíciles"
+        "Advierte que se ha distraído y puede volver",
+        "Nunca se distrae al leer",
+        "Controla cada pensamiento",
+        "Evita todo estímulo"
       ],
-      "answerIndex": 2
+      "answerIndex": 0
     },
     {
       "id": "d3",
       "type": "literal",
       "prompt": "¿Qué riesgo señala el texto si la atención se convierte en un deber absoluto?",
       "options": [
-        "Que se vuelva otra forma de servidumbre",
-        "Que se pierda la memoria",
-        "Que se lea más despacio",
-        "Que desaparezca la libertad negativa"
+        "Que la lectura deje de ser una actividad placentera",
+        "Que la persona termine agotada y abandone la lectura",
+        "Que los demás impongan qué se debe atender",
+        "Que se vuelva otra forma de servidumbre"
       ],
-      "answerIndex": 0
+      "answerIndex": 3
     },
     {
       "id": "d4",
       "type": "inferencial",
       "prompt": "¿Por qué la metáfora de la atención como recurso resulta insuficiente para el autor?",
       "options": [
-        "Porque la atención es ilimitada",
-        "Porque ignora que la atención determina qué nos importa y no solo cuánto rendimos",
-        "Porque la economía no puede aplicarse a la mente",
-        "Porque el dinero es más fácil de administrar"
+        "Supone que la atención es limitada, cuando en realidad es infinita",
+        "Ignora que la atención decide qué nos importa, no solo cuánto rendimos",
+        "Confunde la atención con la memoria de trabajo",
+        "Exagera lo difícil que es administrar la atención comparada con el dinero de cada mes"
       ],
       "answerIndex": 1
     },
     {
       "id": "d5",
       "type": "inferencial",
-      "prompt": "¿Por qué dice el autor que, sin atención propia, la deliberación \"llega tarde\"?",
+      "prompt": "¿Por qué dice el autor que, sin atención propia, la deliberación «llega tarde»?",
       "options": [
-        "Porque pensar requiere más tiempo que percibir",
-        "Porque trabaja sobre un material que eligieron los estímulos y no la persona",
-        "Porque la memoria tarda en recuperar la información",
-        "Porque las decisiones siempre se toman de prisa"
+        "Pensar requiere siempre más tiempo que percibir los estímulos",
+        "La memoria tarda en recuperar lo que se necesita para decidir",
+        "Las razones propias solo aparecen después de haber actuado por impulso varias veces",
+        "Trabaja sobre un material que eligieron los estímulos, no la persona"
       ],
-      "answerIndex": 1
+      "answerIndex": 3
     },
     {
       "id": "d6",
       "type": "inferencial",
       "prompt": "¿Cómo responde el autor a la objeción de que nadie controla todos sus pensamientos?",
       "options": [
-        "La rechaza por completo",
-        "Acepta que es cierta, pero muestra que su tesis no exige un control total",
-        "Admite que su tesis es falsa",
-        "La ignora y cambia de tema"
+        "La rechaza mostrando que el control total sí es posible con práctica",
+        "La acepta y reduce su tesis a la libertad negativa",
+        "Acepta que es cierta, pero muestra que su tesis no exige control total",
+        "La acepta en parte y concluye que solo los lectores entrenados pueden ser realmente libres"
       ],
-      "answerIndex": 1
+      "answerIndex": 2
     },
     {
       "id": "d7",
       "type": "inferencial",
       "prompt": "¿Por qué la lectura de un texto difícil sería un ejercicio de libertad?",
       "options": [
-        "Porque obliga a regresar deliberadamente al texto cada vez que uno se pierde",
-        "Porque enseña datos útiles",
-        "Porque se hace en silencio",
-        "Porque los textos difíciles tratan sobre la libertad"
+        "Obliga a volver deliberadamente al texto cada vez que uno se pierde",
+        "Enseña contenidos que amplían las razones para decidir bien",
+        "Exige alejarse del teléfono y de otros estímulos durante horas",
+        "Obliga a memorizar los argumentos para poder explicarlos después a otras personas"
       ],
       "answerIndex": 0
     },
@@ -94,10 +94,10 @@
       "type": "idea-central",
       "prompt": "¿Cuál es la tesis principal del texto?",
       "options": [
-        "La atención es un recurso escaso que hay que ahorrar",
-        "La atención es una condición de la libertad entendida como capacidad de orientarse por razones propias",
-        "La lectura es la única forma de ser libre",
-        "La distracción es siempre perjudicial"
+        "La atención es un recurso escaso que conviene administrar con cuidado",
+        "La atención es condición de la libertad de orientarse por razones propias",
+        "Leer textos difíciles es la única vía para llegar a ser libre",
+        "La libertad consiste en eliminar todos los obstáculos externos que impiden actuar como se desea"
       ],
       "answerIndex": 1
     },
@@ -106,12 +106,12 @@
       "type": "idea-central",
       "prompt": "¿Qué distingue, al final, la libertad de la mera disciplina?",
       "options": [
-        "Que la persona libre puede elegir cuándo concentrarse y cuándo soltar",
-        "Que la disciplina es más eficaz",
-        "Que la libertad no requiere esfuerzo",
-        "Que la disciplina solo se aplica al trabajo"
+        "Concentrarse más horas sin sentir cansancio",
+        "Seguir siempre un horario fijo de estudio",
+        "Poder elegir cuándo concentrarse y cuándo soltar",
+        "No necesitar ningún esfuerzo para atender"
       ],
-      "answerIndex": 0
+      "answerIndex": 2
     }
   ]
 }
