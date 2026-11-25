@@ -1,4 +1,5 @@
 import { Dexie, type EntityTable } from 'dexie'
+import type { Card } from 'ts-fsrs'
 import type { ProbeAnswer } from '../metrics'
 
 export type TextKind = 'narrativo' | 'expositivo' | 'denso'
@@ -37,6 +38,8 @@ export interface QuizResult {
   correct: number
   total: number
   deferred: boolean
+  /** Solo en resultados diferidos: días tras el cuestionario original. */
+  delayDays?: 1 | 7
   at: number
 }
 
@@ -119,6 +122,35 @@ export interface GlossaryEntry {
   createdAt: number
 }
 
+export interface StoredCard {
+  id?: number
+  kind: 'ficha' | 'glosario'
+  front: string
+  back: string
+  lang: string
+  sourceId?: number
+  glossaryId?: number
+  fsrs: Card
+  createdAt: number
+}
+
+export type ProgramStep = 'lesson' | 'exercise' | 'reading'
+
+export interface ProgramDay {
+  day: number
+  startedAt: number
+  steps: Partial<Record<ProgramStep, number>>
+  completedAt?: number
+}
+
+export interface AttentionSession {
+  id?: number
+  startedAt: number
+  durationMs: number
+  plannedMinutes: number
+  returns: number
+}
+
 export const db = new Dexie('lectura-rapida') as Dexie & {
   readingSessions: EntityTable<ReadingSession, 'id'>
   probes: EntityTable<ProbeRecord, 'id'>
@@ -128,6 +160,9 @@ export const db = new Dexie('lectura-rapida') as Dexie & {
   documents: EntityTable<StoredDocument, 'id'>
   notes: EntityTable<Note, 'id'>
   glossary: EntityTable<GlossaryEntry, 'id'>
+  cards: EntityTable<StoredCard, 'id'>
+  programDays: EntityTable<ProgramDay, 'day'>
+  attentionSessions: EntityTable<AttentionSession, 'id'>
 }
 
 db.version(1).stores({
@@ -144,4 +179,11 @@ db.version(2).stores({
   documents: '++id, sourceId, lastOpenedAt',
   notes: '++id, sourceId, documentId, kind, createdAt',
   glossary: '++id, lang, term, sourceId',
+})
+
+// v3 (fase 3): fichas con repetición espaciada, progreso del programa y sesiones de atención.
+db.version(3).stores({
+  cards: '++id, kind, glossaryId, sourceId, fsrs.due',
+  programDays: 'day',
+  attentionSessions: '++id, startedAt',
 })

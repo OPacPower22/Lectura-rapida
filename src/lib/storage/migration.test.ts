@@ -27,9 +27,37 @@ describe('migración v1 → v2', () => {
     v1.close()
 
     await db.open()
-    expect(db.verno).toBe(2)
+    expect(db.verno).toBe(3)
     expect(await db.readingSessions.count()).toBe(1)
     expect(await db.probes.count()).toBe(2)
     expect(await db.quizResults.count()).toBe(1)
+  })
+
+  it('v2 → v3 conserva documentos, notas y glosario', async () => {
+    const v2 = new Dexie('lectura-rapida')
+    v2.version(1).stores({
+      readingSessions: '++id, kind, textId, lang, startedAt',
+      probes: '++id, sessionId',
+      quizResults: '++id, sessionId, textId',
+      settings: 'key',
+    })
+    v2.version(2).stores({
+      readingSessions: '++id, kind, textId, lang, startedAt, documentId, sourceId',
+      sources: '++id, type, createdAt',
+      documents: '++id, sourceId, lastOpenedAt',
+      notes: '++id, sourceId, documentId, kind, createdAt',
+      glossary: '++id, lang, term, sourceId',
+    })
+    await v2.open()
+    await v2.table('sources').add({ type: 'libro', title: 'L', createdAt: 1 })
+    await v2.table('notes').add({ sourceId: 1, kind: 'idea', text: 'x', lang: 'es', createdAt: 1 })
+    await v2.table('glossary').add({ term: 't', lang: 'es', definition: 'd', createdAt: 1 })
+    v2.close()
+    await db.open()
+    expect(db.verno).toBe(3)
+    expect(await db.sources.count()).toBe(1)
+    expect(await db.notes.count()).toBe(1)
+    expect(await db.glossary.count()).toBe(1)
+    expect(await db.cards.count()).toBe(0)
   })
 })
