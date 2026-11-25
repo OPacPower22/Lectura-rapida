@@ -6,6 +6,7 @@ import { t } from '../../i18n'
 import { PROBE_RANGE_DIAGNOSTICO } from '../../lib/probes'
 import { saveSession } from '../../lib/storage/repo'
 import type { Clock } from '../../lib/stopwatch'
+import { LeaveGuard } from '../lector/LeaveGuard'
 import { ReadingView, type ReadingOutcome } from '../lector/ReadingView'
 import { Quiz } from './Quiz'
 import { ResultsCard, type ResultsData } from './ResultsCard'
@@ -125,7 +126,12 @@ export function DiagnosticPage({ now }: { now?: Clock }) {
   }
 
   if (step === 'quiz') {
-    return <Quiz questions={text.questions} onSubmit={submitQuiz} />
+    return (
+      <>
+        <LeaveGuard active />
+        <Quiz questions={text.questions} onSubmit={submitQuiz} />
+      </>
+    )
   }
 
   return (

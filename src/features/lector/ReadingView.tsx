@@ -4,6 +4,7 @@ import type { ProbeAnswer } from '../../lib/metrics'
 import type { ProbeRange } from '../../lib/probes'
 import type { Clock } from '../../lib/stopwatch'
 import { countWords, splitParagraphs } from '../../lib/text'
+import { LeaveGuard } from './LeaveGuard'
 import { ProbeDialog } from './ProbeDialog'
 import { ReadingToolbar } from './ReadingToolbar'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
@@ -57,6 +58,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
 
   return (
     <section className="mx-auto max-w-prose">
+      <LeaveGuard active />
       <div inert={session.probeOpen || undefined}>
         <ReadingToolbar
           ref={distractedButton}

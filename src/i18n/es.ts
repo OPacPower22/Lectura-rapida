@@ -97,4 +97,5 @@ export const es = {
   'history.loadError': 'No se pudo leer el historial en este dispositivo.',
   'storage.dismiss': 'Entendido',
   'results.purpose': 'Tu pregunta: «{purpose}». Intenta responderla ahora de memoria.',
+  'reader.leaveConfirm': 'Tienes una lectura en curso. Si sales ahora, se perderá esta medición. ¿Salir de todos modos?',
 } as const
