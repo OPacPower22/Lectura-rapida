@@ -1,13 +1,15 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { t } from '../../i18n'
 import type { ProbeAnswer } from '../../lib/metrics'
 import type { ProbeRange } from '../../lib/probes'
 import type { Clock } from '../../lib/stopwatch'
 import { countWords, splitParagraphs } from '../../lib/text'
 import { LeaveGuard } from './LeaveGuard'
+import { PacedParagraph, PacerControls, PacerNote } from './Pacer'
 import { ProbeDialog } from './ProbeDialog'
 import { ReadingToolbar } from './ReadingToolbar'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
+import { usePacer } from './usePacer'
 import { useReadingSession } from './useReadingSession'
 
 export interface ReadingOutcome {
@@ -26,14 +28,29 @@ interface Props {
   onFinish: (outcome: ReadingOutcome) => void
   now?: Clock
   rng?: () => number
+  /** Ofrece el marcapasos opcional (no en el diagnóstico, que mide la línea base). */
+  allowPacer?: boolean
 }
 
-export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng }: Props) {
+export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer }: Props) {
   const session = useReadingSession({ probeRange, now, rng })
   const [fontIndex, setFontIndex] = useState(1)
   const distractedButton = useRef<HTMLButtonElement>(null)
   const paragraphs = useMemo(() => splitParagraphs(body), [body])
   useFocusAfterProbe(session.probeOpen, distractedButton)
+  const [pacerOn, setPacerOn] = useState(false)
+  const [pacerWpm, setPacerWpm] = useState(250)
+  const pacer = usePacer({
+    enabled: pacerOn && session.status === 'reading',
+    wpm: pacerWpm,
+    paragraphs,
+    startParagraph: 0,
+    elapsedMs: session.elapsedMs,
+  })
+  const pacedRef = useRef<HTMLParagraphElement | null>(null)
+  useEffect(() => {
+    pacedRef.current?.scrollIntoView?.({ block: 'center', behavior: 'smooth' })
+  }, [pacer?.paragraph])
 
   function finish() {
     const outcome = session.finish()
@@ -65,12 +82,22 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
           onFont={(d) => setFontIndex((i) => Math.min(FONT_SIZES.length - 1, Math.max(0, i + d)))}
           onDistracted={session.markDistracted}
           onFinish={finish}
+          extra={
+            allowPacer ? <PacerControls enabled={pacerOn} wpm={pacerWpm} onEnabled={setPacerOn} onWpm={setPacerWpm} /> : undefined
+          }
         />
+        {pacerOn && <PacerNote />}
         <article lang={lang} style={{ fontSize: FONT_SIZES[fontIndex] }} className="space-y-4 leading-relaxed">
           <h2 className="text-[1.3em] font-semibold">{title}</h2>
-          {paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+          {paragraphs.map((p, i) =>
+            pacer?.paragraph === i ? (
+              <p key={i} ref={pacedRef}>
+                <PacedParagraph text={p} word={pacer.word} />
+              </p>
+            ) : (
+              <p key={i}>{p}</p>
+            ),
+          )}
         </article>
       </div>
       {session.probeOpen && (

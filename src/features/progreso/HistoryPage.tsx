@@ -18,6 +18,7 @@ function Row({ summary }: { summary: SessionSummary }) {
         {t(`history.kind.${session.kind}`)}
         {session.textKind && ` · ${t(`textKind.${session.textKind}`)}`}
         {session.title && <span className="block text-muted">{session.title}</span>}
+        {session.pages && <span className="block text-muted">{t('history.pages', session.pages)}</span>}
       </td>
       <td className="pr-3">{session.lang}</td>
       <td className="pr-3">{session.wpm ?? DASH}</td>

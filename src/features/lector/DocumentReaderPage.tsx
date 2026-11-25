@@ -16,13 +16,17 @@ import { rangeToAnchor, segmentsWithMarks, sentenceAround } from './anchors'
 import { AnnotationBar } from './AnnotationBar'
 import { LeaveGuard } from './LeaveGuard'
 import { NotesPanel } from './NotesPanel'
+import { PacedParagraph, PacerControls, PacerNote } from './Pacer'
 import { PdfPageDialog } from './PdfPageDialog'
 import { ProbeDialog } from './ProbeDialog'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { ReadingToolbar } from './ReadingToolbar'
+import { usePacer } from './usePacer'
 import { useReadingSession, type SessionOutcome } from './useReadingSession'
 
 type Phase = 'free' | 'confirm' | 'results'
+
+const NO_PARAGRAPHS: string[] = []
 
 const outline = 'rounded border border-line-strong px-3 py-1 hover:bg-hover disabled:opacity-50'
 const primary = 'rounded-md bg-accent px-4 py-2 font-medium text-on-accent hover:bg-accent-hover'
@@ -56,6 +60,19 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   useEffect(() => {
     chapterRef.current = chapter
   }, [chapter])
+
+  const [pacerOn, setPacerOn] = useState(false)
+  const [pacerWpm, setPacerWpm] = useState(250)
+  const pacer = usePacer({
+    enabled: pacerOn && session.status === 'reading',
+    wpm: pacerWpm,
+    paragraphs: data ? data.doc.chapters[chapter].paragraphs : NO_PARAGRAPHS,
+    startParagraph,
+    elapsedMs: session.elapsedMs,
+  })
+  useEffect(() => {
+    if (pacer) paragraphRefs.current[pacer.paragraph]?.scrollIntoView?.({ block: 'center', behavior: 'smooth' })
+  }, [pacer?.paragraph]) // eslint-disable-line react-hooks/exhaustive-deps -- solo al cambiar de párrafo
 
   const reloadNotes = useCallback(() => listNotes({ documentId: docId }).then(setNotes), [docId])
 
@@ -310,7 +327,21 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
       {!reading && phase === 'free' && <p className="text-sm text-muted">{t('docreader.startHelp')}</p>}
       <div inert={session.probeOpen || undefined}>
         {reading ? (
-          <ReadingToolbar ref={distractedRef} onFont={changeFont} onDistracted={session.markDistracted} onFinish={finish} extra={pdfButton} />
+          <>
+            <ReadingToolbar
+              ref={distractedRef}
+              onFont={changeFont}
+              onDistracted={session.markDistracted}
+              onFinish={finish}
+              extra={
+                <>
+                  <PacerControls enabled={pacerOn} wpm={pacerWpm} onEnabled={setPacerOn} onWpm={setPacerWpm} />
+                  {pdfButton}
+                </>
+              }
+            />
+            {pacerOn && <PacerNote />}
+          </>
         ) : (
           phase === 'free' && (
             <div className="sticky top-0 z-[1] mb-4 flex flex-wrap items-center gap-2 border-b border-line bg-page/95 py-2">
@@ -352,12 +383,16 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
                   paragraphRefs.current[i] = el
                 }}
               >
-                {segmentsWithMarks(text, marks).map((seg, j) =>
+                {pacer?.paragraph === i ? (
+                  <PacedParagraph text={text} word={pacer.word} />
+                ) : (
+                  segmentsWithMarks(text, marks).map((seg, j) =>
                   seg.markId === undefined ? seg.text : (
                     <mark key={j} className="rounded-sm bg-mark text-ink">
                       {seg.text}
                     </mark>
                   ),
+                  )
                 )}
               </p>
             )

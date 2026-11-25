@@ -52,6 +52,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
         probeRange={PROBE_RANGE_PROGRAMA}
         onFinish={finish}
         now={now}
+        allowPacer
       />
     )
   }

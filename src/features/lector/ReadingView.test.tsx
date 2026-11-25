@@ -141,4 +141,41 @@ describe('ReadingView', () => {
     expect(screen.getByRole('button', { name: /A−/ })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /A\+/ })).toBeInTheDocument()
   })
+
+  it('el marcapasos avanza con el tiempo activo y se detiene durante un sondeo', () => {
+    let now = 0
+    const words = Array.from({ length: 300 }, (_, i) => `w${i}`).join(' ')
+    render(
+      <ReadingView
+        title="Marcapasos"
+        body={words}
+        lang="es"
+        probeRange={PROBE_RANGE_DIAGNOSTICO}
+        onFinish={() => {}}
+        now={() => now}
+        rng={() => 0}
+        allowPacer
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    fireEvent.click(screen.getByRole('checkbox', { name: t('pacer.enable') }))
+    fireEvent.change(screen.getByLabelText(t('pacer.wpm')), { target: { value: '240' } })
+    const current = () => document.querySelector('[data-pacer-start]')?.textContent
+    now = 3000
+    act(() => {
+      vi.advanceTimersByTime(200)
+    })
+    expect(current()).toBe('w12')
+    now = 45000
+    act(() => {
+      vi.advanceTimersByTime(44800)
+    })
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(current()).toBe('w180')
+    now = 60000
+    act(() => {
+      vi.advanceTimersByTime(1000)
+    })
+    expect(current()).toBe('w180')
+  })
 })

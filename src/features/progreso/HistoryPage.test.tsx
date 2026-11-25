@@ -60,4 +60,10 @@ describe('HistoryPage', () => {
     render(<HistoryPage />)
     expect(await screen.findByText(/Mi artículo/)).toBeInTheDocument()
   })
+
+  it('muestra las páginas de una sesión de libro físico', async () => {
+    await saveSession({ session: { ...session, kind: 'fisico', title: 'Libro de papel', pages: { from: 10, to: 19 } }, probes: [] })
+    render(<HistoryPage />)
+    expect(await screen.findByText(/págs\. 10-19/)).toBeInTheDocument()
+  })
 })

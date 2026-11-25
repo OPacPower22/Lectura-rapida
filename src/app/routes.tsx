@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom'
 import { ImportPage } from '../features/biblioteca/ImportPage'
 import { LibraryPage } from '../features/biblioteca/LibraryPage'
 import { DiagnosticPage } from '../features/diagnostico/DiagnosticPage'
+import { GlossaryPage } from '../features/glosario/GlossaryPage'
 import { HomePage } from '../features/inicio/HomePage'
 import { DocumentReaderPage } from '../features/lector/DocumentReaderPage'
 import { PasteReadPage } from '../features/lector/PasteReadPage'
@@ -21,6 +22,7 @@ export const routes: RouteObject[] = [
       { path: 'biblioteca/:id', element: <DocumentReaderPage /> },
       { path: 'leer', element: <PasteReadPage /> },
       { path: 'progreso', element: <HistoryPage /> },
+      { path: 'glosario', element: <GlossaryPage /> },
     ],
   },
 ]
