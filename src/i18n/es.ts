@@ -87,4 +87,9 @@ export const es = {
   'textKind.narrativo': 'Narrativo',
   'textKind.expositivo': 'Expositivo',
   'textKind.denso': 'Denso',
+  'theme.label': 'Tema',
+  'theme.system': 'Automático (según el sistema)',
+  'theme.light': 'Claro',
+  'theme.sepia': 'Sepia',
+  'theme.dark': 'Oscuro (nocturno)',
 } as const

@@ -12,7 +12,7 @@ function Row({ summary }: { summary: SessionSummary }) {
   const comp = quiz && quiz.total > 0 ? comprehension(quiz.correct, quiz.total) : null
   const wandering = mindWanderingRate(probes.map((p) => p.answer))
   return (
-    <tr className="border-b border-stone-200">
+    <tr className="border-b border-line">
       <td className="py-2 pr-3">{dateFormat.format(session.startedAt)}</td>
       <td className="pr-3">
         {t(`history.kind.${session.kind}`)}
@@ -44,7 +44,7 @@ export function HistoryPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-stone-300">
+              <tr className="border-b border-line-strong">
                 <th className="py-2 pr-3">{t('history.date')}</th>
                 <th className="pr-3">{t('history.kind')}</th>
                 <th className="pr-3">{t('history.lang')}</th>

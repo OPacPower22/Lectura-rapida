@@ -1,1 +1,100 @@
 @import 'tailwindcss';
+
+/* Colores semánticos: cada tema redefine estas variables. Contraste AA verificado. */
+:root,
+[data-theme='light'] {
+  --page: #fafaf9;
+  --surface: #ffffff;
+  --ink: #1c1917;
+  --muted: #57534e;
+  --line: #e7e5e4;
+  --line-strong: #d6d3d1;
+  --hover: #f5f5f4;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --on-accent: #ffffff;
+  --accent-soft: #eff6ff;
+  --accent-ink: #1e40af;
+  --disabled: #a8a29e;
+  --warn-bg: #fffbeb;
+  --warn-line: #fcd34d;
+  --warn-strong: #d97706;
+  --warn-ink: #78350f;
+  --err-bg: #fef2f2;
+  --err-line: #fca5a5;
+  --err-ink: #991b1b;
+}
+
+[data-theme='sepia'] {
+  --page: #f4ecd8;
+  --surface: #fbf5e6;
+  --ink: #3b2f20;
+  --muted: #6b5a43;
+  --line: #e6d9bb;
+  --line-strong: #d4c29a;
+  --hover: #efe3c8;
+  --accent: #7c4a14;
+  --accent-hover: #643a0e;
+  --on-accent: #ffffff;
+  --accent-soft: #f1e3c4;
+  --accent-ink: #6b3e0f;
+  --disabled: #b8a888;
+  --warn-bg: #fdf0cf;
+  --warn-line: #e6b75a;
+  --warn-strong: #b45309;
+  --warn-ink: #6b3409;
+  --err-bg: #fbe4dc;
+  --err-line: #e4a08c;
+  --err-ink: #8a1c12;
+}
+
+[data-theme='dark'] {
+  --page: #0c0a09;
+  --surface: #1c1917;
+  --ink: #e7e5e4;
+  --muted: #a8a29e;
+  --line: #292524;
+  --line-strong: #44403c;
+  --hover: #292524;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --on-accent: #ffffff;
+  --accent-soft: #172554;
+  --accent-ink: #93c5fd;
+  --disabled: #57534e;
+  --warn-bg: #451a03;
+  --warn-line: #92400e;
+  --warn-strong: #f59e0b;
+  --warn-ink: #fde68a;
+  --err-bg: #450a0a;
+  --err-line: #991b1b;
+  --err-ink: #fecaca;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-hover: var(--hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-disabled: var(--disabled);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-line: var(--warn-line);
+  --color-warn-strong: var(--warn-strong);
+  --color-warn-ink: var(--warn-ink);
+  --color-err-bg: var(--err-bg);
+  --color-err-line: var(--err-line);
+  --color-err-ink: var(--err-ink);
+}
+
+body {
+  background-color: var(--page);
+  color: var(--ink);
+}

@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { ThemePicker } from '../features/ajustes/ThemePicker'
 import { t } from '../i18n'
 
 const items = [
@@ -10,22 +11,25 @@ const items = [
 
 export function Layout() {
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900">
-      <header className="border-b border-stone-200 bg-white">
-        <nav aria-label={t('nav.label')} className="mx-auto flex max-w-4xl flex-wrap gap-1 px-4 py-2">
-          {items.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) =>
-                `rounded px-3 py-2 ${isActive ? 'bg-blue-700 text-white' : 'hover:bg-stone-100'}`
-              }
-            >
-              {t(item.label)}
-            </NavLink>
-          ))}
-        </nav>
+    <div className="min-h-screen bg-page text-ink">
+      <header className="border-b border-line bg-surface">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2 px-4 py-2">
+          <nav aria-label={t('nav.label')} className="flex flex-wrap gap-1">
+            {items.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) =>
+                  `rounded px-3 py-2 ${isActive ? 'bg-accent text-on-accent' : 'hover:bg-hover'}`
+                }
+              >
+                {t(item.label)}
+              </NavLink>
+            ))}
+          </nav>
+          <ThemePicker />
+        </div>
       </header>
       <main className="px-4 py-8">
         <Outlet />

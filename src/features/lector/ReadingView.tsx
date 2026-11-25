@@ -111,7 +111,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
         <button
           type="button"
           onClick={start}
-          className="rounded-md bg-blue-700 px-5 py-2 font-medium text-white hover:bg-blue-800"
+          className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover"
         >
           {t('reader.start')}
         </button>
@@ -121,12 +121,12 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
 
   return (
     <section className="mx-auto max-w-prose">
-      <div className="sticky top-0 z-[1] mb-4 flex flex-wrap items-center gap-2 border-b border-stone-200 bg-stone-50/95 py-2">
+      <div className="sticky top-0 z-[1] mb-4 flex flex-wrap items-center gap-2 border-b border-line bg-page/95 py-2">
         <button
           type="button"
           onClick={() => setFontIndex((i) => Math.max(0, i - 1))}
           aria-label={t('reader.fontSmaller')}
-          className="rounded border border-stone-300 px-3 py-1"
+          className="rounded border border-line-strong px-3 py-1"
         >
           A−
         </button>
@@ -134,7 +134,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
           type="button"
           onClick={() => setFontIndex((i) => Math.min(FONT_SIZES.length - 1, i + 1))}
           aria-label={t('reader.fontLarger')}
-          className="rounded border border-stone-300 px-3 py-1"
+          className="rounded border border-line-strong px-3 py-1"
         >
           A+
         </button>
@@ -142,14 +142,14 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng 
         <button
           type="button"
           onClick={markDistracted}
-          className="rounded border border-amber-600 px-3 py-1 text-amber-800"
+          className="rounded border border-warn-strong px-3 py-1 text-warn-ink"
         >
           {t('reader.distracted')}
         </button>
         <button
           type="button"
           onClick={finish}
-          className="rounded bg-blue-700 px-4 py-1 font-medium text-white hover:bg-blue-800"
+          className="rounded bg-accent px-4 py-1 font-medium text-on-accent hover:bg-accent-hover"
         >
           {t('reader.finish')}
         </button>

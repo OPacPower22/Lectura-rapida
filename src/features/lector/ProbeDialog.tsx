@@ -20,7 +20,7 @@ export function ProbeDialog({ onAnswer }: { onAnswer: (answer: Exclude<ProbeAnsw
         role="dialog"
         aria-modal="true"
         aria-labelledby="probe-title"
-        className="w-full max-w-sm rounded-lg bg-white p-6 text-stone-900 shadow-xl"
+        className="w-full max-w-sm rounded-lg bg-surface p-6 text-ink shadow-xl"
       >
         <h2 id="probe-title" className="mb-4 text-lg font-semibold">
           {t('probe.question')}
@@ -32,7 +32,7 @@ export function ProbeDialog({ onAnswer }: { onAnswer: (answer: Exclude<ProbeAnsw
               ref={i === 0 ? firstButton : undefined}
               type="button"
               onClick={() => onAnswer(o.answer)}
-              className="rounded-md border border-stone-300 px-4 py-2 text-left hover:bg-stone-100 focus:outline-2 focus:outline-blue-700"
+              className="rounded-md border border-line-strong px-4 py-2 text-left hover:bg-hover focus:outline-2 focus:outline-accent"
             >
               {o.label}
             </button>

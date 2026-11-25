@@ -21,7 +21,7 @@ export function Quiz({ questions, onSubmit }: { questions: Question[]; onSubmit:
             {qi + 1}. {q.prompt}
           </legend>
           {q.options.map((option, oi) => (
-            <label key={oi} className="flex cursor-pointer items-start gap-2 rounded px-2 py-1 hover:bg-stone-100">
+            <label key={oi} className="flex cursor-pointer items-start gap-2 rounded px-2 py-1 hover:bg-hover">
               <input
                 type="radio"
                 name={q.id}
@@ -38,7 +38,7 @@ export function Quiz({ questions, onSubmit }: { questions: Question[]; onSubmit:
       <button
         type="submit"
         disabled={!complete}
-        className="rounded-md bg-blue-700 px-5 py-2 font-medium text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-stone-400"
+        className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-disabled"
       >
         {t('quiz.submit')}
       </button>

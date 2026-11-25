@@ -16,7 +16,7 @@ type Step = 'intro' | 'purpose' | 'reading' | 'quiz' | 'results'
 const KINDS: TextKind[] = ['narrativo', 'expositivo', 'denso']
 
 const primaryButton =
-  'rounded-md bg-blue-700 px-5 py-2 font-medium text-white hover:bg-blue-800'
+  'rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover'
 
 export function DiagnosticPage({ now }: { now?: Clock }) {
   const [step, setStep] = useState<Step>('intro')
@@ -97,7 +97,7 @@ export function DiagnosticPage({ now }: { now?: Clock }) {
             value={purpose}
             onChange={(e) => setPurpose(e.target.value)}
             rows={2}
-            className="w-full rounded border border-stone-300 p-2"
+            className="w-full rounded border border-line-strong p-2"
           />
         </label>
         <button type="button" className={primaryButton} onClick={() => setStep('reading')}>
@@ -134,7 +134,7 @@ export function DiagnosticPage({ now }: { now?: Clock }) {
         <Link to="/progreso" className={primaryButton}>
           {t('diag.toProgress')}
         </Link>
-        <button type="button" onClick={restart} className="rounded-md border border-stone-300 px-5 py-2">
+        <button type="button" onClick={restart} className="rounded-md border border-line-strong px-5 py-2">
           {t('diag.again')}
         </button>
       </div>

@@ -4,7 +4,7 @@ import { t } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { requestPersistentStorage } from '../../lib/storage/persist'
 
-const linkClass = 'block rounded-lg border border-stone-200 bg-white p-4 font-medium hover:border-blue-700'
+const linkClass = 'block rounded-lg border border-line bg-surface p-4 font-medium hover:border-accent'
 
 export function HomePage() {
   const [hasDiagnostic, setHasDiagnostic] = useState<boolean | null>(null)
@@ -25,16 +25,16 @@ export function HomePage() {
       <h1 className="text-3xl font-bold">{t('app.title')}</h1>
       <p>{t('home.lead')}</p>
       {!persisted && (
-        <p role="status" className="rounded border border-amber-300 bg-amber-50 p-3 text-amber-900">
+        <p role="status" className="rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
           {t('storage.notPersistent')}
         </p>
       )}
       {hasDiagnostic === false && (
-        <div className="rounded-lg border-2 border-blue-700 bg-blue-50 p-4">
-          <Link to="/diagnostico" className="text-xl font-semibold text-blue-800 underline">
+        <div className="rounded-lg border-2 border-accent bg-accent-soft p-4">
+          <Link to="/diagnostico" className="text-xl font-semibold text-accent-ink underline">
             {t('home.diagnosticCta')}
           </Link>
-          <p className="mt-1 text-stone-700">{t('home.diagnosticHelp')}</p>
+          <p className="mt-1 text-muted">{t('home.diagnosticHelp')}</p>
         </div>
       )}
       <div className="grid gap-3 sm:grid-cols-2">

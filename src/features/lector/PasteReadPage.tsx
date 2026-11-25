@@ -68,7 +68,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
               setSaveError(false)
               setStep('edit')
             }}
-            className="rounded-md border border-stone-300 px-5 py-2"
+            className="rounded-md border border-line-strong px-5 py-2"
           >
             {t('paste.another')}
           </button>
@@ -86,7 +86,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded border border-stone-300 p-2"
+          className="w-full rounded border border-line-strong p-2"
         />
       </label>
       <label className="block">
@@ -94,7 +94,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
         <select
           value={lang}
           onChange={(e) => setLang(e.target.value as (typeof LANGS)[number])}
-          className="rounded border border-stone-300 p-2"
+          className="rounded border border-line-strong p-2"
         >
           {LANGS.map((l) => (
             <option key={l} value={l}>
@@ -109,15 +109,15 @@ export function PasteReadPage({ now }: { now?: Clock }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={12}
-          className="w-full rounded border border-stone-300 p-2"
+          className="w-full rounded border border-line-strong p-2"
         />
       </label>
-      <p className="text-sm text-stone-600">{t('paste.words', { count: words })}</p>
+      <p className="text-sm text-muted">{t('paste.words', { count: words })}</p>
       <button
         type="button"
         disabled={words === 0}
         onClick={() => setStep('reading')}
-        className="rounded-md bg-blue-700 px-5 py-2 font-medium text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-stone-400"
+        className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-disabled"
       >
         {t('paste.prepare')}
       </button>

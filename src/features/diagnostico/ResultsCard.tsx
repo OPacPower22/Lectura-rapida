@@ -14,8 +14,8 @@ const pct = (v: number) => t('results.percent', { value: Math.round(v * 100) })
 
 function Metric({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-4">
-      <dt className="text-sm text-stone-600">{label}</dt>
+    <div className="rounded-lg border border-line bg-surface p-4">
+      <dt className="text-sm text-muted">{label}</dt>
       <dd className="mt-1 text-2xl font-semibold">{children}</dd>
     </div>
   )
@@ -28,7 +28,7 @@ export function ResultsCard({ data, saveError }: { data: ResultsData; saveError?
         {t('results.title')}
       </h2>
       {saveError && (
-        <p role="alert" className="rounded border border-red-300 bg-red-50 p-3 text-red-800">
+        <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
           {t('results.saveError')}
         </p>
       )}
@@ -56,9 +56,9 @@ export function ResultsCard({ data, saveError }: { data: ResultsData; saveError?
         </Metric>
       </dl>
       {data.label === 'hojeo' && (
-        <p className="rounded border border-amber-300 bg-amber-50 p-3 text-amber-900">{t('results.skimming')}</p>
+        <p className="rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">{t('results.skimming')}</p>
       )}
-      <p className="text-sm text-stone-600">{t('results.reference')}</p>
+      <p className="text-sm text-muted">{t('results.reference')}</p>
     </section>
   )
 }
