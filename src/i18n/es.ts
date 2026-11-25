@@ -12,4 +12,36 @@ export const es = {
   'probe.text': 'En el texto',
   'probe.other': 'En otra cosa',
   'probe.unsure': 'No sé',
+  'quiz.title': 'Responde sin volver al texto',
+  'quiz.submit': 'Enviar respuestas',
+  'results.title': 'Tus resultados',
+  'results.speed': 'Velocidad',
+  'results.comprehension': 'Comprensión',
+  'results.ile': 'Índice de Lectura Efectiva (ppm × comprensión)',
+  'results.wandering': 'Atención',
+  'results.percent': '{value} %',
+  'results.wanderingRate': '{value} % de los sondeos te encontraron fuera del texto',
+  'results.noProbes': 'No hubo sondeos durante esta lectura',
+  'results.selfCaught': '{value} distracciones detectadas por ti cada 10 min',
+  'results.tooShort': 'El tiempo de lectura fue demasiado corto para medir la velocidad.',
+  'results.skimming':
+    'Más de 600 ppm con menos del 60 % de comprensión: esto fue hojeo, no lectura. Es útil para buscar o tener una visión general, pero no para comprender.',
+  'results.reference':
+    'Referencia: la media de lectura silenciosa en adultos es de unos 238 ppm en no ficción (Brysbaert, 2019; datos en inglés). Lo importante es tu propio progreso con comprensión.',
+  'results.saveError':
+    'No se pudieron guardar los resultados en este dispositivo. Anótalos si quieres conservarlos.',
+  'diag.title': 'Diagnóstico',
+  'diag.intro':
+    'Vas a leer un texto a tu ritmo normal, buscando entenderlo, y después responderás unas preguntas sin volver a él. Durante la lectura, la app te preguntará de vez en cuando dónde estaba tu atención. Responde con sinceridad: no hay respuestas buenas ni malas.',
+  'diag.kindLegend': 'Tipo de texto',
+  'diag.kind.narrativo': 'Narrativo (un relato)',
+  'diag.kind.expositivo': 'Expositivo (divulgación)',
+  'diag.kind.denso': 'Denso (ensayo argumentativo)',
+  'diag.continue': 'Continuar',
+  'diag.purposeTitle': 'Antes de leer: tu propósito',
+  'diag.purposeHelp':
+    'Mira el título. ¿Qué pregunta crees que debería responder este texto? Escribirla ayuda a leer con propósito (opcional).',
+  'diag.purposeLabel': 'Mi pregunta',
+  'diag.again': 'Hacer otro diagnóstico',
+  'diag.toProgress': 'Ver mi progreso',
 } as const
