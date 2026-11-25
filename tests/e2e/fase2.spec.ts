@@ -100,6 +100,9 @@ test('fase 2: leer y anotar PDF, EPUB, web y libro físico, también sin conexi�
     await page.getByRole('button', { name: 'Terminé' }).click()
     await page.getByLabel(/Página final/).fill('11')
     await page.getByRole('button', { name: 'Guardar sesión' }).click()
+    // 2 páginas en 6 s es una velocidad poco creíble: la app pide revisar; aquí se guarda igual.
+    await expect(page.getByRole('alert')).toContainText('poco creíble')
+    await page.getByRole('button', { name: 'Guardar igual' }).click()
     await expect(page.getByText(/\d+ ppm/).first()).toBeVisible()
     await page.getByRole('link', { name: 'Progreso' }).click()
     await expect(page.getByText('págs. 10-11')).toBeVisible()
