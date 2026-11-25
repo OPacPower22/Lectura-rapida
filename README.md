@@ -1,6 +1,6 @@
 # Lectura Rápida — Atención, comprensión y retención
 
-![Estado](https://img.shields.io/badge/estado-fase_2_completada-blue)
+![Estado](https://img.shields.io/badge/estado-fase_3_completada-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-PWA_React_TypeScript-blueviolet)
 
@@ -16,6 +16,10 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 
 ## Ya disponible
 
+- **Programa de 28 días** (unos 20 min diarios) con el método **L.E.E.R.+R.**: 28 micro-lecciones con sus fuentes, ejercicios (atención, bloque de enfoque, hojeo y escaneo con tiempo, preguntas previas, mapas, explicar en voz alta, fichas, esquema de un trabajo) y lecturas medidas. Re-tests en los días 7, 14, 21 y 28 y modo mantenimiento después ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)).
+- **Retención:** recuerdo libre tras cada lectura, **fichas con repetición espaciada (FSRS)** —también automáticas desde el glosario— y cuestionarios de retención a 24 horas y 7 días.
+- **Atención:** sesiones guiadas de respiración de 2, 5 y 10 minutos con contador de regresos.
+- **Marcapasos con ajuste según tu comprensión** (−10 % si baja del 70 %, +5 % si supera el 80 % dos veces).
 - **Diagnóstico** de velocidad (ppm), comprensión, Índice de Lectura Efectiva (ppm × comprensión) y divagación de la atención, con textos narrativo, expositivo y denso.
 - **Biblioteca:** importa **PDF** (con reconstrucción de párrafos y número de página), **EPUB**, artículos web (pegando el texto o el HTML, o compartiéndolos desde Android) y texto pegado.
 - **Lector** con tipografía ajustable, capítulos, posición guardada, sesiones cronometradas y la página original del PDF a la vista.
@@ -29,8 +33,8 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 
 ## Próximamente
 
-- **Programa de 28 días**, de unos 20 minutos diarios, con el método **L.E.E.R.+R.**: Localizar, Enfocar, Extraer, Retener y Repasar ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)). Incluirá sesiones guiadas de atención y repetición espaciada (FSRS) de fichas y vocabulario (fase 3).
-- **Proyectos de escritura:** organizar las fichas en el esquema de un trazado, plancha o proyecto y exportarlo a **Word (.docx)** y Markdown, con bibliografía; gráficas de progreso y respaldo en un archivo (fase 4).
+- **Tablero de inicio** con botones por actividad y tus estadísticas guardadas (fase 4).
+- **Proyectos de escritura:** organizar las notas y fichas en el esquema de un trazado, plancha o proyecto y exportarlo a **Word (.docx)** y Markdown, con bibliografía; gráficas de progreso y respaldo en un archivo (fase 4).
 - **Apps en Google Play y App Store** reutilizando esta misma app (fase 7).
 - Más adelante, **aprender idiomas leyendo**.
 
