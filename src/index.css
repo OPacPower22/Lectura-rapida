@@ -106,3 +106,16 @@ body {
   background-color: var(--page);
   color: var(--ink);
 }
+
+/* Guía de respiración: 4 s inhalar, 6 s exhalar. Se desactiva con movimiento reducido. */
+@keyframes breathe {
+  0% { transform: scale(0.6); }
+  40% { transform: scale(1); }
+  100% { transform: scale(0.6); }
+}
+.breathe {
+  animation: breathe 10s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .breathe { animation: none; transform: scale(0.8); }
+}

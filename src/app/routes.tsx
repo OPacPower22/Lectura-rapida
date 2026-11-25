@@ -9,6 +9,7 @@ import { PasteReadPage } from '../features/lector/PasteReadPage'
 import { HistoryPage } from '../features/progreso/HistoryPage'
 import { PhysicalSessionPage } from '../features/sesion-fisica/PhysicalSessionPage'
 import { CardsPage } from '../features/retencion/CardsPage'
+import { AttentionPage } from '../features/atencion/AttentionPage'
 import { ReviewPage } from '../features/retencion/ReviewPage'
 import { Layout } from './Layout'
 
@@ -27,6 +28,7 @@ export const routes: RouteObject[] = [
       { path: 'glosario', element: <GlossaryPage /> },
       { path: 'repasar', element: <ReviewPage /> },
       { path: 'fichas', element: <CardsPage /> },
+      { path: 'atencion', element: <AttentionPage /> },
     ],
   },
 ]
