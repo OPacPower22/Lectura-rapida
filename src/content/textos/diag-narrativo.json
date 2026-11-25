@@ -1,0 +1,112 @@
+{
+  "id": "diag-narrativo",
+  "lang": "es",
+  "title": "El relojero de la calle de los Arcos",
+  "kind": "narrativo",
+  "source": "original",
+  "questions": [
+    {
+      "id": "n1",
+      "type": "literal",
+      "prompt": "¿Cuántos años tenía Tomás cuando llegó al taller?",
+      "options": ["Doce", "Catorce", "Dieciséis", "Dieciocho"],
+      "answerIndex": 1
+    },
+    {
+      "id": "n2",
+      "type": "literal",
+      "prompt": "¿Por qué los relojes de la pared marcaban horas distintas, según Anselmo?",
+      "options": [
+        "Porque estaban descompuestos",
+        "Porque cada uno mostraba la hora de otra ciudad",
+        "Porque los ajustaba cuando sus dueños venían a buscarlos",
+        "Porque así medía la paciencia de sus aprendices"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "n3",
+      "type": "literal",
+      "prompt": "¿Qué ocurrió la primera vez que Tomás abrió un reloj?",
+      "options": [
+        "Lo reparó en diez minutos",
+        "Le sobraron dos piezas y el reloj no funcionó",
+        "Perdió una rueda y Anselmo lo regañó",
+        "Rompió el muelle principal"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "n4",
+      "type": "literal",
+      "prompt": "¿Qué le regaló Anselmo a Tomás después de que arreglara el despertador?",
+      "options": [
+        "Un reloj de bolsillo",
+        "Las llaves del taller",
+        "Un estuche de cuero con pinzas y un pincel",
+        "Uno de los relojes de la pared"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "n5",
+      "type": "inferencial",
+      "prompt": "¿Qué quiere decir Anselmo con que la prisa \"pide prestado\" el tiempo?",
+      "options": [
+        "Que trabajar rápido permite terminar antes",
+        "Que el tiempo ganado con prisa se pierde después corrigiendo errores",
+        "Que los relojes rápidos se atrasan con los años",
+        "Que el aprendiz debe pagar por las piezas que pierde"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "n6",
+      "type": "inferencial",
+      "prompt": "¿Por qué Tomás llegó temprano y desarmó el despertador sin que se lo pidieran?",
+      "options": [
+        "Porque quería demostrar que Anselmo se equivocaba",
+        "Porque su tío lo había obligado",
+        "Porque había aceptado la lección y quería trabajar de otro modo",
+        "Porque el despertador era suyo"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "n7",
+      "type": "inferencial",
+      "prompt": "¿Qué sugiere que Anselmo pusiera en hora su propio reloj al final?",
+      "options": [
+        "Que por fin tenía tiempo libre",
+        "Que reconocía a Tomás como su sucesor",
+        "Que pensaba vender el taller",
+        "Que el reloj se había descompuesto"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "n8",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la idea central del relato?",
+      "options": [
+        "La relojería es un oficio en extinción",
+        "Los jóvenes deben obedecer a los mayores",
+        "La atención paciente lleva a la maestría y la prisa a errores",
+        "Los objetos antiguos tienen más valor que los nuevos"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "n9",
+      "type": "idea-central",
+      "prompt": "¿Qué distinción aprende Tomás que resume su cambio?",
+      "options": [
+        "Entre trabajar y descansar",
+        "Entre mirar y ver",
+        "Entre comprar y reparar",
+        "Entre hablar y callar"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}

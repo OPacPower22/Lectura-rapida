@@ -1,0 +1,117 @@
+{
+  "id": "diag-denso",
+  "lang": "es",
+  "title": "La atención como condición de la libertad",
+  "kind": "denso",
+  "source": "original",
+  "questions": [
+    {
+      "id": "d1",
+      "type": "literal",
+      "prompt": "¿Qué dos sentidos de libertad distingue el texto?",
+      "options": [
+        "Libertad política y libertad económica",
+        "No estar impedido desde fuera y ser capaz de orientarse por razones propias",
+        "Libertad de expresión y libertad de pensamiento",
+        "Libertad individual y libertad colectiva"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "d2",
+      "type": "literal",
+      "prompt": "Según el autor, ¿qué caracteriza a la persona atenta?",
+      "options": [
+        "Que nunca se distrae",
+        "Que controla cada uno de sus pensamientos",
+        "Que advierte que se ha distraído y puede volver",
+        "Que evita leer textos difíciles"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "d3",
+      "type": "literal",
+      "prompt": "¿Qué riesgo señala el texto si la atención se convierte en un deber absoluto?",
+      "options": [
+        "Que se vuelva otra forma de servidumbre",
+        "Que se pierda la memoria",
+        "Que se lea más despacio",
+        "Que desaparezca la libertad negativa"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "d4",
+      "type": "inferencial",
+      "prompt": "¿Por qué la metáfora de la atención como recurso resulta insuficiente para el autor?",
+      "options": [
+        "Porque la atención es ilimitada",
+        "Porque ignora que la atención determina qué nos importa y no solo cuánto rendimos",
+        "Porque la economía no puede aplicarse a la mente",
+        "Porque el dinero es más fácil de administrar"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "d5",
+      "type": "inferencial",
+      "prompt": "¿Por qué dice el autor que, sin atención propia, la deliberación \"llega tarde\"?",
+      "options": [
+        "Porque pensar requiere más tiempo que percibir",
+        "Porque trabaja sobre un material que eligieron los estímulos y no la persona",
+        "Porque la memoria tarda en recuperar la información",
+        "Porque las decisiones siempre se toman de prisa"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "d6",
+      "type": "inferencial",
+      "prompt": "¿Cómo responde el autor a la objeción de que nadie controla todos sus pensamientos?",
+      "options": [
+        "La rechaza por completo",
+        "Acepta que es cierta, pero muestra que su tesis no exige un control total",
+        "Admite que su tesis es falsa",
+        "La ignora y cambia de tema"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "d7",
+      "type": "inferencial",
+      "prompt": "¿Por qué la lectura de un texto difícil sería un ejercicio de libertad?",
+      "options": [
+        "Porque obliga a regresar deliberadamente al texto cada vez que uno se pierde",
+        "Porque enseña datos útiles",
+        "Porque se hace en silencio",
+        "Porque los textos difíciles tratan sobre la libertad"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "d8",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la tesis principal del texto?",
+      "options": [
+        "La atención es un recurso escaso que hay que ahorrar",
+        "La atención es una condición de la libertad entendida como capacidad de orientarse por razones propias",
+        "La lectura es la única forma de ser libre",
+        "La distracción es siempre perjudicial"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "d9",
+      "type": "idea-central",
+      "prompt": "¿Qué distingue, al final, la libertad de la mera disciplina?",
+      "options": [
+        "Que la persona libre puede elegir cuándo concentrarse y cuándo soltar",
+        "Que la disciplina es más eficaz",
+        "Que la libertad no requiere esfuerzo",
+        "Que la disciplina solo se aplica al trabajo"
+      ],
+      "answerIndex": 0
+    }
+  ]
+}
