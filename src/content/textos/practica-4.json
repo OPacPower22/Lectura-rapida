@@ -1,0 +1,118 @@
+{
+  "id": "practica-4",
+  "lang": "es",
+  "title": "El castor, ingeniero de ríos",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "practica",
+  "questions": [
+    {
+      "id": "p4a",
+      "type": "literal",
+      "prompt": "¿Por qué se considera al castor un ingeniero de ecosistemas?",
+      "options": [
+        "Al cambiar el medio crea hábitats para otros",
+        "Porque construye nidos en los árboles altos",
+        "Porque vive solo en ríos de montaña",
+        "Porque come peces"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p4b",
+      "type": "literal",
+      "prompt": "¿A qué se debe el color anaranjado de sus incisivos?",
+      "options": [
+        "A la corteza que come",
+        "A un pigmento de las algas del río",
+        "Al hierro de su esmalte",
+        "A su edad avanzada"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p4c",
+      "type": "literal",
+      "prompt": "¿Cómo son los grupos familiares de castores?",
+      "options": [
+        "Machos solitarios",
+        "Una pareja y sus crías de uno o dos años",
+        "Colonias de cientos de individuos",
+        "Hembras con crías de cualquier edad sin pareja"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p4d",
+      "type": "inferencial",
+      "prompt": "¿Para qué le sirven al castor las aguas profundas del estanque?",
+      "options": [
+        "Para pescar con más facilidad",
+        "Para calentar su madriguera",
+        "Para que las crías aprendan a volar sobre el agua",
+        "Para protegerse y guardar comida en invierno"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p4e",
+      "type": "literal",
+      "prompt": "¿Cómo son las entradas de la madriguera?",
+      "options": [
+        "Están en lo alto de un árbol",
+        "Están en tierra seca, lejos del río",
+        "Están bajo el agua",
+        "Tienen puertas de barro"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p4f",
+      "type": "inferencial",
+      "prompt": "¿Cómo pueden las presas reducir las inundaciones?",
+      "options": [
+        "Frenan el agua durante las crecidas",
+        "Desvían el río hacia el mar directamente",
+        "Absorben toda la lluvia",
+        "Impiden que llueva en la zona y en los valles vecinos"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p4g",
+      "type": "literal",
+      "prompt": "¿Por qué fue cazado el castor durante siglos?",
+      "options": [
+        "Porque destruía puentes",
+        "Por su carne muy apreciada en banquetes reales",
+        "Para proteger los bosques",
+        "Por su piel y por el castóreo"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p4h",
+      "type": "literal",
+      "prompt": "¿Qué ocurrió en Escocia en 2009?",
+      "options": [
+        "Se prohibió su caza por primera vez",
+        "Se liberaron castores en un ensayo",
+        "Desaparecieron los últimos ejemplares conocidos",
+        "Se construyó una presa artificial"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p4i",
+      "type": "idea-central",
+      "prompt": "¿Qué muestra el caso del castor según el texto?",
+      "options": [
+        "Una especie puede influir en todo un ecosistema",
+        "Los roedores son plagas peligrosas",
+        "Las presas humanas son mejores que las del castor",
+        "Hay que cazar castores para controlar los ríos"
+      ],
+      "answerIndex": 0
+    }
+  ]
+}

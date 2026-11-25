@@ -1,0 +1,118 @@
+{
+  "id": "practica-1",
+  "lang": "es",
+  "title": "La biblioteca del faro",
+  "kind": "narrativo",
+  "source": "original",
+  "role": "practica",
+  "questions": [
+    {
+      "id": "p1a",
+      "type": "literal",
+      "prompt": "¿Cómo descubrió Marta la biblioteca?",
+      "options": [
+        "Se la enseñó el anterior guardián del faro",
+        "Buscando unos fusibles en el sótano",
+        "Leyendo un aviso en la puerta principal",
+        "Al refugiarse de una tormenta"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p1b",
+      "type": "literal",
+      "prompt": "¿Qué decía el sello de los libros?",
+      "options": [
+        "Léase despacio",
+        "Propiedad del puerto",
+        "No sacar del faro",
+        "Devuélvase en un mes"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p1c",
+      "type": "literal",
+      "prompt": "¿Qué hacía Marta cada noche después de leer un capítulo?",
+      "options": [
+        "Lo copiaba en el libro de registro",
+        "Lo volvía a leer desde el principio",
+        "Dibujaba un mapa",
+        "Se lo explicaba en voz alta al gato"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p1d",
+      "type": "inferencial",
+      "prompt": "¿Por qué Marta pudo advertir a la barca?",
+      "options": [
+        "El patrón le pidió ayuda por radio",
+        "Vio que el motor de la barca fallaba y humeaba",
+        "Reconoció el remolino de los mapas",
+        "El gato maulló al ver la barca"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p1e",
+      "type": "literal",
+      "prompt": "¿Quién fundó la biblioteca del faro?",
+      "options": [
+        "El alcalde",
+        "Un capitán retirado",
+        "La abuela del patrón",
+        "La propia Marta"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p1f",
+      "type": "inferencial",
+      "prompt": "¿Qué cambió en la forma de leer de Marta tras hablar con el pescador?",
+      "options": [
+        "Leía con propósito y recordaba sin mirar",
+        "Empezó a leer solo novelas de aventuras",
+        "Dejó de leer por las noches",
+        "Leía en voz alta a los pescadores del pueblo cada domingo"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p1g",
+      "type": "inferencial",
+      "prompt": "¿Por qué Marta enseñó la biblioteca antes que las baterías?",
+      "options": [
+        "Porque las baterías ya no funcionaban",
+        "Porque así lo exigía su contrato de trabajo",
+        "Porque la sustituta era bibliotecaria",
+        "La consideraba lo más valioso del faro"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p1h",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la idea central del relato?",
+      "options": [
+        "La vida en un faro es solitaria y aburrida",
+        "Leer con calma y método vuelve útil el saber",
+        "Los pescadores conocen el mar mejor que cualquier libro escrito",
+        "Las bibliotecas deben estar en lugares secos"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p1i",
+      "type": "idea-central",
+      "prompt": "¿Qué representa el sello «Léase despacio» en la historia?",
+      "options": [
+        "Una norma de conservación",
+        "Una broma de la primera guardiana",
+        "Una forma de leer que se transmite",
+        "Un aviso sobre la humedad"
+      ],
+      "answerIndex": 2
+    }
+  ]
+}

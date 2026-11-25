@@ -1,0 +1,118 @@
+{
+  "id": "practica-3",
+  "lang": "es",
+  "title": "Elogio de la lentitud",
+  "kind": "denso",
+  "source": "original",
+  "role": "practica",
+  "questions": [
+    {
+      "id": "p3a",
+      "type": "literal",
+      "prompt": "¿Cuál es la tesis del autor?",
+      "options": [
+        "La velocidad es siempre una virtud indiscutible del lector moderno",
+        "Hay que leer todo despacio",
+        "La prisa es inevitable hoy",
+        "A veces la lentitud es condición de la eficacia"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p3b",
+      "type": "literal",
+      "prompt": "¿Qué distinción propone el autor al principio?",
+      "options": [
+        "Lectores rápidos y lectores lentos que nunca cambian de ritmo",
+        "Actividades valiosas por su resultado o por su proceso",
+        "Textos fáciles y textos difíciles de entender",
+        "Libros útiles e inútiles"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p3c",
+      "type": "inferencial",
+      "prompt": "¿Por qué acelerar un argumento filosófico da «otro resultado»?",
+      "options": [
+        "El proceso es lo que produce la comprensión",
+        "Porque se leen menos páginas en total",
+        "Porque cambia el texto",
+        "Porque el autor escribió para lectores lentos y pacientes"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p3d",
+      "type": "literal",
+      "prompt": "¿Qué dos sentidos de «saber» distingue el autor?",
+      "options": [
+        "Saber leer en voz alta y saber escribir con buena letra",
+        "Memoria corta y memoria larga",
+        "Repetir una conclusión y entender por qué es verdad",
+        "Teoría y práctica"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p3e",
+      "type": "inferencial",
+      "prompt": "¿Por qué ir despacio puede ahorrar tiempo?",
+      "options": [
+        "Porque se leen menos libros al año",
+        "Deja una comprensión que evita relecturas",
+        "Porque los textos lentos son más breves",
+        "Porque se omiten los párrafos difíciles y largos"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p3f",
+      "type": "inferencial",
+      "prompt": "¿Qué ilustran el contrato y el poema?",
+      "options": [
+        "Que los contratos son poemas",
+        "Que los poemas se leen como un correo",
+        "Que firmar rápido siempre conviene a todos",
+        "Que la prisa aplaza o esconde su coste"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p3g",
+      "type": "literal",
+      "prompt": "¿Qué «error simétrico» señala el autor?",
+      "options": [
+        "Convertir la lentitud en un valor absoluto",
+        "Leer siempre deprisa",
+        "Confundir contratos con poemas",
+        "Desconfiar de toda autoridad"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p3h",
+      "type": "inferencial",
+      "prompt": "¿Cómo se forma, según el texto, el juicio sobre la velocidad?",
+      "options": [
+        "Es innato y no se puede cambiar",
+        "Leyendo siempre a la misma velocidad",
+        "Con práctica y atención a la propia comprensión",
+        "Con cursos breves de lectura rápida intensiva"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p3i",
+      "type": "idea-central",
+      "prompt": "¿Qué es, para el autor, la forma más madura de la eficacia?",
+      "options": [
+        "Leer más rápido que los demás",
+        "Saber ir despacio cuando conviene",
+        "Leer todo con la misma calma",
+        "Evitar los textos exigentes y largos"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}

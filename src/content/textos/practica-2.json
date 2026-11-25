@@ -1,0 +1,118 @@
+{
+  "id": "practica-2",
+  "lang": "es",
+  "title": "Dormir para recordar",
+  "kind": "expositivo",
+  "source": "original",
+  "role": "practica",
+  "questions": [
+    {
+      "id": "p2a",
+      "type": "literal",
+      "prompt": "¿Qué encontraron Jenkins y Dallenbach en 1924?",
+      "options": [
+        "Que el sueño borraba lo aprendido",
+        "Se recordaba más tras estar despierto y activo",
+        "Se olvidaba menos tras dormir",
+        "Que las sílabas se aprendían mejor de noche"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p2b",
+      "type": "literal",
+      "prompt": "¿Cuánto dura aproximadamente cada ciclo de sueño?",
+      "options": [
+        "Unos noventa minutos",
+        "Unos veinte minutos",
+        "Unas tres horas seguidas",
+        "Unos cuarenta y cinco minutos"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p2c",
+      "type": "literal",
+      "prompt": "¿A qué fase se atribuye un papel importante en consolidar hechos?",
+      "options": [
+        "Al sueño REM de la madrugada",
+        "Al sueño profundo de ondas lentas",
+        "A la vigilia tranquila antes de dormir",
+        "Al sueño ligero inicial"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p2d",
+      "type": "literal",
+      "prompt": "¿Qué observaron Wilson y McNaughton en ratas?",
+      "options": [
+        "Las ratas soñaban con comida",
+        "Las ratas sin sueño aprendían el laberinto antes",
+        "El hipocampo se apagaba de noche",
+        "Las neuronas repetían el recorrido al dormir"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p2e",
+      "type": "inferencial",
+      "prompt": "¿Por qué es mala estrategia estudiar toda la noche antes de un examen?",
+      "options": [
+        "Sacrifica el proceso que fija lo estudiado",
+        "Porque de noche se lee más despacio",
+        "Porque el examen suele ser por la mañana temprano",
+        "Porque cansa la vista"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p2f",
+      "type": "inferencial",
+      "prompt": "¿Qué sugiere el texto sobre dormir mal antes de estudiar?",
+      "options": [
+        "No afecta al aprendizaje del día siguiente",
+        "Mejora la atención por el exceso de alerta",
+        "Cuesta más registrar recuerdos nuevos",
+        "Solo afecta al estado de ánimo"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p2g",
+      "type": "literal",
+      "prompt": "¿Qué recomiendan las sociedades médicas para la mayoría de los adultos?",
+      "options": [
+        "Exactamente ocho horas cada noche sin excepción",
+        "Al menos siete horas de forma regular",
+        "Cinco horas y una siesta",
+        "Dormir solo cuando haya sueño"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p2h",
+      "type": "inferencial",
+      "prompt": "¿Qué dice el texto de las siestas breves?",
+      "options": [
+        "Son mejores que dormir de noche",
+        "Perjudican siempre la memoria",
+        "No tienen ningún efecto medible en nadie",
+        "Pueden ayudar, pero no sustituyen la noche"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p2i",
+      "type": "idea-central",
+      "prompt": "¿Cuál es la idea central del texto?",
+      "options": [
+        "Dormir completa el trabajo de aprender",
+        "El sueño es un tiempo perdido inevitable",
+        "Las ratas aprenden mejor que las personas",
+        "Conviene estudiar justo antes de acostarse siempre"
+      ],
+      "answerIndex": 0
+    }
+  ]
+}

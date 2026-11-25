@@ -64,6 +64,14 @@ describe('textos de práctica', () => {
     }
   })
 
+  it('ninguna posición concentra más de la mitad de las respuestas de un texto', () => {
+    for (const text of texts) {
+      const counts = [0, 0, 0, 0]
+      for (const q of text.questions) counts[q.answerIndex]++
+      expect(Math.max(...counts) / text.questions.length, text.id).toBeLessThanOrEqual(0.5)
+    }
+  })
+
   it('la opción más corta tampoco delata la respuesta', () => {
     for (const text of texts) {
       const shortestIsCorrect = text.questions.filter((q) => {

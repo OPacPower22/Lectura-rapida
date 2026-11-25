@@ -1,0 +1,118 @@
+{
+  "id": "practica-5",
+  "lang": "es",
+  "title": "Las cartas de la abuela",
+  "kind": "narrativo",
+  "source": "original",
+  "role": "practica",
+  "questions": [
+    {
+      "id": "p5a",
+      "type": "literal",
+      "prompt": "¿Qué creía Julián de su abuela durante años?",
+      "options": [
+        "Que era maestra",
+        "Que no sabía leer",
+        "Que escribía cartas en secreto",
+        "Que no le gustaba que le leyeran nada"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p5b",
+      "type": "literal",
+      "prompt": "¿Qué encontró Julián en el desván?",
+      "options": [
+        "Un libro de cuentos",
+        "Unas cartas sin abrir de la prima lejana",
+        "Un diario de viaje",
+        "Una caja con cuadernos escolares"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p5c",
+      "type": "literal",
+      "prompt": "¿Cuándo aprendió a leer la abuela?",
+      "options": [
+        "Ya casada, en clases nocturnas",
+        "De niña, en la escuela",
+        "Con Julián, aquel verano",
+        "Nunca aprendió"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p5d",
+      "type": "inferencial",
+      "prompt": "¿Por qué la abuela pedía que le leyeran las cartas?",
+      "options": [
+        "Porque no veía bien las letras",
+        "Porque no sabía leer en absoluto ni una palabra",
+        "Le avergonzaba que la vieran tardar",
+        "Porque le gustaba la voz de Julián"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p5e",
+      "type": "literal",
+      "prompt": "¿Qué trato le propuso Julián?",
+      "options": [
+        "Que dejaran de leer cartas",
+        "Que ella le leyera una página a su ritmo",
+        "Que ella escribiera las respuestas",
+        "Que fueran juntos a clases nocturnas del pueblo"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "id": "p5f",
+      "type": "inferencial",
+      "prompt": "¿Qué descubrió Julián al oír leer despacio a su abuela?",
+      "options": [
+        "Detalles que nunca había notado",
+        "Que los cuentos estaban mal escritos",
+        "Que ella inventaba partes de las historias leídas",
+        "Que leer despacio aburre"
+      ],
+      "answerIndex": 0
+    },
+    {
+      "id": "p5g",
+      "type": "literal",
+      "prompt": "¿Qué hacía la abuela con las palabras difíciles?",
+      "options": [
+        "Las saltaba sin leerlas",
+        "Le pedía a Julián que leyera el resto del libro",
+        "Las buscaba en el periódico",
+        "Las anotaba y las repasaba"
+      ],
+      "answerIndex": 3
+    },
+    {
+      "id": "p5h",
+      "type": "inferencial",
+      "prompt": "¿Qué indica que la abuela abriera sola una carta al final del verano?",
+      "options": [
+        "Que estaba enfadada con Julián",
+        "Que la carta era secreta",
+        "Que había ganado confianza al leer",
+        "Que ya no necesitaba gafas para leer de cerca"
+      ],
+      "answerIndex": 2
+    },
+    {
+      "id": "p5i",
+      "type": "idea-central",
+      "prompt": "¿Qué enseñanza transmite el relato?",
+      "options": [
+        "Hay que aprender a leer de niño",
+        "Leer bien no es llegar antes al final",
+        "Las cartas importan más",
+        "Los nietos deben leer a sus abuelos"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}
