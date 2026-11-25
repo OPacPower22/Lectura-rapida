@@ -17,6 +17,7 @@
 | La mente divaga una parte sustancial del tiempo de lectura, y eso reduce la comprensión | Schooler et al. (2004); Smallwood y Schooler (2006) | Sondeos de atención; métrica de divagación |
 | Un entrenamiento de atención plena de 2 semanas redujo la divagación y mejoró la comprensión lectora | Mrazek et al. (2013) | Módulo de atención, con una dosis menor que la del estudio |
 | Lo que uno produce se recuerda mejor que lo que solo lee (efecto de generación) | Slamecka y Graf (1978); Bertsch et al. (2007) | El usuario escribe sus fichas y preguntas |
+| Para comprender un texto sin ayuda conviene conocer en torno al 98 % de sus palabras | Hu y Nation (2000) | Glosario personal; criterio para graduar textos en el futuro módulo de idiomas |
 
 ### Lo que no funciona (y la app no incluye como entrenamiento)
 

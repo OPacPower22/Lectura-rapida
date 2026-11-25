@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const base = '/Lectura-rapida/'
+// Ruta base de publicación. GitHub Pages usa '/Lectura-rapida/'; un empaquetado nativo (fase 7) usará '/'.
+const base = process.env.VITE_BASE ?? '/Lectura-rapida/'
 
 export default defineConfig({
   base,
@@ -14,7 +15,6 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['favicon.svg', 'icons/favicon.ico', 'icons/apple-touch-icon-180x180.png'],
       manifest: {
         name: 'Lectura Rápida',
         short_name: 'Lectura',

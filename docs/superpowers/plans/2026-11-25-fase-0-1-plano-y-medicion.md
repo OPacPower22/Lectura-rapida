@@ -73,6 +73,8 @@ git add -A && git commit -m "docs: fase 0 — documentos en docs/, README y desc
 
 **Files:**
 - Create: proyecto Vite React-TS en la raíz (`package.json`, `vite.config.ts`, `tsconfig*.json`, `index.html`, `src/main.tsx`, `src/index.css`), `eslint.config.js`, `src/test/setup.ts`
+
+> Nota de ejecución: se usó **oxlint** (`.oxlintrc.json`), que trae la plantilla actual de Vite, en lugar de ESLint.
 - Create: `src/i18n/es.ts`, `src/i18n/index.ts`, `src/i18n/index.test.ts`
 - Create: `src/lib/text.ts`, `src/lib/text.test.ts`, `src/lib/metrics.ts`, `src/lib/metrics.test.ts`
 - Create: `.github/workflows/ci.yml`

@@ -1,6 +1,6 @@
 # Lectura Rápida — Atención, comprensión y retención
 
-![Estado](https://img.shields.io/badge/estado-fase_1_completada-blue)
+![Estado](https://img.shields.io/badge/estado-fase_2_completada-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-PWA_React_TypeScript-blueviolet)
 
@@ -12,20 +12,27 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 
 - **Basada en evidencia.** Usa lo que la investigación respalda: propósito y prelectura, lectura activa, práctica de recuerdo, repetición espaciada y entrenamiento de la atención. **No** incluye RSVP, tablas de Schulte ni ejercicios para "eliminar la subvocalización", porque la evidencia indica que no mejoran la comprensión. Detalle y fuentes en [`docs/METODO.md`](docs/METODO.md).
 - **Honesta con las cifras.** No promete una velocidad. Mide la tuya (ppm por tipo de texto), tu comprensión, tu retención y tu atención, y te muestra cómo cambian.
-- **Comprensión primero.** Si la comprensión baja, la velocidad baja. Leer a más de 600 ppm con menos del 60 % de comprensión se registra como *hojeo*, no como lectura.
+- **Comprensión primero.** Leer a más de 600 ppm con menos del 60 % de comprensión se registra como *hojeo*, no como lectura. El marcapasos es opcional y recuerda bajar la velocidad si la comprensión cae.
 
-## Qué incluye (al completar todas las fases)
+## Ya disponible
 
-- **Diagnóstico y re-tests semanales:** ppm, comprensión, retención a 24 h y tasa de divagación.
-- **Programa de 28 días**, de unos 20 minutos diarios, con el método **L.E.E.R.+R.**: Localizar, Enfocar, Extraer, Retener y Repasar ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)).
-- **Lector** de PDF, EPUB, artículos web y texto pegado, con tipografía ajustable, subrayado, notas, glosario y marcapasos opcional.
-- **Sesión de libro físico:** temporizador, páginas, sondeos de atención y notas con número de página.
-- **Atención:** respiración guiada, sondeos durante la lectura y bloques de enfoque.
-- **Retención:** fichas y vocabulario con repetición espaciada (FSRS) y recuerdo libre después de leer.
-- **Cuaderno y proyectos de escritura:** fichas con su fuente, organizadas en un esquema y exportables a **Word (.docx)** y Markdown, con bibliografía.
-- **Progreso:** gráficas, Índice de Lectura Efectiva (ppm × comprensión) y exportación a CSV.
-- **Privacidad:** tus documentos y notas se quedan en tu dispositivo. Puedes respaldarlos y restaurarlos en un archivo.
-- **Preparada para varios idiomas:** más adelante servirá también para aprender idiomas leyendo.
+- **Diagnóstico** de velocidad (ppm), comprensión, Índice de Lectura Efectiva (ppm × comprensión) y divagación de la atención, con textos narrativo, expositivo y denso.
+- **Biblioteca:** importa **PDF** (con reconstrucción de párrafos y número de página), **EPUB**, artículos web (pegando el texto o el HTML, o compartiéndolos desde Android) y texto pegado.
+- **Lector** con tipografía ajustable, capítulos, posición guardada, sesiones cronometradas y la página original del PDF a la vista.
+- **Lectura activa:** subrayado, notas (cita, paráfrasis, idea propia) con su fuente y página, y **glosario personal** con la oración de contexto.
+- **Sesión de libro físico:** temporizador, sondeos de atención con tono suave, notas con número de página y recuerdo libre al terminar.
+- **Atención:** sondeos durante la lectura, botón «Me distraje» y aviso antes de abandonar una lectura en curso.
+- **Marcapasos opcional** (100-800 ppm) que se detiene cuando la app te pregunta por tu atención.
+- **Historial** por tipo de texto, idioma, documento y páginas.
+- **Temas:** automático, claro, sepia y oscuro (nocturno).
+- **Funciona sin conexión** y sin cuenta; tus documentos y notas se quedan en tu dispositivo.
+
+## Próximamente
+
+- **Programa de 28 días**, de unos 20 minutos diarios, con el método **L.E.E.R.+R.**: Localizar, Enfocar, Extraer, Retener y Repasar ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)). Incluirá sesiones guiadas de atención y repetición espaciada (FSRS) de fichas y vocabulario (fase 3).
+- **Proyectos de escritura:** organizar las fichas en el esquema de un trazado, plancha o proyecto y exportarlo a **Word (.docx)** y Markdown, con bibliografía; gráficas de progreso y respaldo en un archivo (fase 4).
+- **Apps en Google Play y App Store** reutilizando esta misma app (fase 7).
+- Más adelante, **aprender idiomas leyendo**.
 
 ## Desarrollo
 
@@ -41,6 +48,7 @@ npm run preview   # vista previa de la compilación
 npm test          # pruebas unitarias (Vitest)
 npm run lint      # lint
 npm run e2e       # pruebas de extremo a extremo (Playwright)
+npm run fixtures  # regenera los PDF/EPUB de prueba de tests/fixtures
 ```
 
 ## Estructura
@@ -53,8 +61,9 @@ src/
                       retencion, cuaderno, progreso, programa, ajustes
   content/            lecciones y textos de práctica (datos)
   i18n/               textos de la interfaz
-  lib/                métricas, formatos, tiempo, almacenamiento
+  lib/                métricas, formatos (PDF, EPUB, web), tiempo, almacenamiento
 tests/e2e/            pruebas de extremo a extremo
+tests/fixtures/       PDF y EPUB de prueba (npm run fixtures)
 ```
 
 ## Roadmap

@@ -13,10 +13,10 @@ La mayoría de las apps de "lectura rápida" solo empujan las palabras por minut
 1. **Atención:** entrenamiento breve y sondeos durante la lectura para notar y reducir la divagación.
 2. **Propósito y prelectura:** leer siempre con una pregunta y un mapa del texto.
 3. **Velocidad flexible:** rápido donde se puede y lento donde hace falta. Hojear y escanear como herramientas, no como "lectura".
-4. **Retención:** recuerdo activo y repetición espaciada de fichas y vocabulario.
-5. **Producción:** fichas con su fuente, organizadas en proyectos de escritura exportables a Word.
+4. **Retención:** recuerdo libre tras leer y glosario personal; repetición espaciada en la fase 3.
+5. **Producción:** notas con su fuente y página; en la fase 4, proyectos de escritura exportables a Word.
 
-Lee PDF, EPUB, artículos web y texto pegado, e incluye sesiones guiadas para libros físicos. Funciona sin conexión y sin cuenta, y tus datos se quedan en tu dispositivo.
+Ya lee y permite anotar PDF, EPUB, artículos web y texto pegado, e incluye sesiones guiadas para libros físicos. Funciona sin conexión y sin cuenta, y tus datos se quedan en tu dispositivo. El programa de 28 días y la repetición espaciada llegan en la fase 3, y los proyectos de escritura exportables a Word en la fase 4.
 
 ### Resultado esperado
 
