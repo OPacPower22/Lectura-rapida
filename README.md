@@ -1,6 +1,6 @@
 # Lectura Rápida — Atención, comprensión y retención
 
-![Estado](https://img.shields.io/badge/estado-fase_1_en_construcción-blue)
+![Estado](https://img.shields.io/badge/estado-fase_1_completada-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-PWA_React_TypeScript-blueviolet)
 

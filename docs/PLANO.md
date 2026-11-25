@@ -13,8 +13,8 @@
 
 | Fase | Contenido | Criterio de salida | Estado |
 | :--- | :--- | :--- | :--- |
-| 0 — Plano | Diseño, plan, documentos, README | Diseño aprobado y plan en el repositorio | En curso |
-| 1 — Esqueleto y medición | PWA, almacenamiento, lector de texto pegado, ppm, cuestionario, sondeos, diagnóstico | Diagnóstico completo sin conexión, con ppm, comprensión y divagación | Pendiente |
+| 0 — Plano | Diseño, plan, documentos, README | Diseño aprobado y plan en el repositorio | Completada |
+| 1 — Esqueleto y medición | PWA, almacenamiento, lector de texto pegado, ppm, cuestionario, sondeos, diagnóstico | Diagnóstico completo sin conexión, con ppm, comprensión y divagación | Completada |
 | 2 — Formatos y lectura activa | PDF, EPUB, web, libro físico, subrayado, notas, glosario, marcapasos | Se lee y anota un PDF, un EPUB, un artículo web y un libro físico | Pendiente |
 | 3 — Programa y retención | 28 lecciones, fichas con FSRS, recuerdo libre, re-test a 24 h, atención, 12 textos | Días 1-7 completables de principio a fin | Pendiente |
 | 4 — Cuaderno, proyectos y progreso | Fuentes, proyectos de escritura, exportación a .docx y Markdown, gráficas, respaldo | Trazado de ejemplo exportado a .docx | Pendiente |
