@@ -5,6 +5,7 @@ import { db } from '../../lib/storage/db'
 import { listGlossary } from '../../lib/storage/glossary'
 import { listCards } from '../../lib/storage/cards'
 import { addDocument, getDocument, savePosition } from '../../lib/storage/library'
+import { saveSession } from '../../lib/storage/repo'
 import { addNote, listNotes } from '../../lib/storage/notes'
 import { listSessions } from '../../lib/storage/repo'
 import { countWords } from '../../lib/text'
@@ -202,5 +203,19 @@ describe('DocumentReaderPage', () => {
     window.getSelection()!.addRange(range)
     fireEvent.mouseUp(p0)
     await waitFor(() => expect(screen.queryByRole('region', { name: t('annot.region') })).not.toBeInTheDocument())
+  })
+
+  it('sugiere la velocidad del marcapasos según tus lecturas con buena comprensión', async () => {
+    for (const [i, at] of [1000, 2000].entries()) {
+      await saveSession({
+        session: { kind: 'practica', textId: `p-${i}`, textKind: 'expositivo', lang: 'es', startedAt: at, endedAt: at, activeMs: 60000, words: 300, wpm: 300 },
+        probes: [],
+        quiz: { textId: `p-${i}`, answers: [], correct: 5, total: 5, deferred: false, at },
+      })
+    }
+    await setup()
+    fireEvent.click(screen.getByRole('button', { name: t('docreader.start') }))
+    fireEvent.click(await screen.findByRole('checkbox', { name: t('pacer.enable') }))
+    expect(await screen.findByDisplayValue('320')).toBeInTheDocument()
   })
 })

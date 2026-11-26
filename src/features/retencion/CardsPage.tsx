@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
 import { currentLang, t } from '../../i18n'
-import type { StoredCard } from '../../lib/storage/db'
+import type { Source, StoredCard } from '../../lib/storage/db'
+import { listSources } from '../../lib/storage/library'
 import { addCard, deleteCard, listCards, updateCard } from '../../lib/storage/cards'
 import { CardForm } from './CardForm'
 
 const dateFormat = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'medium' })
 const field = 'w-full rounded border border-line-strong bg-surface p-2'
 
-function CardItem({ card, onChanged }: { card: StoredCard; onChanged(): void }) {
+function CardItem({ card, sources, onChanged }: { card: StoredCard; sources: Map<number, Source>; onChanged(): void }) {
   const [front, setFront] = useState(card.front)
   const [back, setBack] = useState(card.back)
   const editable = card.kind === 'ficha'
   const dirty = front !== card.front || back !== card.back
+  const valid = !!front.trim() && !!back.trim()
+  const source = card.sourceId !== undefined ? sources.get(card.sourceId) : undefined
   return (
     <li className="space-y-2 rounded-lg border border-line bg-surface p-4">
       <p className="text-xs text-muted">
         {t('cards.due', { date: dateFormat.format(card.fsrs.due) })}
         {!editable && ` · ${t('cards.fromGlossary')}`}
+        {card.sourceId !== undefined && ` · ${source ? source.title : t('cards.sourceDeleted')}`}
       </p>
       <label className="block">
         <span className="sr-only">{t('cards.front')}</span>
@@ -31,8 +35,10 @@ function CardItem({ card, onChanged }: { card: StoredCard; onChanged(): void }) 
           {dirty && (
             <button
               type="button"
-              className="rounded bg-accent px-3 py-1 text-on-accent"
+              className="rounded bg-accent px-3 py-1 text-on-accent disabled:bg-disabled"
+              disabled={!valid}
               onClick={async () => {
+                if (!valid) return
                 await updateCard(card.id!, { front: front.trim(), back: back.trim() })
                 onChanged()
               }}
@@ -59,6 +65,7 @@ function CardItem({ card, onChanged }: { card: StoredCard; onChanged(): void }) 
 
 export function CardsPage() {
   const [cards, setCards] = useState<StoredCard[] | null>(null)
+  const [sources, setSources] = useState<Map<number, Source>>(new Map())
   const [adding, setAdding] = useState(false)
   const load = () =>
     listCards()
@@ -66,6 +73,9 @@ export function CardsPage() {
       .catch(() => setCards([]))
   useEffect(() => {
     load()
+    listSources()
+      .then((list) => setSources(new Map(list.map((s) => [s.id!, s]))))
+      .catch(() => {})
   }, [])
 
   return (
@@ -88,7 +98,7 @@ export function CardsPage() {
       {cards?.length === 0 && <p>{t('cards.empty')}</p>}
       <ul className="space-y-3">
         {cards?.map((c) => (
-          <CardItem key={c.id} card={c} onChanged={load} />
+          <CardItem key={c.id} card={c} sources={sources} onChanged={load} />
         ))}
       </ul>
     </section>

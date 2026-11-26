@@ -25,6 +25,7 @@ import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { ReadingToolbar } from './ReadingToolbar'
 import { RecallStep } from '../diagnostico/RecallStep'
 import { usePacer } from './usePacer'
+import { baseWpm, comprehensionHistory, suggestPacerWpm } from '../../lib/progression'
 import { useReadingSession, type SessionOutcome } from './useReadingSession'
 
 type Phase = 'free' | 'confirm' | 'results'
@@ -38,6 +39,8 @@ function hasLayout(els: (HTMLElement | null)[]): boolean {
 }
 
 const outline = 'rounded border border-line-strong px-3 py-1 hover:bg-hover disabled:opacity-50'
+const DOCUMENT_TEXT_KIND = 'expositivo' as const
+
 const primary = 'rounded-md bg-accent px-4 py-2 font-medium text-on-accent hover:bg-accent-hover'
 
 export function DocumentReaderPage({ now }: { now?: Clock }) {
@@ -81,6 +84,12 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
 
   const [pacerOn, setPacerOn] = useState(false)
   const [pacerWpm, setPacerWpm] = useState(250)
+  // Los documentos no tienen tipo de texto: se toma como referencia el expositivo (spec §5, día 9).
+  useEffect(() => {
+    Promise.all([comprehensionHistory(), baseWpm(DOCUMENT_TEXT_KIND)])
+      .then(([history, base]) => setPacerWpm(suggestPacerWpm(history, DOCUMENT_TEXT_KIND, base)))
+      .catch(() => {})
+  }, [])
   const pacer = usePacer({
     enabled: pacerOn && session.status === 'reading',
     wpm: pacerWpm,

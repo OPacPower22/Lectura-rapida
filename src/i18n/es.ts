@@ -595,4 +595,5 @@ export const es = {
   'program.goal': 'Tu objetivo para este bloque: {goal}',
   'questions.forText': 'Leerás «{title}».',
   'recall.questions': 'Tus preguntas de antes de leer: ¿puedes responderlas?',
+  'cards.sourceDeleted': 'fuente eliminada',
 } as const

@@ -156,44 +156,40 @@ export function ImportPage() {
         </Link>
       </div>
 
-      {tab === 'file' && (
-        <div role="tabpanel" id="panel-file" aria-labelledby="tab-file" className="space-y-2">
-          <label className="block">
-            <span className="mb-1 block font-medium">{t('import.fileLabel')}</span>
-            <input
-              type="file"
-              accept=".pdf,.epub,application/pdf,application/epub+zip"
-              onChange={(e) => onFile(e.target.files?.[0])}
-              className="block"
-            />
-          </label>
-          <p className="text-sm text-muted">{t('import.fileHelp')}</p>
-          {progress && <p role="status">{t('import.progress', progress)}</p>}
-        </div>
-      )}
+      <div role="tabpanel" id="panel-file" aria-labelledby="tab-file" hidden={tab !== 'file'} className="space-y-2">
+        <label className="block">
+          <span className="mb-1 block font-medium">{t('import.fileLabel')}</span>
+          <input
+            type="file"
+            accept=".pdf,.epub,application/pdf,application/epub+zip"
+            onChange={(e) => onFile(e.target.files?.[0])}
+            className="block"
+          />
+        </label>
+        <p className="text-sm text-muted">{t('import.fileHelp')}</p>
+        {progress && <p role="status">{t('import.progress', progress)}</p>}
+      </div>
 
-      {tab === 'paste' && (
-        <div role="tabpanel" id="panel-paste" aria-labelledby="tab-paste" className="space-y-2">
-          {sharedUrl && <p className="rounded border border-line bg-accent-soft p-3 text-accent-ink">{t('import.sharedUrl', { url: sharedUrl })}</p>}
-          <label className="block">
-            <span className="mb-1 block font-medium">{t('import.pasteLabel')}</span>
-            <textarea
-              value={pasted}
-              onPaste={onPaste}
-              onChange={(e) => {
-                setPasted(e.target.value)
-                setPastedHtml(null)
-              }}
-              rows={10}
-              className={field}
-            />
-          </label>
-          <p className="text-sm text-muted">{t('import.pasteHelp')}</p>
-          <button type="button" className={button} disabled={!pasted.trim() && !pastedHtml} onClick={processPaste}>
-            {t('import.process')}
-          </button>
-        </div>
-      )}
+      <div role="tabpanel" id="panel-paste" aria-labelledby="tab-paste" hidden={tab !== 'paste'} className="space-y-2">
+        {sharedUrl && <p className="rounded border border-line bg-accent-soft p-3 text-accent-ink">{t('import.sharedUrl', { url: sharedUrl })}</p>}
+        <label className="block">
+          <span className="mb-1 block font-medium">{t('import.pasteLabel')}</span>
+          <textarea
+            value={pasted}
+            onPaste={onPaste}
+            onChange={(e) => {
+              setPasted(e.target.value)
+              setPastedHtml(null)
+            }}
+            rows={10}
+            className={field}
+          />
+        </label>
+        <p className="text-sm text-muted">{t('import.pasteHelp')}</p>
+        <button type="button" className={button} disabled={!pasted.trim() && !pastedHtml} onClick={processPaste}>
+          {t('import.process')}
+        </button>
+      </div>
 
       {error && (
         <div role="alert" className="space-y-2 rounded border border-err-line bg-err-bg p-3 text-err-ink">

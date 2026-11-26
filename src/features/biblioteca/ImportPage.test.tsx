@@ -98,4 +98,11 @@ describe('ImportPage', () => {
     expect(screen.queryByRole('tab', { name: t('import.tab.physical') })).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: t('import.tab.physical') })).toBeInTheDocument()
   })
+
+  it('cada pestaña controla un panel que existe', async () => {
+    renderAt('/biblioteca/importar')
+    for (const tab of await screen.findAllByRole('tab')) {
+      expect(document.getElementById(tab.getAttribute('aria-controls')!)).not.toBeNull()
+    }
+  })
 })
