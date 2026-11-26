@@ -8,8 +8,9 @@
 - **Método:** [`METODO.md`](METODO.md)
 - **Programa de 28 días:** [`PROGRAMA.md`](PROGRAMA.md)
 - **Plan de las fases 0 y 1:** [`superpowers/plans/2026-11-25-fase-0-1-plano-y-medicion.md`](superpowers/plans/2026-11-25-fase-0-1-plano-y-medicion.md)
-- **Plan de la fase 3:** [`superpowers/plans/2026-11-25-fase-3-programa-y-retencion.md`](superpowers/plans/2026-11-25-fase-3-programa-y-retencion.md)
 - **Plan de la fase 2:** [`superpowers/plans/2026-11-25-fase-2-formatos-y-lectura-activa.md`](superpowers/plans/2026-11-25-fase-2-formatos-y-lectura-activa.md)
+- **Plan de la fase 3:** [`superpowers/plans/2026-11-25-fase-3-programa-y-retencion.md`](superpowers/plans/2026-11-25-fase-3-programa-y-retencion.md)
+- **Plan de la fase 4:** [`superpowers/plans/2026-11-26-fase-4-cuaderno-proyectos-y-progreso.md`](superpowers/plans/2026-11-26-fase-4-cuaderno-proyectos-y-progreso.md)
 
 ## Fases
 
