@@ -14,7 +14,8 @@
     "lint": "oxlint --deny-warnings",
     "e2e": "playwright test --trace off",
     "icons": "pwa-assets-generator",
-    "fixtures": "node scripts/make-fixtures.mjs"
+    "fixtures": "node scripts/make-fixtures.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
@@ -42,6 +43,7 @@
     "@vitejs/plugin-react": "^6.3.0",
     "fake-indexeddb": "^6.2.8",
     "jsdom": "^31.0.1",
+    "lighthouse": "13.6.0",
     "oxlint": "^1.95.0",
     "pdf-lib": "^1.17.1",
     "tailwindcss": "^4.3.5",
