@@ -38,31 +38,35 @@ export function DiagnosticPage({ now, onDone }: { now?: Clock; onDone?(): void }
   }
 
   return (
-    <TextTestFlow
-      key={round}
-      text={diagnosticTextFor(kind)}
-      role="diagnostico"
-      now={now}
-      onDone={onDone}
-      footer={
-        !onDone && (
-          <div className="mx-auto flex max-w-prose flex-wrap gap-3">
-            <Link to="/progreso" className={primaryButton}>
-              {t('diag.toProgress')}
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                setStarted(false)
-                setRound((r) => r + 1)
-              }}
-              className="rounded-md border border-line-strong px-5 py-2"
-            >
-              {t('diag.again')}
-            </button>
-          </div>
-        )
-      }
-    />
+    <div className="space-y-4">
+      {/* Fuera del programa la página conserva su encabezado principal en todos los pasos. */}
+      {!onDone && <h1 className="mx-auto max-w-prose text-3xl font-bold">{t('diag.title')}</h1>}
+      <TextTestFlow
+        key={round}
+        text={diagnosticTextFor(kind)}
+        role="diagnostico"
+        now={now}
+        onDone={onDone}
+        footer={
+          !onDone && (
+            <div className="mx-auto flex max-w-prose flex-wrap gap-3">
+              <Link to="/progreso" className={primaryButton}>
+                {t('diag.toProgress')}
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setStarted(false)
+                  setRound((r) => r + 1)
+                }}
+                className="rounded-md border border-line-strong px-5 py-2"
+              >
+                {t('diag.again')}
+              </button>
+            </div>
+          )
+        }
+      />
+    </div>
   )
 }

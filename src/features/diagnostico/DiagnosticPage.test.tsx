@@ -58,6 +58,23 @@ beforeEach(async () => {
 })
 
 describe('DiagnosticPage', () => {
+  it('mantiene un encabezado principal durante la lectura, el cuestionario y los resultados', async () => {
+    let now = 0
+    render(
+      <MemoryRouter>
+        <DiagnosticPage now={() => now} />
+      </MemoryRouter>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+    expect(screen.getByRole('heading', { level: 1, name: t('diag.title') })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    expect(screen.getByRole('heading', { level: 1, name: t('diag.title') })).toBeInTheDocument()
+    now = 120000
+    fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
+    expect(screen.getByRole('heading', { level: 1, name: t('diag.title') })).toBeInTheDocument()
+  })
+
   it('completa el diagnóstico, muestra resultados y los guarda', async () => {
     await completeFlow()
     expect(await screen.findByText('50 %')).toBeInTheDocument()

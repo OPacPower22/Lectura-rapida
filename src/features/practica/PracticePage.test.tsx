@@ -44,6 +44,7 @@ describe('PracticePage', () => {
     app()
     await userEvent.click(await screen.findByRole('link', { name: new RegExp(text.title) }))
     expect(await screen.findByText(t('diag.purposeLabel'))).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: t('practice.title') })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
     expect(await screen.findByRole('heading', { name: text.title })).toBeInTheDocument()
   })

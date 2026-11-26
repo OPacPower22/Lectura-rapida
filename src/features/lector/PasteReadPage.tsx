@@ -48,24 +48,30 @@ export function PasteReadPage({ now }: { now?: Clock }) {
     }
   }
 
+  const heading = <h1 className="mx-auto max-w-prose text-3xl font-bold">{t('paste.title')}</h1>
+
   if (step === 'reading') {
     return (
-      <ReadingView
-        title={title.trim() || t('paste.untitled')}
-        body={text}
-        lang={lang}
-        probeRange={PROBE_RANGE_PROGRAMA}
-        probesEnabled={prefs.probesInFreeReading}
-        onFinish={finish}
-        now={now}
-        allowPacer
-      />
+      <div className="space-y-4">
+        {heading}
+        <ReadingView
+          title={title.trim() || t('paste.untitled')}
+          body={text}
+          lang={lang}
+          probeRange={PROBE_RANGE_PROGRAMA}
+          probesEnabled={prefs.probesInFreeReading}
+          onFinish={finish}
+          now={now}
+          allowPacer
+        />
+      </div>
     )
   }
 
   if (step === 'results' && results) {
     return (
       <div className="space-y-6">
+        {heading}
         <ResultsCard data={results} saveError={saveError} />
         <RecallStep sessionId={sessionId} lang={lang} compareText={text} />
         <div className="mx-auto max-w-prose">

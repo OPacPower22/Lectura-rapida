@@ -88,6 +88,7 @@ export function PracticeRunPage() {
   if (!info) return null
   return (
     <div className="space-y-4">
+      <h1 className="mx-auto max-w-prose text-3xl font-bold">{t('practice.title')}</h1>
       {(info.reread || info.days.length > 0) && (
         <div role="note" className="mx-auto max-w-prose space-y-1 rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
           {info.reread && <p>{t('practice.rereadWarning')}</p>}
