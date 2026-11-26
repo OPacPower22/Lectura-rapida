@@ -27,5 +27,6 @@ test('el diagnóstico se completa sin conexión tras la primera visita', async (
   await expect(page.getByText(/\d+ ppm/).first()).toBeVisible()
 
   await page.getByRole('link', { name: 'Ver mi progreso' }).click()
-  await expect(page.getByRole('row')).toHaveCount(2)
+  await page.getByRole('tab', { name: 'Historial' }).click()
+  await expect(page.getByRole('tabpanel').getByRole('row')).toHaveCount(2)
 })

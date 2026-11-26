@@ -1,6 +1,6 @@
 # Lectura Rápida — Atención, comprensión y retención
 
-![Estado](https://img.shields.io/badge/estado-fase_3_completada-blue)
+![Estado](https://img.shields.io/badge/estado-fase_4_completada-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-PWA_React_TypeScript-blueviolet)
 
@@ -16,6 +16,12 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 
 ## Ya disponible
 
+- **Tablero de inicio** con botones por actividad (programa del día, prueba de velocidad, lectura de comprensión, repasar, atención, biblioteca, libro físico, glosario, cuaderno, proyectos, progreso) y tus estadísticas guardadas: última velocidad por tipo de texto, comprensión, retención a 24 h y 7 días, divagación, días con práctica en la última semana (sin rachas que castiguen), minutos de la semana y tendencia del ILE.
+- **Proyectos de escritura** (trazado, plancha, proyecto de instrucción, ensayo, trabajo de estudio): tema, tesis y secciones con tus notas y párrafos propios, ordenables con botones. Se exportan a **Word (.docx)** y **Markdown** con citas en el texto (Autor, año, p. N) y **bibliografía en APA** simplificado.
+- **Cuaderno** con todas tus notas (búsqueda sin acentos, filtros por fuente, tipo y etiqueta) y página de **Fuentes** para completar autor, año y editorial.
+- **Progreso** con gráficas semanales (velocidad por tipo de texto, comprensión y divagación, minutos) con tabla de datos, retención diferida y exportación a **CSV**.
+- **Respaldo y restauración** en un archivo .zip (opcionalmente sin los PDF y EPUB), con recordatorio semanal.
+- **Ajustes:** tema, tamaño de letra y espacio entre líneas, sondeos en lecturas libres, sonido y vibración.
 - **Programa de 28 días** (unos 20 min diarios) con el método **L.E.E.R.+R.**: 28 micro-lecciones con sus fuentes, ejercicios (atención, bloque de enfoque, hojeo y escaneo con tiempo, preguntas previas, mapas, explicar en voz alta, fichas, esquema de un trabajo) y lecturas medidas. Re-tests en los días 7, 14, 21 y 28 y modo mantenimiento después ([`docs/PROGRAMA.md`](docs/PROGRAMA.md)).
 - **Retención:** recuerdo libre tras cada lectura medida (con comparación con el texto y autoevaluación), **fichas con repetición espaciada (FSRS)** —también automáticas desde el glosario— y cuestionarios de retención a 24 horas y 7 días.
 - **Atención:** sesiones guiadas de respiración de 2, 5 y 10 minutos con contador de regresos.
@@ -33,8 +39,7 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 
 ## Próximamente
 
-- **Tablero de inicio** con botones por actividad y tus estadísticas guardadas (fase 4).
-- **Proyectos de escritura:** organizar las notas y fichas en el esquema de un trazado, plancha o proyecto y exportarlo a **Word (.docx)** y Markdown, con bibliografía; gráficas de progreso y respaldo en un archivo (fase 4).
+- **Pulido y publicación** (fase 5): accesibilidad y rendimiento auditados.
 - **Apps en Google Play y App Store** reutilizando esta misma app (fase 7).
 - Más adelante, **aprender idiomas leyendo**.
 
@@ -61,8 +66,9 @@ npm run fixtures  # regenera los PDF/EPUB de prueba de tests/fixtures
 docs/                 plano, método, programa, diseño y planes
 src/
   app/                rutas, layout, navegación
-  features/           inicio, diagnostico, lector, sesion-fisica, atencion,
-                      retencion, cuaderno, progreso, programa, ajustes
+  features/           inicio, diagnostico, practica, lector, sesion-fisica,
+                      atencion, retencion, cuaderno, proyectos, progreso,
+                      programa, ajustes
   content/            lecciones y textos de práctica (datos)
   i18n/               textos de la interfaz
   lib/                métricas, formatos (PDF, EPUB, web), tiempo, almacenamiento

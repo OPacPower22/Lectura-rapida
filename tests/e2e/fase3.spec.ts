@@ -19,6 +19,7 @@ async function lesson(page: Page) {
 }
 
 async function attention(page: Page) {
+  await page.getByRole('button', { name: 'Empezar la respiración' }).click()
   await page.getByRole('button', { name: 'Me distraje y volví' }).click()
   await page.clock.fastForward('00:20')
   await page.getByRole('button', { name: 'Terminar antes' }).click()
@@ -49,7 +50,7 @@ test('fase 3: días 1 a 7 completos, recarga a mitad de día y retención a 24 h
 
   // Día 3: recarga a mitad de día conserva la lección
   await lesson(page)
-  await expect(page.getByRole('button', { name: 'Me distraje y volví' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Empezar la respiración' })).toBeVisible()
   await page.reload()
   await expect(page.getByText('✓ Lección')).toBeVisible()
   await attention(page)
@@ -128,5 +129,5 @@ test('fase 3: crear una ficha desde el lector y repasarla', async ({ page }) => 
   await page.getByRole('button', { name: 'Mostrar respuesta' }).click()
   await expect(page.getByText('salto rápido del ojo')).toBeVisible()
   await page.getByRole('button', { name: /Bien/ }).click()
-  await expect(page.getByText('Repaso completado: 1 fichas')).toBeVisible()
+  await expect(page.getByText('Repaso completado: 1 ficha')).toBeVisible()
 })

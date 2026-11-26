@@ -57,7 +57,8 @@ test('fase 2: leer y anotar PDF, EPUB, web y libro físico, también sin conexi�
     await page.getByRole('button', { name: 'Terminé' }).click()
     await page.getByRole('button', { name: 'Confirmar' }).click()
     await expect(page.getByText(/\d+ ppm/).first()).toBeVisible()
-    await page.getByRole('link', { name: 'Progreso' }).click()
+    await page.getByRole('link', { name: 'Progreso', exact: true }).click()
+    await page.getByRole('tab', { name: 'Historial' }).click()
     await expect(page.getByRole('cell', { name: /Documento/ }).first()).toBeVisible()
   })
 
@@ -81,7 +82,7 @@ test('fase 2: leer y anotar PDF, EPUB, web y libro físico, también sin conexi�
     await page.getByRole('button', { name: 'Glosario' }).click()
     await page.getByLabel('Definición').fill('conciencia del propio pensamiento')
     await page.getByRole('button', { name: 'Guardar' }).click()
-    await page.getByRole('link', { name: 'Glosario' }).click()
+    await page.goto('./#/glosario')
     await expect(page.getByText('metacognición', { exact: true })).toBeVisible()
   })
 
@@ -104,7 +105,8 @@ test('fase 2: leer y anotar PDF, EPUB, web y libro físico, también sin conexi�
     await expect(page.getByRole('alert')).toContainText('poco creíble')
     await page.getByRole('button', { name: 'Guardar igual' }).click()
     await expect(page.getByText(/\d+ ppm/).first()).toBeVisible()
-    await page.getByRole('link', { name: 'Progreso' }).click()
+    await page.getByRole('link', { name: 'Progreso', exact: true }).click()
+    await page.getByRole('tab', { name: 'Historial' }).click()
     await expect(page.getByText('págs. 10-11')).toBeVisible()
   })
 
