@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { addCard, countDue } from '../../lib/storage/cards'
 import { db } from '../../lib/storage/db'
 import { ReviewPage } from './ReviewPage'
@@ -23,7 +23,7 @@ describe('ReviewPage', () => {
     expect(await screen.findByText('Pregunta dos')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: t('review.show') }))
     fireEvent.click(screen.getByRole('button', { name: new RegExp(t('review.grade.again')) }))
-    expect(await screen.findByText(t('review.done', { count: 2 }))).toBeInTheDocument()
+    expect(await screen.findByText(tPlural('review.done', 2))).toBeInTheDocument()
     expect(await countDue(new Date())).toBe(0)
   })
 

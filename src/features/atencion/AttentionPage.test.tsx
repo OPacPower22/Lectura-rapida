@@ -23,6 +23,6 @@ describe('AttentionPage', () => {
       const [s] = await listAttentionSessions()
       expect(s).toMatchObject({ plannedMinutes: 2, durationMs: 40000, returns: 1 })
     })
-    expect(await screen.findByText(t('attention.summary', { minutes: 1, returns: 1 }))).toBeInTheDocument()
+    expect(await screen.findByText('Sesión de 1 min · 1 regreso a la respiración')).toBeInTheDocument()
   })
 })

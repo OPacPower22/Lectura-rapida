@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { addSource } from '../../lib/storage/library'
 import { addNote } from '../../lib/storage/notes'
@@ -19,7 +19,7 @@ describe('SourcesPage', () => {
     await addNote({ sourceId: id, kind: 'idea', text: 'y', lang: 'es' })
     render(<MemoryRouter><SourcesPage /></MemoryRouter>)
     const item = await screen.findByRole('article')
-    expect(within(item).getByText(t('sources.notes', { count: 2 }))).toBeInTheDocument()
+    expect(within(item).getByText(tPlural('sources.notes', 2))).toBeInTheDocument()
     await userEvent.type(within(item).getByLabelText(t('sources.year')), '2020')
     await userEvent.type(within(item).getByLabelText(t('sources.author')), 'Pérez, A.')
     await userEvent.click(within(item).getByRole('button', { name: t('sources.save') }))

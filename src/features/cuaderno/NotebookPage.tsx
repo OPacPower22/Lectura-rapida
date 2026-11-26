@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { db, type Note, type NoteKind, type Project, type Source } from '../../lib/storage/db'
 import { listSources } from '../../lib/storage/library'
 import { listAllNotes, listTags, updateNote, type NoteFilter } from '../../lib/storage/notes'
@@ -223,7 +223,7 @@ export function NotebookPage() {
         </label>
       </div>
       {notes !== null && (
-        <p role="status" className="text-sm text-muted">{t('notebook.count', { count: notes.length })}</p>
+        <p role="status" className="text-sm text-muted">{tPlural('notebook.count', notes.length)}</p>
       )}
       {notes !== null && notes.length === 0 && <p>{filtering ? t('notebook.noMatches') : t('notebook.empty')}</p>}
       <div className="space-y-3">

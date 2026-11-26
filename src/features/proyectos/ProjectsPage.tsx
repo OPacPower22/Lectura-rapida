@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { currentLang, t } from '../../i18n'
+import { currentLang, t, tPlural } from '../../i18n'
 import type { Project, ProjectKind } from '../../lib/storage/db'
 import { createProject, listProjects, PROJECT_KINDS } from '../../lib/storage/projects'
 import { input, primaryButton } from '../../ui/styles'
@@ -53,7 +53,7 @@ export function ProjectsPage() {
             <Link to={`/proyectos/${p.id}`} className="block rounded-lg border border-line bg-surface p-4 hover:border-accent">
               <span className="block text-lg font-semibold">{p.title}</span>
               <span className="block text-sm text-muted">
-                {t(`project.kind.${p.kind}`)} · {t('projects.sections', { count: p.sections.length })} · {t('projects.updated', { date: date.format(p.updatedAt) })}
+                {t(`project.kind.${p.kind}`)} · {tPlural('projects.sections', p.sections.length)} · {t('projects.updated', { date: date.format(p.updatedAt) })}
               </span>
             </Link>
           </li>

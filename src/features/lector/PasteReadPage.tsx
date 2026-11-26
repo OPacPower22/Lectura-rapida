@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { usePreferences } from '../../app/preferencesContext'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
 import { saveSession } from '../../lib/storage/repo'
 import type { Clock } from '../../lib/stopwatch'
@@ -121,7 +121,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
           className="w-full rounded border border-line-strong p-2"
         />
       </label>
-      <p className="text-sm text-muted">{t('paste.words', { count: words })}</p>
+      <p className="text-sm text-muted">{tPlural('paste.words', words)}</p>
       <button
         type="button"
         disabled={words === 0}

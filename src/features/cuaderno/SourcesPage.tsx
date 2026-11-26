@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { db, type Source, type SourceType } from '../../lib/storage/db'
 import { listSources, updateSource } from '../../lib/storage/library'
 import { Reference } from '../../ui/Reference'
@@ -67,7 +67,7 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
         </div>
         <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button type="submit" className={primaryButton}>{t('sources.save')}</button>
-          <span className="text-sm text-muted">{t('sources.notes', { count: notes })}</span>
+          <span className="text-sm text-muted">{tPlural('sources.notes', notes)}</span>
           {saved && <span role="status" className="text-sm">{t('sources.saved')}</span>}
         </div>
       </form>

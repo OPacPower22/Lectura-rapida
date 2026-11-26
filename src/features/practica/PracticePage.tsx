@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { textsByRole, getPracticeText } from '../../content'
 import { getDayPlans } from '../../content/programa'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { baseWpm, comprehensionHistory, suggestPacerWpm } from '../../lib/progression'
 import { countWords } from '../../lib/text'
 import { getProgramDays } from '../../lib/storage/program'
@@ -49,7 +49,7 @@ export function PracticePage() {
               <Link to={`/practica/${text.id}`} className="block rounded-lg border border-line bg-surface p-4 hover:border-accent">
                 <span className="block text-lg font-semibold">{text.title}</span>
                 <span className="block text-sm text-muted">
-                  {t(`textKind.${text.kind}`)} · {t('practice.words', { words: countWords(text.body, text.lang) })} ·{' '}
+                  {t(`textKind.${text.kind}`)} · {tPlural('practice.words', countWords(text.body, text.lang))} ·{' '}
                   {!read.has(text.id)
                     ? t('practice.unread')
                     : comp === null || comp === undefined

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { listAttentionSessions, saveAttentionSession } from '../../lib/storage/attention'
 import type { AttentionSession } from '../../lib/storage/db'
 import type { Clock } from '../../lib/stopwatch'
@@ -41,7 +41,7 @@ export function AttentionPage({
       {result ? (
         <div className="space-y-3">
           <p className="text-lg font-medium">
-            {t('attention.summary', { minutes: Math.max(1, Math.round(result.durationMs / 60000)), returns: result.returns })}
+            {tPlural('attention.summary', result.returns, { minutes: Math.max(1, Math.round(result.durationMs / 60000)) })}
           </p>
           {!embedded && (
             <button
@@ -77,7 +77,7 @@ export function AttentionPage({
           <ul className="space-y-1 text-sm">
             {history.slice(0, 10).map((s) => (
               <li key={s.id}>
-                {dateFormat.format(s.startedAt)} · {t('attention.summary', { minutes: Math.max(1, Math.round(s.durationMs / 60000)), returns: s.returns })}
+                {dateFormat.format(s.startedAt)} · {tPlural('attention.summary', s.returns, { minutes: Math.max(1, Math.round(s.durationMs / 60000)) })}
               </li>
             ))}
           </ul>

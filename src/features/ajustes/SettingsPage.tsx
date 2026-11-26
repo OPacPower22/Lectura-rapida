@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { usePreferences } from '../../app/preferencesContext'
-import { currentLang, t } from '../../i18n'
+import { currentLang, t, tPlural } from '../../i18n'
 import { BACKUP_LAST_KEY, exportBackup, inspectBackup, restoreBackup, type RestoreError } from '../../lib/backup'
 import { downloadBlob } from '../../lib/download'
 import type { Preferences } from '../../lib/preferences'
@@ -114,7 +114,7 @@ function DataSection() {
             <p>{t('settings.restore.summary', { date: candidate.exportedAt ? date.format(new Date(candidate.exportedAt)) : '—' })}</p>
             <ul className="list-disc pl-6">
               {SUMMARY_TABLES.map((k) => (
-                <li key={k}>{t(`settings.restore.count.${k}`, { count: candidate.summary[k] ?? 0 })}</li>
+                <li key={k}>{tPlural(`settings.restore.count.${k}`, candidate.summary[k] ?? 0)}</li>
               ))}
             </ul>
             <p className="font-medium">{t('settings.restore.warning')}</p>

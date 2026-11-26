@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import type { StoredCard } from '../../lib/storage/db'
 import { dueCards, gradeCard, nextDue } from '../../lib/storage/cards'
 import { GRADES, previewIntervals, type Grade } from '../../lib/srs'
@@ -76,7 +76,7 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
       {!embedded && <h1 className="text-3xl font-bold">{t('review.title')}</h1>}
       {!current ? (
         <div className="space-y-2">
-          <p className="text-lg">{reviewed > 0 ? t('review.done', { count: reviewed }) : t('review.nothingDue')}</p>
+          <p className="text-lg">{reviewed > 0 ? tPlural('review.done', reviewed) : t('review.nothingDue')}</p>
           {next && <p className="text-muted">{t('review.next', { date: dateFormat.format(next) })}</p>}
           {!embedded && (
             <Link to="/fichas" className="text-accent-ink underline">
