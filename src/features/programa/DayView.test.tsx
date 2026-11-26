@@ -4,6 +4,8 @@ import { getPracticeText } from '../../content'
 import { t } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { completeDay, completeStep, getProgramDays, startDay } from '../../lib/storage/program'
+import * as programRepo from '../../lib/storage/program'
+import { getSetting } from '../../lib/storage/settings'
 import { saveSession } from '../../lib/storage/repo'
 import { DayViewRoute } from './DayView'
 
@@ -37,6 +39,7 @@ describe('DayView', () => {
     await unlockUntil(2)
     renderDay(2)
     fireEvent.click(await screen.findByRole('button', { name: t('program.lessonDone') }))
+    fireEvent.click(await screen.findByRole('button', { name: t('attention.start') }))
     fireEvent.click(await screen.findByRole('button', { name: t('attention.returned') }))
     now = 30000
     await act(async () => {
@@ -64,10 +67,10 @@ describe('DayView', () => {
     await unlockUntil(2)
     const { unmount } = renderDay(2)
     fireEvent.click(await screen.findByRole('button', { name: t('program.lessonDone') }))
-    await screen.findByRole('button', { name: t('attention.returned') })
+    await screen.findByRole('button', { name: t('attention.start') })
     unmount()
     renderDay(2)
-    expect(await screen.findByRole('button', { name: t('attention.returned') })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: t('attention.start') })).toBeInTheDocument()
     expect(screen.getByText(t('program.stepDone', { step: t('program.step.lesson') }))).toBeInTheDocument()
   })
 
@@ -109,5 +112,51 @@ describe('DayView', () => {
     fireEvent.click(await screen.findByRole('link', { name: t('program.next', { day: 3 }) }))
     expect(await screen.findByRole('button', { name: t('program.lessonDone') })).toBeInTheDocument()
     expect(screen.queryByText(t('program.dayCompleted', { day: 3 }))).not.toBeInTheDocument()
+  })
+
+  it('un día que no existe muestra un mensaje', async () => {
+    renderDay(99)
+    expect(await screen.findByText(t('program.invalidDay'))).toBeInTheDocument()
+  })
+
+  it('si no se puede leer el progreso, lo dice', async () => {
+    vi.spyOn(programRepo, 'getProgramDays').mockRejectedValueOnce(new Error('x'))
+    renderDay(1)
+    expect(await screen.findByRole('alert')).toHaveTextContent(t('program.loadError'))
+    vi.restoreAllMocks()
+  })
+
+  it('marca el paso actual y anuncia el avance', async () => {
+    await unlockUntil(2)
+    renderDay(2)
+    const current = await screen.findByText(t('program.stepMinutes', { step: t('program.step.lesson'), minutes: 3 }))
+    expect(current).toHaveAttribute('aria-current', 'step')
+    fireEvent.click(screen.getByRole('button', { name: t('program.lessonDone') }))
+    expect(await screen.findByText(t('program.nowStep', { step: t('program.step.exercise') }))).toBeInTheDocument()
+  })
+
+  it('el día 1 tiene un solo encabezado principal', async () => {
+    renderDay(1)
+    fireEvent.click(await screen.findByRole('button', { name: t('program.lessonDone') }))
+    await screen.findByText(t('diag.intro'))
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
+  })
+
+  it('el objetivo del bloque de enfoque se guarda y se ve durante la lectura del día', async () => {
+    await unlockUntil(4)
+    renderDay(4)
+    fireEvent.click(await screen.findByRole('button', { name: t('program.lessonDone') }))
+    for (const box of await screen.findAllByRole('checkbox')) fireEvent.click(box)
+    fireEvent.change(screen.getByLabelText(t('focus.goal')), { target: { value: 'Entender la idea central' } })
+    fireEvent.click(screen.getByRole('button', { name: t('focus.start') }))
+    expect(await screen.findByText(t('program.goal', { goal: 'Entender la idea central' }))).toBeInTheDocument()
+    expect(await getSetting('program:goal:4')).toBe('Entender la idea central')
+  })
+
+  it('el ejercicio de preguntas muestra el título del texto que se leerá', async () => {
+    await unlockUntil(6)
+    renderDay(6)
+    fireEvent.click(await screen.findByRole('button', { name: t('program.lessonDone') }))
+    expect(await screen.findByText(t('questions.forText', { title: getPracticeText('practica-5')!.title }))).toBeInTheDocument()
   })
 })

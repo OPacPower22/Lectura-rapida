@@ -127,7 +127,7 @@ export function TextTestFlow({ text, role, pacerWpm, now, ownQuestions, onDone, 
   return (
     <div className="space-y-6">
       {results && <ResultsCard data={results} saveError={saveError} purpose={purpose.trim() || undefined} />}
-      <RecallStep sessionId={sessionId} lang={text.lang} compareText={text.body} />
+      <RecallStep sessionId={sessionId} lang={text.lang} compareText={text.body} questions={ownQuestions} />
       {footer}
       {onDone && (
         <div className="mx-auto max-w-prose">

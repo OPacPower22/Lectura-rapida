@@ -18,8 +18,11 @@ export function DayView({ now }: { now?: Clock }) {
   const [progress, setProgress] = useState<ProgramDay | null>(null)
   const [locked, setLocked] = useState<number | null>(null)
   const [completed, setCompleted] = useState(false)
+  const [loadError, setLoadError] = useState(false)
+  const valid = Number.isInteger(day) && day >= 1 && day <= PROGRAM_DAYS
 
   useEffect(() => {
+    if (!valid) return
     let active = true
     ;(async () => {
       const days = await getProgramDays()
@@ -39,11 +42,13 @@ export function DayView({ now }: { now?: Clock }) {
         setProgress(p)
         setCompleted(!!p.completedAt)
       }
-    })().catch(() => {})
+    })().catch(() => {
+      if (active) setLoadError(true)
+    })
     return () => {
       active = false
     }
-  }, [day])
+  }, [day, valid])
 
   const done = useCallback(
     async (step: ProgramStep) => {
@@ -55,7 +60,16 @@ export function DayView({ now }: { now?: Clock }) {
     [day],
   )
 
-  if (!Number.isInteger(day) || day < 1 || day > PROGRAM_DAYS) return null
+  if (!valid || loadError) {
+    return (
+      <section className="mx-auto max-w-prose space-y-3">
+        <p role="alert">{valid ? t('program.loadError') : t('program.invalidDay')}</p>
+        <Link to="/programa" className="text-accent-ink underline">
+          {t('program.toProgram')}
+        </Link>
+      </section>
+    )
+  }
   if (locked !== null) {
     return (
       <section className="mx-auto max-w-prose space-y-3">
@@ -79,6 +93,7 @@ export function DayView({ now }: { now?: Clock }) {
         {steps.map((s) => (
           <li
             key={s}
+            aria-current={s === active && !completed ? 'step' : undefined}
             className={`rounded-full border px-3 py-1 ${progress.steps[s] !== undefined ? 'border-accent text-accent-ink' : s === active ? 'border-accent bg-accent text-on-accent' : 'border-line-strong text-muted'}`}
           >
             {progress.steps[s] !== undefined
@@ -87,6 +102,9 @@ export function DayView({ now }: { now?: Clock }) {
           </li>
         ))}
       </ol>
+      <p aria-live="polite" className="sr-only">
+        {active && !completed ? t('program.nowStep', { step: t(`program.step.${active}`) }) : ''}
+      </p>
 
       {completed || !active ? (
         <div className="space-y-3 rounded-lg border border-accent bg-accent-soft p-4 text-accent-ink">

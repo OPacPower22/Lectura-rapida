@@ -19,7 +19,7 @@ export function DiagnosticPage({ now, onDone }: { now?: Clock; onDone?(): void }
   if (!started) {
     return (
       <section className="mx-auto max-w-prose space-y-4">
-        <h1 className="text-3xl font-bold">{t('diag.title')}</h1>
+        {onDone ? <h2 className="text-2xl font-semibold">{t('diag.title')}</h2> : <h1 className="text-3xl font-bold">{t('diag.title')}</h1>}
         <p>{t('diag.intro')}</p>
         <fieldset className="space-y-1">
           <legend className="mb-1 font-medium">{t('diag.kindLegend')}</legend>

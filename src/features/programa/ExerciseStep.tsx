@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { ExerciseSpec } from '../../content/programa'
+import { setSetting } from '../../lib/storage/settings'
 import type { Clock } from '../../lib/stopwatch'
 import { AttentionPage } from '../atencion/AttentionPage'
 import { FocusChecklist } from '../atencion/FocusChecklist'
@@ -24,7 +25,14 @@ export function ExerciseStep({ day, spec, now, onDone }: { day: number; spec: Ex
         </div>
       )
     case 'enfoque':
-      return <FocusChecklist onReady={() => onDone()} />
+      return (
+        <FocusChecklist
+          onReady={async (goal) => {
+            await setSetting(`program:goal:${day}`, goal).catch(() => {})
+            onDone()
+          }}
+        />
+      )
     case 'hojeo':
       return <Skim textId={spec.textId} seconds={spec.seconds} onDone={onDone} />
     case 'escaneo':

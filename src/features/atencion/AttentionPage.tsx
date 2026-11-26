@@ -21,6 +21,8 @@ export function AttentionPage({
   onDone?(): void
 }) {
   const [minutes, setMinutes] = useState<2 | 5 | 10 | null>(fixed ?? null)
+  // Con duración fija (programa), la sesión empieza cuando el usuario está listo.
+  const [ready, setReady] = useState(!fixed)
   const [result, setResult] = useState<{ durationMs: number; returns: number } | null>(null)
   const [history, setHistory] = useState<AttentionSession[]>([])
 
@@ -56,6 +58,10 @@ export function AttentionPage({
             </button>
           )}
         </div>
+      ) : minutes && !ready ? (
+        <button type="button" onClick={() => setReady(true)} className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover">
+          {t('attention.start')}
+        </button>
       ) : minutes ? (
         <BreathingSession minutes={minutes} now={now} onDone={finish} />
       ) : (

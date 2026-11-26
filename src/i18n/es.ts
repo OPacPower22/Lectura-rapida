@@ -588,4 +588,11 @@ export const es = {
   'interval.month.other': '{count} meses',
   'interval.year.one': '{count} año',
   'interval.year.other': '{count} años',
+  'attention.start': 'Empezar la respiración',
+  'program.invalidDay': 'Ese día no existe en el programa de 28 días.',
+  'program.loadError': 'No se pudo leer tu progreso del programa en este dispositivo.',
+  'program.nowStep': 'Paso actual: {step}',
+  'program.goal': 'Tu objetivo para este bloque: {goal}',
+  'questions.forText': 'Leerás «{title}».',
+  'recall.questions': 'Tus preguntas de antes de leer: ¿puedes responderlas?',
 } as const

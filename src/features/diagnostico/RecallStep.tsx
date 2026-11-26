@@ -11,7 +11,7 @@ type Grade = 'alto' | 'medio' | 'bajo'
  * Recuerdo libre tras leer: escribir sin mirar, comparar con el texto y autoevaluarse
  * (spec §7.6; el resultado se guarda como autoevaluado). Ficha opcional.
  */
-export function RecallStep({ sessionId, lang, compareText }: { sessionId?: number; lang: string; compareText?: string }) {
+export function RecallStep({ sessionId, lang, compareText, questions }: { sessionId?: number; lang: string; compareText?: string; questions?: string[] }) {
   const [recall, setRecall] = useState('')
   const [comparing, setComparing] = useState(false)
   const [grade, setGrade] = useState<Grade | null>(null)
@@ -23,6 +23,16 @@ export function RecallStep({ sessionId, lang, compareText }: { sessionId?: numbe
     <section className="mx-auto max-w-prose space-y-3 rounded-lg border border-line bg-surface p-4">
       <h2 className="text-xl font-semibold">{t('recall.title')}</h2>
       <p className="text-sm text-muted">{t('recall.help')}</p>
+      {questions && questions.length > 0 && (
+        <div className="rounded border border-line bg-accent-soft p-3 text-accent-ink">
+          <p className="font-medium">{t('recall.questions')}</p>
+          <ul className="list-disc pl-6">
+            {questions.map((q, i) => (
+              <li key={i}>{q}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <label className="block">
         <span className="mb-1 block font-medium">{t('recall.label')}</span>
         <textarea value={recall} onChange={(e) => setRecall(e.target.value)} rows={4} readOnly={comparing} className="w-full rounded border border-line-strong bg-surface p-2" />

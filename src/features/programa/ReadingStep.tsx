@@ -82,8 +82,27 @@ function PracticeReading({ day, spec, now, onDone }: { day: number; spec: Extrac
   )
 }
 
+function Goal({ day }: { day: number }) {
+  const [goal, setGoal] = useState<string | undefined>()
+  useEffect(() => {
+    getSetting<string>(`program:goal:${day}`)
+      .then(setGoal)
+      .catch(() => {})
+  }, [day])
+  if (!goal) return null
+  return <p className="mx-auto max-w-prose rounded border border-accent bg-accent-soft p-3 font-medium text-accent-ink">{t('program.goal', { goal })}</p>
+}
+
 export function ReadingStep({ day, progress, spec, now, onDone }: { day: number; progress: ProgramDay; spec: ReadingSpec; now?: Clock; onDone(): void }) {
   if (spec.type === 'diagnostico') return <DiagnosticPage now={now} onDone={onDone} />
-  if (spec.type === 'propio') return <OwnReading progress={progress} spec={spec} onDone={onDone} />
-  return <PracticeReading day={day} spec={spec} now={now} onDone={onDone} />
+  return (
+    <div className="space-y-4">
+      <Goal day={day} />
+      {spec.type === 'propio' ? (
+        <OwnReading progress={progress} spec={spec} onDone={onDone} />
+      ) : (
+        <PracticeReading day={day} spec={spec} now={now} onDone={onDone} />
+      )}
+    </div>
+  )
 }

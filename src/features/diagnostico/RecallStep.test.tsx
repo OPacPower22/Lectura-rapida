@@ -25,4 +25,10 @@ describe('RecallStep', () => {
     expect(await screen.findByText(t('recall.selfAssessed'))).toBeInTheDocument()
     await waitFor(async () => expect(await db.readingSessions.get(id)).toMatchObject({ recall: 'Lo que recuerdo', recallGrade: 'medio' }))
   })
+
+  it('muestra las preguntas propias para comprobar si se pueden responder', () => {
+    render(<RecallStep sessionId={1} lang="es" questions={['¿Qué es la atención?', '¿Cómo se entrena?']} />)
+    expect(screen.getByText(t('recall.questions'))).toBeInTheDocument()
+    expect(screen.getByText('¿Qué es la atención?')).toBeInTheDocument()
+  })
 })
