@@ -33,8 +33,10 @@ export function useReadingSession(opts: {
   rng?: () => number
   /** Pausar al ocultar la pestaña (por defecto). En libro físico es false: se lee fuera de la pantalla. */
   pauseWhenHidden?: boolean
+  /** Sondeos de atención activos (por defecto). Se desactivan en lecturas libres si el usuario lo elige. */
+  probesEnabled?: boolean
 }): ReadingSessionApi {
-  const { probeRange, now, rng, pauseWhenHidden = true } = opts
+  const { probeRange, now, rng, pauseWhenHidden = true, probesEnabled = true } = opts
   const [status, setStatus] = useState<SessionStatus>('idle')
   const [probeOpen, setProbeOpen] = useState(false)
   const stopwatch = useRef<Stopwatch | null>(null)
@@ -66,18 +68,21 @@ export function useReadingSession(opts: {
     probes.current = []
     startedAt.current = Date.now()
     timer.current?.cancel()
-    timer.current = createProbeTimer(
-      probeRange,
-      () => {
-        stopwatch.current?.pause()
-        probeOpenRef.current = true
-        setProbeOpen(true)
-      },
-      rng,
-    )
-    timer.current.start()
+    timer.current = null
+    if (probesEnabled) {
+      timer.current = createProbeTimer(
+        probeRange,
+        () => {
+          stopwatch.current?.pause()
+          probeOpenRef.current = true
+          setProbeOpen(true)
+        },
+        rng,
+      )
+      timer.current.start()
+    }
     setStatus('reading')
-  }, [now, probeRange, rng])
+  }, [now, probeRange, rng, probesEnabled])
 
   const answerProbe = useCallback((answer: Exclude<ProbeAnswer, 'auto'>) => {
     probes.current.push({ at: Date.now(), answer })

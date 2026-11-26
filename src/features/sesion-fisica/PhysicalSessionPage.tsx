@@ -10,6 +10,7 @@ import { addNote } from '../../lib/storage/notes'
 import { saveSession } from '../../lib/storage/repo'
 import { getSetting, setSetting } from '../../lib/storage/settings'
 import type { Clock } from '../../lib/stopwatch'
+import { usePreferences } from '../../app/preferencesContext'
 import { playChime, vibrate } from '../../lib/sound'
 import { keepScreenOn } from '../../lib/wakeLock'
 import { ResultsCard, type ResultsData } from '../diagnostico/ResultsCard'
@@ -65,6 +66,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
   const [saveError, setSaveError] = useState(false)
 
   const [lang, setLang] = useState<Lang>('es')
+  const { prefs } = usePreferences()
   const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now, pauseWhenHidden: false })
   const distractedRef = useRef<HTMLButtonElement>(null)
   useFocusAfterProbe(session.probeOpen, distractedRef)
@@ -75,10 +77,10 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
 
   useEffect(() => {
     if (session.probeOpen) {
-      playChime()
-      vibrate()
+      if (prefs.sound) playChime()
+      if (prefs.vibration) vibrate()
     }
-  }, [session.probeOpen])
+  }, [session.probeOpen, prefs.sound, prefs.vibration])
 
   useEffect(() => {
     if (session.status !== 'reading') return

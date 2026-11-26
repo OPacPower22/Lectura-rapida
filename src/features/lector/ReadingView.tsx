@@ -8,6 +8,7 @@ import { LeaveGuard } from './LeaveGuard'
 import { PacedParagraph, PacerControls, PacerNote } from './Pacer'
 import { ProbeDialog } from './ProbeDialog'
 import { ReadingToolbar } from './ReadingToolbar'
+import { usePreferences } from '../../app/preferencesContext'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { usePacer } from './usePacer'
 import { useReadingSession } from './useReadingSession'
@@ -32,11 +33,15 @@ interface Props {
   allowPacer?: boolean
   /** Velocidad sugerida del marcapasos; si se indica, empieza activado. */
   initialPacerWpm?: number
+  /** Sondeos de atención (por defecto, sí). */
+  probesEnabled?: boolean
 }
 
-export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer, initialPacerWpm }: Props) {
-  const session = useReadingSession({ probeRange, now, rng })
-  const [fontIndex, setFontIndex] = useState(1)
+export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer, initialPacerWpm, probesEnabled = true }: Props) {
+  const session = useReadingSession({ probeRange, now, rng, probesEnabled })
+  const { prefs } = usePreferences()
+  const [fontOverride, setFontOverride] = useState<number | null>(null)
+  const fontIndex = fontOverride ?? prefs.fontIndex
   const distractedButton = useRef<HTMLButtonElement>(null)
   const paragraphs = useMemo(() => splitParagraphs(body), [body])
   useFocusAfterProbe(session.probeOpen, distractedButton)
@@ -81,7 +86,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng,
       <div inert={session.probeOpen || undefined}>
         <ReadingToolbar
           ref={distractedButton}
-          onFont={(d) => setFontIndex((i) => Math.min(FONT_SIZES.length - 1, Math.max(0, i + d)))}
+          onFont={(d) => setFontOverride(Math.min(FONT_SIZES.length - 1, Math.max(0, fontIndex + d)))}
           onDistracted={session.markDistracted}
           onFinish={finish}
           extra={
@@ -89,7 +94,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng,
           }
         />
         {pacerOn && <PacerNote />}
-        <article lang={lang} style={{ fontSize: FONT_SIZES[fontIndex] }} className="space-y-4 leading-relaxed">
+        <article lang={lang} style={{ fontSize: FONT_SIZES[fontIndex] }} className={`space-y-4 ${prefs.lineHeight === 'amplio' ? 'leading-loose' : 'leading-relaxed'}`}>
           <h2 className="text-[1.3em] font-semibold">{title}</h2>
           {paragraphs.map((p, i) =>
             pacer?.paragraph === i ? (

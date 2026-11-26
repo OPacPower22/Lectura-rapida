@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { usePreferences } from '../../app/preferencesContext'
 import { t } from '../../i18n'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
 import { saveSession } from '../../lib/storage/repo'
@@ -12,6 +13,7 @@ import { RecallStep } from '../diagnostico/RecallStep'
 const LANGS = ['es', 'en', 'fr', 'pt', 'it', 'de'] as const
 
 export function PasteReadPage({ now }: { now?: Clock }) {
+  const { prefs } = usePreferences()
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [lang, setLang] = useState<(typeof LANGS)[number]>('es')
@@ -53,6 +55,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
         body={text}
         lang={lang}
         probeRange={PROBE_RANGE_PROGRAMA}
+        probesEnabled={prefs.probesInFreeReading}
         onFinish={finish}
         now={now}
         allowPacer

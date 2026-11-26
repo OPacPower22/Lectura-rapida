@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { t } from '../../i18n'
+import { usePreferences } from '../../app/preferencesContext'
 import { playChime } from '../../lib/sound'
 import type { Clock } from '../../lib/stopwatch'
 
@@ -22,6 +23,12 @@ export function BreathingSession({ minutes, now = () => performance.now(), onDon
   const [returns, setReturns] = useState(0)
   const done = useRef(false)
   const returnsRef = useRef(0)
+  const { prefs } = usePreferences()
+  // El intervalo es único por sesión: lee la preferencia por referencia.
+  const soundRef = useRef(prefs.sound)
+  useEffect(() => {
+    soundRef.current = prefs.sound
+  }, [prefs.sound])
 
   const finish = (durationMs: number) => {
     if (done.current) return
@@ -34,7 +41,7 @@ export function BreathingSession({ minutes, now = () => performance.now(), onDon
       const e = now() - start
       setElapsed(e)
       if (e >= total && !done.current) {
-        playChime()
+        if (soundRef.current) playChime()
         finish(total)
       }
     }, 250)

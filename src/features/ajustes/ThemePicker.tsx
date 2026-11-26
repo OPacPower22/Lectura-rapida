@@ -8,11 +8,18 @@ import {
   saveThemeChoice,
   systemPrefersDark,
   THEME_CHOICES,
+  THEME_EVENT,
   type ThemeChoice,
 } from '../../lib/theme'
 
 export function ThemePicker() {
   const [choice, setChoice] = useState<ThemeChoice>(loadThemeChoice)
+
+  useEffect(() => {
+    const onTheme = (e: Event) => setChoice((e as CustomEvent<ThemeChoice>).detail)
+    window.addEventListener(THEME_EVENT, onTheme)
+    return () => window.removeEventListener(THEME_EVENT, onTheme)
+  }, [])
 
   useEffect(() => {
     applyTheme(resolveTheme(choice, systemPrefersDark()))
@@ -30,8 +37,8 @@ export function ThemePicker() {
         value={choice}
         onChange={(e) => {
           const next = e.target.value as ThemeChoice
-          saveThemeChoice(next)
           setChoice(next)
+          saveThemeChoice(next)
         }}
         className="max-w-[11rem] rounded border border-line-strong bg-surface px-1 py-1 text-ink sm:max-w-none sm:px-2"
       >

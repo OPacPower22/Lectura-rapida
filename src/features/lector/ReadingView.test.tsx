@@ -6,12 +6,13 @@ import { ReadingView, type ReadingOutcome } from './ReadingView'
 
 const body = 'Primer párrafo del texto de prueba.\n\nSegundo párrafo con más palabras.'
 
-function setup() {
+function setup(extra: { probesEnabled?: boolean } = {}) {
   let now = 0
   const clock = { set: (v: number) => (now = v) }
   const onFinish = vi.fn<(o: ReadingOutcome) => void>()
   render(
     <ReadingView
+      {...extra}
       title="Prueba"
       body={body}
       lang="es"
@@ -38,6 +39,15 @@ afterEach(() => {
 })
 
 describe('ReadingView', () => {
+  it('sin sondeos (lectura libre con la preferencia desactivada) no abre el diálogo', () => {
+    setup({ probesEnabled: false })
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    act(() => {
+      vi.advanceTimersByTime(10 * 60_000)
+    })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
   it('oculta el texto hasta pulsar Empezar', () => {
     setup()
     expect(screen.queryByText(/Primer párrafo/)).not.toBeInTheDocument()

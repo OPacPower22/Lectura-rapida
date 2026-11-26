@@ -20,3 +20,4 @@ export const NotebookPage = lazy(() => import('../features/cuaderno/NotebookPage
 export const SourcesPage = lazy(() => import('../features/cuaderno/SourcesPage').then((m) => ({ default: m.SourcesPage })))
 export const ProjectsPage = lazy(() => import('../features/proyectos/ProjectsPage').then((m) => ({ default: m.ProjectsPage })))
 export const ProjectEditor = lazy(() => import('../features/proyectos/ProjectEditor').then((m) => ({ default: m.ProjectEditor })))
+export const SettingsPage = lazy(() => import('../features/ajustes/SettingsPage').then((m) => ({ default: m.SettingsPage })))

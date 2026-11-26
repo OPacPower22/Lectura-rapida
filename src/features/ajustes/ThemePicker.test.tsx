@@ -21,6 +21,13 @@ beforeEach(() => {
 })
 
 describe('ThemePicker', () => {
+  it('dos selectores (cabecera y ajustes) se mantienen sincronizados', () => {
+    render(<><ThemePicker /><ThemePicker /></>)
+    const [a, b] = screen.getAllByRole('combobox')
+    fireEvent.change(a, { target: { value: 'sepia' } })
+    expect(b).toHaveValue('sepia')
+  })
+
   it('cambia a modo oscuro y lo recuerda', () => {
     render(<ThemePicker />)
     fireEvent.change(screen.getByLabelText(t('theme.label')), { target: { value: 'dark' } })

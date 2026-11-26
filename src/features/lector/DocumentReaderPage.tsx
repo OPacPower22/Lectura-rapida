@@ -20,6 +20,7 @@ import { NotesPanel } from './NotesPanel'
 import { PacedParagraph, PacerControls, PacerNote } from './Pacer'
 import { PdfPageDialog } from './PdfPageDialog'
 import { ProbeDialog } from './ProbeDialog'
+import { usePreferences } from '../../app/preferencesContext'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { ReadingToolbar } from './ReadingToolbar'
 import { RecallStep } from '../diagnostico/RecallStep'
@@ -44,7 +45,9 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   const [data, setData] = useState<{ doc: StoredDocument; source: Source } | null | undefined>(undefined)
   const [chapter, setChapter] = useState(0)
   const [notes, setNotes] = useState<Note[]>([])
-  const [fontIndex, setFontIndex] = useState(1)
+  const { prefs } = usePreferences()
+  const [fontOverride, setFontOverride] = useState<number | null>(null)
+  const fontIndex = fontOverride ?? prefs.fontIndex
   const [selection, setSelection] = useState<{ anchor: TextAnchor; quote: string } | null>(null)
   const [crossWarning, setCrossWarning] = useState(false)
   const [phase, setPhase] = useState<Phase>('free')
@@ -56,7 +59,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
   const [sessionId, setSessionId] = useState<number | undefined>()
   const [pdfPage, setPdfPage] = useState<number | null>(null)
 
-  const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now })
+  const session = useReadingSession({ probeRange: PROBE_RANGE_PROGRAMA, now, probesEnabled: prefs.probesInFreeReading })
   const distractedRef = useRef<HTMLButtonElement>(null)
   useFocusAfterProbe(session.probeOpen, distractedRef)
 
@@ -344,7 +347,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
     }
   }
 
-  const changeFont = (d: -1 | 1) => setFontIndex((i) => Math.min(FONT_SIZES.length - 1, Math.max(0, i + d)))
+  const changeFont = (d: -1 | 1) => setFontOverride(Math.min(FONT_SIZES.length - 1, Math.max(0, fontIndex + d)))
   const pdfButton =
     doc.format === 'pdf' && doc.file && current.pages ? (
       <button type="button" className={outline} onClick={() => setPdfPage(pageOf(visible.current) ?? current.pages![0])}>
@@ -471,7 +474,7 @@ export function DocumentReaderPage({ now }: { now?: Clock }) {
           ref={articleRef}
           lang={doc.lang}
           style={{ fontSize: FONT_SIZES[fontIndex] }}
-          className="space-y-4 leading-relaxed"
+          className={`space-y-4 ${prefs.lineHeight === 'amplio' ? 'leading-loose' : 'leading-relaxed'}`}
           onMouseUp={captureSelection}
           onKeyUp={captureSelection}
           onTouchEnd={captureSelection}

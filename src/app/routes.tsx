@@ -24,6 +24,7 @@ export const routes: RouteObject[] = [
       { path: 'fuentes', element: deferred(<Pages.SourcesPage />) },
       { path: 'proyectos', element: deferred(<Pages.ProjectsPage />) },
       { path: 'proyectos/:id', element: deferred(<Pages.ProjectEditor />) },
+      { path: 'ajustes', element: deferred(<Pages.SettingsPage />) },
       { path: 'progreso', element: deferred(<Pages.ProgressPage />) },
       { path: 'glosario', element: deferred(<Pages.GlossaryPage />) },
       { path: 'repasar', element: deferred(<Pages.ReviewPage />) },

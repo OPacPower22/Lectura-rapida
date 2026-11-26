@@ -26,12 +26,16 @@ export function loadThemeChoice(): ThemeChoice {
   }
 }
 
+/** Evento que avisa a todos los selectores de tema abiertos (cabecera y ajustes). */
+export const THEME_EVENT = 'lectura-rapida:theme'
+
 export function saveThemeChoice(choice: ThemeChoice): void {
   try {
     localStorage.setItem(STORAGE_KEY, choice)
   } catch {
     // Sin almacenamiento: el tema se aplica solo en esta visita.
   }
+  window.dispatchEvent(new CustomEvent<ThemeChoice>(THEME_EVENT, { detail: choice }))
 }
 
 export function applyTheme(theme: ResolvedTheme): void {

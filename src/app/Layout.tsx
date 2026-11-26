@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { countDue } from '../lib/storage/cards'
 import { ThemePicker } from '../features/ajustes/ThemePicker'
 import { t } from '../i18n'
+import { PreferencesProvider } from './PreferencesProvider'
 
 const items = [
   { to: '/', label: 'nav.home', end: true },
@@ -11,6 +12,7 @@ const items = [
   { to: '/repasar', label: 'nav.review', end: false },
   { to: '/cuaderno', label: 'nav.notebook', end: false },
   { to: '/progreso', label: 'nav.progress', end: false },
+  { to: '/ajustes', label: 'nav.settings', end: false },
 ] as const
 
 /** Publica la altura de la cabecera fija en --header-h para que las barras del lector se sitúen debajo. */
@@ -59,7 +61,9 @@ export function Layout() {
         </div>
       </header>
       <main className="px-4 py-8">
-        <Outlet />
+        <PreferencesProvider>
+          <Outlet />
+        </PreferencesProvider>
       </main>
     </div>
   )
