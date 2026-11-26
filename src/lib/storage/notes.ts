@@ -35,7 +35,7 @@ export async function deleteNote(id: number): Promise<void> {
 
 /** Minúsculas y sin diacríticos, para buscar sin distinguir acentos. */
 export function fold(s: string): string {
-  return s.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase('es')
+  return s.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase()
 }
 
 export interface NoteFilter {

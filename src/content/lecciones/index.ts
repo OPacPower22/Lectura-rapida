@@ -5,6 +5,8 @@ export interface Lesson {
   title: string
   body: string
   minutes: number
+  /** Idioma del contenido de la lección. */
+  lang: string
 }
 
 const lessons: Lesson[] = Object.entries(files)
@@ -13,7 +15,7 @@ const lessons: Lesson[] = Object.entries(files)
     const text = raw.replace(/\r\n?/g, '\n').trim()
     const title = text.match(/^# (.+)$/m)?.[1].trim() ?? `Día ${day}`
     const body = text.replace(/^# .+\n+/, '')
-    return { day, title, body, minutes: 3 }
+    return { day, title, body, minutes: 3, lang: 'es' }
   })
   .sort((a, b) => a.day - b.day)
 

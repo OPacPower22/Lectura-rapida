@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { t } from '../../../i18n'
+import { currentLang, t } from '../../../i18n'
 import { addCard } from '../../../lib/storage/cards'
 import { CardForm } from '../../retencion/CardForm'
 import { DoneButton } from './common'
@@ -14,7 +14,7 @@ export function MakeCards({ count, onDone }: { count: number; onDone(): void }) 
       <CardForm
         key={made}
         onSave={async (front, back) => {
-          await addCard({ kind: 'ficha', front, back, lang: 'es' })
+          await addCard({ kind: 'ficha', front, back, lang: currentLang() })
           setMade((m) => m + 1)
         }}
       />

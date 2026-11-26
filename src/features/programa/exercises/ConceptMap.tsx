@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { t } from '../../../i18n'
+import { currentLang, t } from '../../../i18n'
 import { addNote } from '../../../lib/storage/notes'
 import { programSourceId } from '../../../lib/storage/programSource'
 import { DoneButton, field } from './common'
@@ -32,7 +32,7 @@ export function ConceptMap({ onDone }: { onDone(): void }) {
             sourceId,
             kind: 'idea',
             text: `${t('map.central')}: ${central.trim()}\n${t('map.arguments')}: ${args.trim()}\n${t('map.examples')}: ${examples.trim()}`,
-            lang: 'es',
+            lang: currentLang(),
           })
           onDone()
         }}

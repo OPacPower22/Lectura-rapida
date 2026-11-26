@@ -1,3 +1,5 @@
+import { currentLang } from '../../../i18n'
+
 /** Máximo "redondo" del eje y y sus marcas (4 intervalos). */
 export function niceScale(max: number): { max: number; ticks: number[] } {
   if (!(max > 0)) return { max: 1, ticks: [0, 1] }
@@ -20,7 +22,7 @@ export function labeledIndices(n: number): Set<number> {
   return out
 }
 
-export const fmt = (v: number) => new Intl.NumberFormat('es').format(Math.round(v))
+export const fmt = (v: number) => new Intl.NumberFormat(currentLang()).format(Math.round(v))
 
 export const W = 640
 export const H = 240

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { t } from '../../i18n'
+import { currentLang, t } from '../../i18n'
 import { comprehension, ile, mindWanderingRate } from '../../lib/metrics'
 import { listSessions, type SessionSummary } from '../../lib/storage/repo'
 
 const DASH = '—'
 const pct = (v: number) => t('results.percent', { value: Math.round(v * 100) })
-const dateFormat = new Intl.DateTimeFormat('es', { dateStyle: 'medium', timeStyle: 'short' })
+const dateFormat = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'medium', timeStyle: 'short' })
 
 function Row({ summary }: { summary: SessionSummary }) {
   const { session, quiz, probes } = summary

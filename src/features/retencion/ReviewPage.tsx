@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { t, tPlural } from '../../i18n'
+import { currentLang, t, tPlural } from '../../i18n'
 import type { StoredCard } from '../../lib/storage/db'
 import { dueCards, gradeCard, nextDue } from '../../lib/storage/cards'
 import { GRADES, previewIntervals, type Grade } from '../../lib/srs'
 
-const dateFormat = new Intl.DateTimeFormat('es', { dateStyle: 'medium', timeStyle: 'short' })
+const dateFormat = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'medium', timeStyle: 'short' })
 
 /** Repaso de fichas vencidas. `embedded` lo usa el programa (sin título ni enlaces). */
 export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFinished?(count: number): void }) {

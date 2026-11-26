@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { t, tPlural } from '../../i18n'
+import { currentLang, t, tPlural } from '../../i18n'
 import { listAttentionSessions, saveAttentionSession } from '../../lib/storage/attention'
 import type { AttentionSession } from '../../lib/storage/db'
 import type { Clock } from '../../lib/stopwatch'
 import { BreathingSession } from './BreathingSession'
 
-const dateFormat = new Intl.DateTimeFormat('es', { dateStyle: 'medium', timeStyle: 'short' })
+const dateFormat = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'medium', timeStyle: 'short' })
 const OPTIONS = [2, 5, 10] as const
 
 /** Módulo de atención; `embedded` + `minutes` lo usa el programa. */

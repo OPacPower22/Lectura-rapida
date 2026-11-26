@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { t } from '../../i18n'
+import { currentLang, t } from '../../i18n'
 import type { StoredCard } from '../../lib/storage/db'
 import { addCard, deleteCard, listCards, updateCard } from '../../lib/storage/cards'
 import { CardForm } from './CardForm'
 
-const dateFormat = new Intl.DateTimeFormat('es', { dateStyle: 'medium' })
+const dateFormat = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'medium' })
 const field = 'w-full rounded border border-line-strong bg-surface p-2'
 
 function CardItem({ card, onChanged }: { card: StoredCard; onChanged(): void }) {
@@ -74,7 +74,7 @@ export function CardsPage() {
       {adding ? (
         <CardForm
           onSave={async (front, back) => {
-            await addCard({ kind: 'ficha', front, back, lang: 'es' })
+            await addCard({ kind: 'ficha', front, back, lang: currentLang() })
             setAdding(false)
             load()
           }}

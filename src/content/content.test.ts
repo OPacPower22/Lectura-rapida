@@ -100,3 +100,10 @@ describe('textos de práctica', () => {
     expect(getPracticeText('no-existe')).toBeUndefined()
   })
 })
+
+describe('lecciones', () => {
+  it('cada lección declara su idioma', async () => {
+    const { getLessons } = await import('./lecciones')
+    expect(getLessons().every((l) => l.lang === 'es')).toBe(true)
+  })
+})

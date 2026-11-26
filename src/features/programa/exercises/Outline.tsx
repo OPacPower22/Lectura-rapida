@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { t } from '../../../i18n'
+import { currentLang, t } from '../../../i18n'
 import { addNote } from '../../../lib/storage/notes'
 import { programSourceId } from '../../../lib/storage/programSource'
 import { DoneButton, field } from './common'
@@ -40,7 +40,7 @@ export function Outline({ onDone }: { onDone(): void }) {
             `${t('outline.thesis')}: ${thesis.trim()}`,
             ...sections.filter((s) => s.trim()).map((s, i) => `${i + 1}. ${s.trim()}`),
           ].join('\n')
-          await addNote({ sourceId, kind: 'idea', text: body, lang: 'es' })
+          await addNote({ sourceId, kind: 'idea', text: body, lang: currentLang() })
           onDone()
         }}
       />
