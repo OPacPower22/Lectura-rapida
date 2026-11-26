@@ -22,6 +22,8 @@ export const routes: RouteObject[] = [
       { path: 'practica/:textId', element: deferred(<Pages.PracticeRunPage />) },
       { path: 'cuaderno', element: deferred(<Pages.NotebookPage />) },
       { path: 'fuentes', element: deferred(<Pages.SourcesPage />) },
+      { path: 'proyectos', element: deferred(<Pages.ProjectsPage />) },
+      { path: 'proyectos/:id', element: deferred(<Pages.ProjectEditor />) },
       { path: 'progreso', element: deferred(<Pages.ProgressPage />) },
       { path: 'glosario', element: deferred(<Pages.GlossaryPage />) },
       { path: 'repasar', element: deferred(<Pages.ReviewPage />) },

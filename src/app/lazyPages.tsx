@@ -18,3 +18,5 @@ export const PracticePage = lazy(() => import('../features/practica/PracticePage
 export const PracticeRunPage = lazy(() => import('../features/practica/PracticePage').then((m) => ({ default: m.PracticeRunPage })))
 export const NotebookPage = lazy(() => import('../features/cuaderno/NotebookPage').then((m) => ({ default: m.NotebookPage })))
 export const SourcesPage = lazy(() => import('../features/cuaderno/SourcesPage').then((m) => ({ default: m.SourcesPage })))
+export const ProjectsPage = lazy(() => import('../features/proyectos/ProjectsPage').then((m) => ({ default: m.ProjectsPage })))
+export const ProjectEditor = lazy(() => import('../features/proyectos/ProjectEditor').then((m) => ({ default: m.ProjectEditor })))
