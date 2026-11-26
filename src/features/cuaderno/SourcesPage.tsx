@@ -11,6 +11,7 @@ const TYPES: SourceType[] = ['libro', 'articulo', 'web', 'documento']
 function SourceForm({ source, notes }: { source: Source; notes: number }) {
   const [draft, setDraft] = useState(source)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState<'title' | 'save' | null>(null)
   const [stored, setStored] = useState(source)
   const field = (key: 'title' | 'author' | 'year' | 'publisher' | 'url', label: string, type = 'text') => (
     <label className="block">
@@ -33,6 +34,11 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
         className="grid gap-3 sm:grid-cols-2"
         onSubmit={async (e) => {
           e.preventDefault()
+          setSaved(false)
+          if (!draft.title.trim()) {
+            setError('title')
+            return
+          }
           const trim = (v?: string) => v?.trim() || undefined
           const patch = {
             type: draft.type,
@@ -42,7 +48,13 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
             publisher: trim(draft.publisher),
             url: trim(draft.url),
           }
-          await updateSource(source.id!, patch)
+          try {
+            await updateSource(source.id!, patch)
+          } catch {
+            setError('save')
+            return
+          }
+          setError(null)
           setStored({ ...stored, ...patch })
           setSaved(true)
         }}
@@ -69,6 +81,11 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
           <button type="submit" className={primaryButton}>{t('sources.save')}</button>
           <span className="text-sm text-muted">{tPlural('sources.notes', notes)}</span>
           {saved && <span role="status" className="text-sm">{t('sources.saved')}</span>}
+          {error && (
+            <span role="alert" className="text-sm text-err-ink">
+              {t(error === 'title' ? 'sources.titleRequired' : 'sources.saveError')}
+            </span>
+          )}
         </div>
       </form>
     </article>

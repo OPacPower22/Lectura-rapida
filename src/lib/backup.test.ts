@@ -102,7 +102,7 @@ describe('respaldo', () => {
     // Dos notas con el mismo id: la segunda inserción falla dentro de la transacción.
     zip.file('datos.json', JSON.stringify({
       formato: BACKUP_FORMAT, version: 1, esquema: 4, exportadoEl: '2026-01-01T00:00:00Z',
-      tablas: { notes: [{ id: 1, text: 'a' }, { id: 1, text: 'b' }] },
+      tablas: { notes: [{ id: 1, sourceId: 1, kind: 'idea', text: 'a', lang: 'es', createdAt: 1 }, { id: 1, sourceId: 1, kind: 'idea', text: 'b', lang: 'es', createdAt: 1 }] },
     }))
     const file = await zip.generateAsync({ type: 'blob' })
     await expect(restoreBackup(file)).rejects.toThrow()
@@ -135,6 +135,36 @@ describe('respaldo dañado o grande', () => {
     const zip = await JSZip.loadAsync(await (await exportBackup({ includeFiles: true })).arrayBuffer())
     const entry = Object.values(zip.files).find((f) => f.name.startsWith('archivos/') && !f.dir)!
     expect((entry as unknown as { _data: { compression: { magic: string } } })._data.compression.magic).toBe('\x00\x00')
+  })
+})
+
+describe('restauración: fecha, archivos y validación', () => {
+  it('tras restaurar, la fecha del último respaldo es la del respaldo', async () => {
+    await seed()
+    const blob = await exportBackup({ includeFiles: false })
+    const info = await inspectBackup(blob)
+    await db.delete()
+    await db.open()
+    await restoreBackup(blob)
+    expect(info.ok && (await getSetting('backup:lastAt'))).toBe(info.ok && Date.parse(info.exportedAt))
+  })
+
+  it('inspectBackup indica cuántos documentos vienen sin archivo', async () => {
+    await seed()
+    const info = await inspectBackup(await exportBackup({ includeFiles: false }))
+    expect(info.ok && info.documentsWithoutFile).toBe(1)
+    const full = await inspectBackup(await exportBackup({ includeFiles: true }))
+    expect(full.ok && full.documentsWithoutFile).toBe(0)
+  })
+
+  it.each([
+    ['una lectura sin datos numéricos', { readingSessions: [{ kind: 'libre' }] }],
+    ['una nota sin texto ni fuente', { notes: [{ kind: 'idea' }] }],
+    ['una ficha sin fecha de repaso', { cards: [{ front: 'f', back: 'b', fsrs: {} }] }],
+    ['un proyecto sin secciones', { projects: [{ title: 'P' }] }],
+  ])('rechaza como dañado un respaldo con %s', async (_name, tablas) => {
+    const file = await zipWith({ 'datos.json': JSON.stringify({ formato: BACKUP_FORMAT, version: 1, esquema: 4, tablas }) })
+    expect(await inspectBackup(file)).toEqual({ ok: false, error: 'corrupt' })
   })
 })
 

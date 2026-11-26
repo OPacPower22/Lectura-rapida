@@ -606,4 +606,11 @@ export const es = {
   'project.movedToSection': 'Elemento movido al final de «{title}».',
   'a11y.skip': 'Saltar al contenido',
   'a11y.pageLoaded': 'Página: {title}',
+  'settings.restore.noFiles.one': 'Este respaldo no incluye el archivo de {count} documento: se conserva su texto, pero no la vista de la página original.',
+  'settings.restore.noFiles.other': 'Este respaldo no incluye los archivos de {count} documentos: se conserva su texto, pero no la vista de la página original.',
+  'notebook.saveError': 'No se pudo guardar la nota. Inténtalo de nuevo.',
+  'sources.titleRequired': 'La fuente necesita un título.',
+  'sources.saveError': 'No se pudo guardar la fuente. Inténtalo de nuevo.',
+  'project.deleteError': 'No se pudo borrar el proyecto. Inténtalo de nuevo.',
+  'project.confirmRemoveParagraph': '¿Quitar este párrafo propio? Su texto se perderá.',
 } as const

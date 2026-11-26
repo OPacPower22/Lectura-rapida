@@ -84,4 +84,16 @@ describe('NotebookPage', () => {
     const noteId = (await db.notes.toArray()).find((n) => n.text === 'Resumen del artículo')!.id
     expect((await getProject(projectId))!.sections[0].items).toMatchObject([{ type: 'note', noteId }])
   })
+
+  it('si no se puede guardar la nota editada, lo dice', async () => {
+    await seed()
+    const notes = await import('../../lib/storage/notes')
+    vi.spyOn(notes, 'updateNote').mockRejectedValueOnce(new Error('x'))
+    show()
+    const note = (await screen.findAllByRole('article')).find((n) => n.textContent?.includes('Conectar'))!
+    await userEvent.click(within(note).getByRole('button', { name: t('notes.edit') }))
+    await userEvent.click(within(note).getByRole('button', { name: t('notebook.save') }))
+    expect(await within(note).findByRole('alert')).toHaveTextContent(t('notebook.saveError'))
+    vi.restoreAllMocks()
+  })
 })

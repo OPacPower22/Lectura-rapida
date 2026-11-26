@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { t } from '../../i18n'
@@ -141,5 +141,38 @@ describe('ProjectEditor', () => {
     expect(document.activeElement).toBe(up2)
     expect(up2.closest('li')).toHaveTextContent('Primera cita')
     expect(screen.getByText(t('project.movedTo', { n: 2 }))).toBeInTheDocument()
+  })
+
+  it('al ocultar o cerrar la página guarda lo pendiente sin esperar la pausa', async () => {
+    const { id } = await seed()
+    open(id)
+    const thesis = await screen.findByLabelText(t('project.thesis'))
+    fireEvent.change(thesis, { target: { value: 'Tesis urgente' } })
+    window.dispatchEvent(new Event('pagehide'))
+    await waitFor(async () => expect((await saved(id)).thesis).toBe('Tesis urgente'), { timeout: 500 })
+  })
+
+  it('quitar un párrafo propio con texto pide confirmación', async () => {
+    const { id } = await seed()
+    const p = (await getProject(id))!
+    p.sections[0].items.push({ id: 'x', type: 'text', text: 'Mi párrafo valioso' })
+    await db.projects.put(p)
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    open(id)
+    await userEvent.click(await screen.findByRole('button', { name: t('project.itemRemoveN', { n: 1 }) }))
+    expect(confirm).toHaveBeenCalled()
+    expect(screen.getByDisplayValue('Mi párrafo valioso')).toBeInTheDocument()
+    confirm.mockRestore()
+  })
+
+  it('si no se puede borrar el proyecto, lo dice', async () => {
+    const { id } = await seed()
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const projects = await import('../../lib/storage/projects')
+    vi.spyOn(projects, 'deleteProject').mockRejectedValueOnce(new Error('x'))
+    open(id)
+    await userEvent.click(await screen.findByRole('button', { name: t('project.delete') }))
+    expect(await screen.findByRole('alert')).toHaveTextContent(t('project.deleteError'))
+    vi.restoreAllMocks()
   })
 })

@@ -201,7 +201,15 @@ function SectionEditor({
                     </button>
                   </>
                 )}
-                <button type="button" aria-label={t('project.itemRemoveN', { n })} className={smallButton} onClick={() => update(removeItem(project, section.id, i))}>
+                <button
+                  type="button"
+                  aria-label={t('project.itemRemoveN', { n })}
+                  className={smallButton}
+                  onClick={() => {
+                    if (item.type === 'text' && item.text.trim() && !window.confirm(t('project.confirmRemoveParagraph'))) return
+                    update(removeItem(project, section.id, i))
+                  }}
+                >
                   {t('project.itemRemove')}
                 </button>
               </div>
@@ -238,6 +246,7 @@ export function ProjectEditor() {
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [exporting, setExporting] = useState<'idle' | 'working' | 'error'>('idle')
   const [announce, setAnnounce] = useState('')
+  const [deleteError, setDeleteError] = useState(false)
   const focusItem = useRef<string | null>(null)
   const focusAction = useRef<string | undefined>(undefined)
 
@@ -267,14 +276,26 @@ export function ProjectEditor() {
       .catch(() => setProject(null))
   }, [id])
 
-  // Al salir, guarda lo pendiente sin esperar la pausa.
-  useEffect(
-    () => () => {
+  // Al salir de la página, ocultar la pestaña o cerrarla, guarda lo pendiente sin esperar la pausa.
+  useEffect(() => {
+    const flush = () => {
       clearTimeout(timer.current)
-      if (pending.current) void saveProject(pending.current)
-    },
-    [],
-  )
+      const toSave = pending.current
+      if (!toSave) return
+      pending.current = null
+      void saveProject(toSave).catch(() => {})
+    }
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') flush()
+    }
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      window.removeEventListener('pagehide', flush)
+      document.removeEventListener('visibilitychange', onVisibility)
+      flush()
+    }
+  }, [])
 
   function update(next: Project) {
     setProject(next)
@@ -391,13 +412,22 @@ export function ProjectEditor() {
             if (!window.confirm(t('project.confirmDelete', { title: project.title }))) return
             clearTimeout(timer.current)
             pending.current = null
-            await deleteProject(project.id!)
-            navigate('/proyectos')
+            try {
+              await deleteProject(project.id!)
+              navigate('/proyectos')
+            } catch {
+              setDeleteError(true)
+            }
           }}
         >
           {t('project.delete')}
         </button>
       </div>
+      {deleteError && (
+        <p role="alert" className="text-err-ink">
+          {t('project.deleteError')}
+        </p>
+      )}
     </div>
   )
 }

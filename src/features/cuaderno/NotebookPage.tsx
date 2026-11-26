@@ -21,12 +21,18 @@ function EditForm({ note, onDone }: { note: Note; onDone(changed: boolean): void
   const [text, setText] = useState(note.text)
   const [kind, setKind] = useState<NoteKind>(note.kind)
   const [tags, setTags] = useState((note.tags ?? []).join(', '))
+  const [error, setError] = useState(false)
   return (
     <form
       className="mt-2 space-y-2"
       onSubmit={async (e) => {
         e.preventDefault()
-        await updateNote(note.id!, { text: text.trim(), kind, tags: parseTags(tags) })
+        try {
+          await updateNote(note.id!, { text: text.trim(), kind, tags: parseTags(tags) })
+        } catch {
+          setError(true)
+          return
+        }
         onDone(true)
       }}
     >
@@ -53,6 +59,7 @@ function EditForm({ note, onDone }: { note: Note; onDone(changed: boolean): void
         <button type="submit" className={primaryButton}>{t('notebook.save')}</button>
         <button type="button" className={outlineButton} onClick={() => onDone(false)}>{t('notebook.cancel')}</button>
       </div>
+      {error && <p role="alert" className="text-err-ink">{t('notebook.saveError')}</p>}
     </form>
   )
 }

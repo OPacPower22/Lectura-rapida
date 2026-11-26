@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import JSZip from 'jszip'
 import { MemoryRouter } from 'react-router-dom'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { loadPreferences } from '../../lib/preferences'
 import { db } from '../../lib/storage/db'
 import { getSetting } from '../../lib/storage/settings'
@@ -72,5 +72,17 @@ describe('SettingsPage', () => {
     await userEvent.upload(await screen.findByLabelText(t('settings.restore.file')), file)
     expect(await screen.findByText(t('settings.restore.error.corrupt'))).toBeInTheDocument()
     vi.restoreAllMocks()
+  })
+
+  it('avisa si el respaldo no trae los PDF y EPUB, y deja volver a elegir el mismo archivo', async () => {
+    await db.sources.add({ type: 'documento', title: 'D', createdAt: 1 })
+    await db.documents.add({ sourceId: 1, format: 'pdf', lang: 'es', title: 'D', chapters: [], words: 0, position: { chapter: 0, paragraph: 0 }, createdAt: 1, lastOpenedAt: 1 })
+    const { exportBackup } = await import('../../lib/backup')
+    const blob = await exportBackup({ includeFiles: false })
+    show()
+    const input = (await screen.findByLabelText(t('settings.restore.file'))) as HTMLInputElement
+    await userEvent.upload(input, new File([await blob.arrayBuffer()], 'r.zip', { type: 'application/zip' }))
+    expect(await screen.findByText(tPlural('settings.restore.noFiles', 1))).toBeInTheDocument()
+    expect(input.value).toBe('')
   })
 })

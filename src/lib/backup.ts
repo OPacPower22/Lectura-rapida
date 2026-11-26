@@ -98,6 +98,25 @@ interface Parsed {
   files: Map<string, Blob>
 }
 
+const num = (v: unknown) => typeof v === 'number' && Number.isFinite(v)
+const str = (v: unknown) => typeof v === 'string'
+
+/** Campos imprescindibles de cada tabla: sin ellos la app mostraría cifras sin sentido o fallaría. */
+function validRow(table: string, r: Record<string, unknown>): boolean {
+  switch (table) {
+    case 'readingSessions':
+      return str(r.kind) && num(r.startedAt) && num(r.activeMs) && num(r.words)
+    case 'notes':
+      return num(r.sourceId) && str(r.kind) && str(r.text)
+    case 'cards':
+      return str(r.front) && str(r.back) && isMarker((r.fsrs as Record<string, unknown> | undefined)?.due, '$date')
+    case 'projects':
+      return str(r.title) && Array.isArray(r.sections)
+    default:
+      return true
+  }
+}
+
 async function parse(file: Blob): Promise<{ ok: true; data: Parsed } | { ok: false; error: RestoreError }> {
   const JSZip = await loadZip()
   let zip: JSZipType
@@ -125,7 +144,7 @@ async function parse(file: Blob): Promise<{ ok: true; data: Parsed } | { ok: fal
   if (!tablas || typeof tablas !== 'object' || Array.isArray(tablas)) return { ok: false, error: 'corrupt' }
   const known = new Set(db.tables.map((t) => t.name))
   for (const [name, rows] of Object.entries(tablas)) {
-    if (!known.has(name) || !Array.isArray(rows) || rows.some((r) => !r || typeof r !== 'object')) {
+    if (!known.has(name) || !Array.isArray(rows) || rows.some((r) => !r || typeof r !== 'object' || !validRow(name, r))) {
       return { ok: false, error: 'corrupt' }
     }
   }
@@ -152,18 +171,22 @@ async function parse(file: Blob): Promise<{ ok: true; data: Parsed } | { ok: fal
 /** Lee y valida un respaldo sin escribir nada. */
 export async function inspectBackup(
   file: Blob,
-): Promise<{ ok: true; summary: Record<string, number>; exportedAt: string } | { ok: false; error: RestoreError }> {
+): Promise<
+  { ok: true; summary: Record<string, number>; exportedAt: string; documentsWithoutFile: number } | { ok: false; error: RestoreError }
+> {
   const r = await parse(file)
   if (!r.ok) return r
   const summary = Object.fromEntries(Object.entries(r.data.tablas).map(([k, rows]) => [k, rows.length]))
-  return { ok: true, summary, exportedAt: r.data.exportedAt }
+  const documentsWithoutFile = (r.data.tablas.documents ?? []).filter((d) => !isMarker((d as Record<string, unknown>).file, '$file')).length
+  return { ok: true, summary, exportedAt: r.data.exportedAt, documentsWithoutFile }
 }
 
 /** Reemplaza todos los datos por los del respaldo, en una sola transacción. */
 export async function restoreBackup(file: Blob): Promise<void> {
   const r = await parse(file)
   if (!r.ok) throw new Error(r.error)
-  const { tablas, files } = r.data
+  const { tablas, files, exportedAt } = r.data
+  const exportedTime = Date.parse(exportedAt)
   const decoded = Object.fromEntries(Object.entries(tablas).map(([k, rows]) => [k, rows.map((row) => decode(row, files))]))
   await db.transaction('rw', db.tables, async () => {
     for (const table of db.tables) {
@@ -171,6 +194,8 @@ export async function restoreBackup(file: Blob): Promise<void> {
       const rows = decoded[table.name]
       if (rows?.length) await table.bulkAdd(rows)
     }
+    // El respaldo restaurado cuenta como el último hecho (si no, la app pediría otro enseguida).
+    if (Number.isFinite(exportedTime)) await db.settings.put({ key: BACKUP_LAST_KEY, value: exportedTime })
   })
 }
 

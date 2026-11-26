@@ -38,7 +38,7 @@ function DataSection() {
   const [includeFiles, setIncludeFiles] = useState(true)
   const [creating, setCreating] = useState(false)
   const [createError, setCreateError] = useState(false)
-  const [candidate, setCandidate] = useState<{ file: File; summary: Record<string, number>; exportedAt: string } | null>(null)
+  const [candidate, setCandidate] = useState<{ file: File; summary: Record<string, number>; exportedAt: string; withoutFiles: number } | null>(null)
   const [restoreError, setRestoreError] = useState<RestoreError | 'write' | null>(null)
   const [restored, setRestored] = useState(false)
   const date = new Intl.DateTimeFormat(currentLang(), { dateStyle: 'long', timeStyle: 'short' })
@@ -71,7 +71,7 @@ function DataSection() {
     if (!file) return
     try {
       const info = await inspectBackup(file)
-      if (info.ok) setCandidate({ file, summary: info.summary, exportedAt: info.exportedAt })
+      if (info.ok) setCandidate({ file, summary: info.summary, exportedAt: info.exportedAt, withoutFiles: info.documentsWithoutFile })
       else setRestoreError(info.error)
     } catch {
       setRestoreError('corrupt')
@@ -110,7 +110,16 @@ function DataSection() {
         <p className="text-sm text-muted">{t('settings.restore.help')}</p>
         <label className="block">
           <span className="block text-sm font-medium">{t('settings.restore.file')}</span>
-          <input type="file" accept=".zip,application/zip" onChange={(e) => pick(e.target.files?.[0])} />
+          <input
+            type="file"
+            accept=".zip,application/zip"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              // Se limpia para poder elegir el mismo archivo otra vez tras un error.
+              e.target.value = ''
+              void pick(file)
+            }}
+          />
         </label>
         {restoreError && <p role="alert" className="text-err-ink">{t(`settings.restore.error.${restoreError}`)}</p>}
         {candidate && (
@@ -121,6 +130,7 @@ function DataSection() {
                 <li key={k}>{tPlural(`settings.restore.count.${k}`, candidate.summary[k] ?? 0)}</li>
               ))}
             </ul>
+            {candidate.withoutFiles > 0 && <p>{tPlural('settings.restore.noFiles', candidate.withoutFiles)}</p>}
             <p className="font-medium">{t('settings.restore.warning')}</p>
             <div className="flex flex-wrap gap-2">
               <button type="button" className={primaryButton} onClick={restore}>{t('settings.restore.confirm')}</button>
