@@ -9,6 +9,7 @@ import { PacedParagraph, PacerControls, PacerNote } from './Pacer'
 import { ProbeDialog } from './ProbeDialog'
 import { ReadingToolbar } from './ReadingToolbar'
 import { usePreferences } from '../../app/preferencesContext'
+import { useFocusHeading } from '../../ui/useFocusHeading'
 import { FONT_SIZES, useFocusAfterProbe } from './readerUtils'
 import { usePacer } from './usePacer'
 import { useReadingSession } from './useReadingSession'
@@ -39,6 +40,8 @@ interface Props {
 
 export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng, allowPacer, initialPacerWpm, probesEnabled = true }: Props) {
   const session = useReadingSession({ probeRange, now, rng, probesEnabled })
+  const root = useRef<HTMLElement>(null)
+  useFocusHeading(session.status, root)
   const { prefs } = usePreferences()
   const [fontOverride, setFontOverride] = useState<number | null>(null)
   const fontIndex = fontOverride ?? prefs.fontIndex
@@ -66,7 +69,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng,
 
   if (session.status !== 'reading') {
     return (
-      <section className="mx-auto max-w-prose space-y-4">
+      <section ref={root} className="mx-auto max-w-prose space-y-4">
         <h2 className="text-2xl font-semibold">{title}</h2>
         <p>{t('reader.instructions')}</p>
         <button
@@ -81,7 +84,7 @@ export function ReadingView({ title, body, lang, probeRange, onFinish, now, rng,
   }
 
   return (
-    <section className="mx-auto max-w-prose">
+    <section ref={root} className="mx-auto max-w-prose">
       <LeaveGuard active />
       <div inert={session.probeOpen || undefined}>
         <ReadingToolbar

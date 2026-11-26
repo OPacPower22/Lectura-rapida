@@ -175,4 +175,23 @@ describe('ProjectEditor', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(t('project.deleteError'))
     vi.restoreAllMocks()
   })
+
+  it('al ocultar la pestaña guarda y el estado muestra «Guardado» (o el error)', async () => {
+    const { id } = await seed()
+    open(id)
+    const thesis = await screen.findByLabelText(t('project.thesis'))
+    fireEvent.change(thesis, { target: { value: 'Al ocultar' } })
+    Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true })
+    document.dispatchEvent(new Event('visibilitychange'))
+    Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true })
+    expect(await screen.findByText(t('project.saved'), {}, { timeout: 500 })).toBeInTheDocument()
+    expect((await saved(id)).thesis).toBe('Al ocultar')
+
+    const projects = await import('../../lib/storage/projects')
+    vi.spyOn(projects, 'saveProject').mockRejectedValueOnce(new Error('cuota'))
+    fireEvent.change(thesis, { target: { value: 'Falla' } })
+    window.dispatchEvent(new Event('pagehide'))
+    expect(await screen.findByText(t('project.saveError'), {}, { timeout: 500 })).toBeInTheDocument()
+    vi.restoreAllMocks()
+  })
 })

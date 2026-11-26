@@ -58,6 +58,28 @@ beforeEach(async () => {
 })
 
 describe('DiagnosticPage', () => {
+  it('en cada paso el foco va al encabezado del paso nuevo (lector de pantalla y teclado)', async () => {
+    let now = 0
+    render(
+      <MemoryRouter>
+        <DiagnosticPage now={() => now} />
+      </MemoryRouter>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('heading', { level: 2, name: t('diag.purposeTitle') })))
+    fireEvent.click(screen.getByRole('button', { name: t('diag.continue') }))
+    await waitFor(() => expect(document.activeElement?.tagName).toBe('H2'))
+    fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
+    await waitFor(() => expect(document.activeElement?.tagName).toBe('H2'))
+    now = 120000
+    fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('heading', { name: t('quiz.title') })))
+    fireEvent.click(screen.getByLabelText('U0'))
+    fireEvent.click(screen.getByLabelText('D1'))
+    fireEvent.click(screen.getByRole('button', { name: t('quiz.submit') }))
+    await waitFor(() => expect(document.activeElement?.id).toBe('results-title'))
+  })
+
   it('mantiene un encabezado principal durante la lectura, el cuestionario y los resultados', async () => {
     let now = 0
     render(

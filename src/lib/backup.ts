@@ -177,7 +177,11 @@ export async function inspectBackup(
   const r = await parse(file)
   if (!r.ok) return r
   const summary = Object.fromEntries(Object.entries(r.data.tablas).map(([k, rows]) => [k, rows.length]))
-  const documentsWithoutFile = (r.data.tablas.documents ?? []).filter((d) => !isMarker((d as Record<string, unknown>).file, '$file')).length
+  // Solo los PDF y EPUB tienen archivo; los documentos web y de texto nunca lo llevan.
+  const documentsWithoutFile = (r.data.tablas.documents ?? []).filter((d) => {
+    const doc = d as Record<string, unknown>
+    return (doc.format === 'pdf' || doc.format === 'epub') && !isMarker(doc.file, '$file')
+  }).length
   return { ok: true, summary, exportedAt: r.data.exportedAt, documentsWithoutFile }
 }
 

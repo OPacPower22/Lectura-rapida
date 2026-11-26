@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { usePreferences } from '../../app/preferencesContext'
+import { useFocusHeading } from '../../ui/useFocusHeading'
 import { t, tPlural } from '../../i18n'
 import { PROBE_RANGE_PROGRAMA } from '../../lib/probes'
 import { saveSession } from '../../lib/storage/repo'
@@ -18,6 +19,8 @@ export function PasteReadPage({ now }: { now?: Clock }) {
   const [text, setText] = useState('')
   const [lang, setLang] = useState<(typeof LANGS)[number]>('es')
   const [step, setStep] = useState<'edit' | 'reading' | 'results'>('edit')
+  const root = useRef<HTMLElement>(null)
+  useFocusHeading(step, root)
   const [results, setResults] = useState<ResultsData | null>(null)
   const [saveError, setSaveError] = useState(false)
   const [sessionId, setSessionId] = useState<number | undefined>()
@@ -52,7 +55,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
 
   if (step === 'reading') {
     return (
-      <div className="space-y-4">
+      <div ref={root as React.RefObject<HTMLDivElement>} className="space-y-4">
         {heading}
         <ReadingView
           title={title.trim() || t('paste.untitled')}
@@ -70,7 +73,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
 
   if (step === 'results' && results) {
     return (
-      <div className="space-y-6">
+      <div ref={root as React.RefObject<HTMLDivElement>} className="space-y-6">
         {heading}
         <ResultsCard data={results} saveError={saveError} />
         <RecallStep sessionId={sessionId} lang={lang} compareText={text} />
@@ -93,7 +96,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
   }
 
   return (
-    <section className="mx-auto max-w-prose space-y-4">
+    <section ref={root} className="mx-auto max-w-prose space-y-4">
       <h1 className="text-3xl font-bold">{t('paste.title')}</h1>
       <p>{t('paste.help')}</p>
       <label className="block">

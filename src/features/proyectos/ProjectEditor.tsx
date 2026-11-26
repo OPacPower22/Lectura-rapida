@@ -278,22 +278,26 @@ export function ProjectEditor() {
 
   // Al salir de la página, ocultar la pestaña o cerrarla, guarda lo pendiente sin esperar la pausa.
   useEffect(() => {
-    const flush = () => {
+    const flush = (report: boolean) => {
       clearTimeout(timer.current)
       const toSave = pending.current
       if (!toSave) return
       pending.current = null
-      void saveProject(toSave).catch(() => {})
+      const saving = saveProject(toSave)
+      // Con el editor montado, el estado refleja el resultado; al desmontar no hay a quién avisar.
+      if (report) saving.then(() => setStatus('saved')).catch(() => setStatus('error'))
+      else saving.catch(() => {})
     }
+    const onPageHide = () => flush(true)
     const onVisibility = () => {
-      if (document.visibilityState === 'hidden') flush()
+      if (document.visibilityState === 'hidden') flush(true)
     }
-    window.addEventListener('pagehide', flush)
+    window.addEventListener('pagehide', onPageHide)
     document.addEventListener('visibilitychange', onVisibility)
     return () => {
-      window.removeEventListener('pagehide', flush)
+      window.removeEventListener('pagehide', onPageHide)
       document.removeEventListener('visibilitychange', onVisibility)
-      flush()
+      flush(false)
     }
   }, [])
 

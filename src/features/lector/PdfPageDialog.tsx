@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { inertOutside } from '../../ui/useInertOutside'
 import { t } from '../../i18n'
 import { loadPdfjs } from '../../lib/formats/pdf'
 
@@ -8,10 +9,17 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
   const closeButton = useRef<HTMLButtonElement>(null)
   const [error, setError] = useState(false)
 
+  const overlay = useRef<HTMLDivElement>(null)
+
+  // Modal: guarda quién lo abrió, deja inerte el resto de la página y, al cerrar, restaura y devuelve el foco.
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null
+    const restore = inertOutside(overlay.current)
     closeButton.current?.focus()
-    return () => opener?.focus?.()
+    return () => {
+      restore()
+      opener?.focus?.()
+    }
   }, [])
 
   useEffect(() => {
@@ -44,6 +52,7 @@ export function PdfPageDialog({ file, page, onClose }: { file: Blob; page: numbe
 
   return (
     <div
+      ref={overlay}
       className="fixed inset-0 z-30 overflow-auto bg-black/60 p-4"
       onKeyDown={(e) => {
         if (e.key === 'Escape') onClose()

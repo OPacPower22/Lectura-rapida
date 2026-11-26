@@ -149,6 +149,13 @@ describe('restauración: fecha, archivos y validación', () => {
     expect(info.ok && (await getSetting('backup:lastAt'))).toBe(info.ok && Date.parse(info.exportedAt))
   })
 
+  it('los documentos web y de texto no cuentan como «sin archivo» (nunca lo tienen)', async () => {
+    await seed()
+    await db.documents.add({ sourceId: 1, format: 'web', lang: 'es', title: 'Web', chapters: [], words: 0, position: { chapter: 0, paragraph: 0 }, createdAt: 1, lastOpenedAt: 1 })
+    const full = await inspectBackup(await exportBackup({ includeFiles: true }))
+    expect(full.ok && full.documentsWithoutFile).toBe(0)
+  })
+
   it('inspectBackup indica cuántos documentos vienen sin archivo', async () => {
     await seed()
     const info = await inspectBackup(await exportBackup({ includeFiles: false }))

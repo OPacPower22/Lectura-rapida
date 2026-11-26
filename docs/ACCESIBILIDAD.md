@@ -8,7 +8,7 @@ La app apunta a **WCAG 2.2 AA** y a **Lighthouse ≥ 90**. Las dos cosas se comp
 | :--- | :--- | :--- | :--- |
 | Reglas WCAG 2.0, 2.1 y 2.2 A/AA y buenas prácticas, en las 21 pantallas y en los temas claro, sepia y oscuro | axe-core 4.14 en Playwright | `tests/e2e/a11y.spec.ts` | Ninguna violación, de ningún nivel |
 | Estados interactivos: lectura, sondeo de atención, cuestionario, resultados, barra de anotación, selector de notas, repaso | axe-core | `tests/e2e/a11y.spec.ts` | Ninguna violación |
-| Diagnóstico completo solo con teclado, foco visible, título de cada página y foco en el encabezado al navegar | Playwright | `tests/e2e/teclado.spec.ts` | Pasa |
+| Diagnóstico completo solo con teclado, foco visible, título de cada página, foco en el encabezado al navegar y foco retenido en el sondeo | Playwright | `tests/e2e/teclado.spec.ts` | Pasa |
 | Contraste de los colores de cada tema: texto 4,5:1, bordes de controles y contorno de foco 3:1 | Prueba unitaria | `src/theme-contrast.test.ts` | Pasa |
 | Rendimiento, accesibilidad, buenas prácticas y SEO en perfil móvil | Lighthouse 13 | `npm run lighthouse` | ≥ 90 en las cuatro |
 | Instalable (sin errores de instalabilidad), manifiesto completo y todas las rutas sin conexión | Playwright + protocolo de Chrome | `tests/e2e/instalable.spec.ts` | Pasa |
@@ -34,7 +34,11 @@ Las cifras de rendimiento varían unos puntos entre ejecuciones; el script falla
   - el foco va al encabezado principal;
   - el lector de pantalla anuncia la página.
 - **Foco visible siempre:** un contorno de 2 px con contraste ≥ 3:1 en los tres temas.
-- **Sondeos de atención:** son diálogos que atrapan el foco y lo devuelven al cerrarse.
+- **Diálogos modales** (sondeo de atención, página original del PDF):
+  - dejan inerte el resto de la página;
+  - Tab da la vuelta dentro del diálogo;
+  - al cerrarse, el foco vuelve a donde estaba.
+- **Pasos de una lectura medida** (propósito, lectura, cuestionario, resultados): el foco va al encabezado de cada paso nuevo y el lector de pantalla lo anuncia.
 - **Gráficas:**
   - tienen un resumen accesible;
   - se recorren con las flechas;

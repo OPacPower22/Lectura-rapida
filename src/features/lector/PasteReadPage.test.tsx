@@ -30,6 +30,7 @@ describe('PasteReadPage', () => {
     fireEvent.change(screen.getByLabelText(t('paste.titleLabel')), { target: { value: 'Mi artículo' } })
     fireEvent.click(screen.getByRole('button', { name: t('paste.prepare') }))
     expect(screen.getByRole('heading', { level: 1, name: t('paste.title') })).toBeInTheDocument()
+    expect(document.activeElement).toBe(screen.getByRole('heading', { level: 2, name: 'Mi artículo' }))
     fireEvent.click(screen.getByRole('button', { name: t('reader.start') }))
     now = 60000
     fireEvent.click(screen.getByRole('button', { name: t('reader.finish') }))
