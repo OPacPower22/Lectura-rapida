@@ -1,5 +1,5 @@
 import { db } from './db'
-import { addNote, deleteNote, listNotes, updateNoteText } from './notes'
+import { addNote, deleteNote, listAllNotes, listNotes, listTags, updateNote, updateNoteText } from './notes'
 
 beforeEach(async () => {
   await db.delete()
@@ -32,5 +32,32 @@ describe('notas', () => {
     expect((await listNotes({ sourceId: 1 }))[0].text).toBe('después')
     await deleteNote(id)
     expect(await listNotes({ sourceId: 1 })).toEqual([])
+  })
+
+  it('lista todas, filtra por etiqueta, fuente y tipo, y busca sin acentos', async () => {
+    const a = await addNote({ sourceId: 1, kind: 'idea', text: 'La Atención sostenida', lang: 'es' })
+    await addNote({ sourceId: 2, kind: 'cita', quote: 'Lectura atenta', text: '', lang: 'es', tags: ['tesis'] })
+    await addNote({ sourceId: 2, kind: 'idea', text: 'Otra cosa', lang: 'es', tags: ['tesis', 'Método'] })
+    expect((await listAllNotes({ query: 'atencion' })).map((n) => n.id)).toEqual([a])
+    expect((await listAllNotes({ query: 'ATENTA' })).length).toBe(1)
+    expect((await listAllNotes({ tag: 'tesis' })).length).toBe(2)
+    expect((await listAllNotes({ sourceId: 2, kind: 'idea' })).map((n) => n.text)).toEqual(['Otra cosa'])
+    expect(await listTags()).toEqual(['Método', 'tesis'])
+  })
+
+  it('ordena todas las notas de la más reciente a la más antigua', async () => {
+    const now = vi.spyOn(Date, 'now')
+    now.mockReturnValue(1000)
+    await addNote({ sourceId: 1, kind: 'idea', text: 'primera', lang: 'es' })
+    now.mockReturnValue(2000)
+    await addNote({ sourceId: 1, kind: 'idea', text: 'segunda', lang: 'es' })
+    now.mockRestore()
+    expect((await listAllNotes()).map((n) => n.text)).toEqual(['segunda', 'primera'])
+  })
+
+  it('updateNote cambia texto, tipo, etiquetas y página', async () => {
+    const id = await addNote({ sourceId: 1, kind: 'idea', text: 'x', lang: 'es' })
+    await updateNote(id, { text: 'y', kind: 'parafrasis', tags: ['a'], page: 4 })
+    expect((await listAllNotes())[0]).toMatchObject({ text: 'y', kind: 'parafrasis', tags: ['a'], page: 4 })
   })
 })

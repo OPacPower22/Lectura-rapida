@@ -27,7 +27,7 @@ describe('migración v1 → v2', () => {
     v1.close()
 
     await db.open()
-    expect(db.verno).toBe(3)
+    expect(db.verno).toBe(4)
     expect(await db.readingSessions.count()).toBe(1)
     expect(await db.probes.count()).toBe(2)
     expect(await db.quizResults.count()).toBe(1)
@@ -54,12 +54,46 @@ describe('migración v1 → v2', () => {
     await v2.table('glossary').add({ term: 't', lang: 'es', definition: 'd', createdAt: 1 })
     v2.close()
     await db.open()
-    expect(db.verno).toBe(3)
+    expect(db.verno).toBe(4)
     expect(await db.sources.count()).toBe(1)
     expect(await db.notes.count()).toBe(1)
     expect(await db.glossary.count()).toBe(1)
     const cards = await db.cards.toArray()
     expect(cards).toHaveLength(1)
     expect(cards[0]).toMatchObject({ kind: 'glosario', front: 't', glossaryId: 1 })
+  })
+
+  it('v3 → v4 conserva fichas, programa y notas sin etiquetas', async () => {
+    const v3 = new Dexie('lectura-rapida')
+    v3.version(1).stores({
+      readingSessions: '++id, kind, textId, lang, startedAt',
+      probes: '++id, sessionId',
+      quizResults: '++id, sessionId, textId',
+      settings: 'key',
+    })
+    v3.version(2).stores({
+      readingSessions: '++id, kind, textId, lang, startedAt, documentId, sourceId',
+      sources: '++id, type, createdAt',
+      documents: '++id, sourceId, lastOpenedAt',
+      notes: '++id, sourceId, documentId, kind, createdAt',
+      glossary: '++id, lang, term, sourceId',
+    })
+    v3.version(3).stores({
+      cards: '++id, kind, glossaryId, sourceId, fsrs.due',
+      programDays: 'day',
+      attentionSessions: '++id, startedAt',
+    })
+    await v3.open()
+    await v3.table('notes').add({ sourceId: 1, kind: 'idea', text: 'vieja', lang: 'es', createdAt: 1 })
+    await v3.table('cards').add({ kind: 'ficha', front: 'f', back: 'b', lang: 'es', fsrs: { due: new Date() }, createdAt: 1 })
+    await v3.table('programDays').add({ day: 1, startedAt: 1, steps: {} })
+    v3.close()
+    await db.open()
+    expect(db.verno).toBe(4)
+    expect(await db.cards.count()).toBe(1)
+    expect(await db.programDays.count()).toBe(1)
+    const { listAllNotes } = await import('./notes')
+    expect((await listAllNotes()).map((n) => n.text)).toEqual(['vieja'])
+    expect(await db.projects.count()).toBe(0)
   })
 })

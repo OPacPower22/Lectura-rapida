@@ -357,4 +357,5 @@ export const es = {
   'recall.grade.medio': 'Una parte',
   'recall.grade.bajo': 'Poco',
   'recall.selfAssessed': 'Registrado como autoevaluado.',
+  'project.firstSection': 'Introducción',
 } as const

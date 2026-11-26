@@ -56,3 +56,11 @@ export async function listPhysicalBooks(): Promise<Source[]> {
   const withDocs = new Set((await db.documents.toArray()).map((d) => d.sourceId))
   return books.filter((b) => !withDocs.has(b.id!)).sort((a, b) => b.createdAt - a.createdAt)
 }
+
+export async function listSources(): Promise<Source[]> {
+  return (await db.sources.toArray()).sort((a, b) => b.createdAt - a.createdAt)
+}
+
+export async function updateSource(id: number, patch: Partial<Omit<Source, 'id' | 'createdAt'>>): Promise<void> {
+  await db.sources.update(id, patch)
+}

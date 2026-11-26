@@ -110,6 +110,7 @@ export interface Note {
   quote?: string
   text: string
   lang: string
+  tags?: string[]
   createdAt: number
 }
 
@@ -153,6 +154,28 @@ export interface AttentionSession {
   returns: number
 }
 
+export type ProjectKind = 'trazado' | 'plancha' | 'instruccion' | 'ensayo' | 'estudio'
+
+export type ProjectItem = { type: 'note'; noteId: number } | { type: 'text'; text: string }
+
+export interface ProjectSection {
+  id: string
+  title: string
+  items: ProjectItem[]
+}
+
+export interface Project {
+  id?: number
+  title: string
+  kind: ProjectKind
+  topic: string
+  thesis: string
+  sections: ProjectSection[]
+  lang: string
+  createdAt: number
+  updatedAt: number
+}
+
 export const db = new Dexie('lectura-rapida') as Dexie & {
   readingSessions: EntityTable<ReadingSession, 'id'>
   probes: EntityTable<ProbeRecord, 'id'>
@@ -165,6 +188,7 @@ export const db = new Dexie('lectura-rapida') as Dexie & {
   cards: EntityTable<StoredCard, 'id'>
   programDays: EntityTable<ProgramDay, 'day'>
   attentionSessions: EntityTable<AttentionSession, 'id'>
+  projects: EntityTable<Project, 'id'>
 }
 
 db.version(1).stores({
@@ -207,3 +231,9 @@ db.version(3)
       })),
     )
   })
+
+// v4 (fase 4): proyectos de escritura y etiquetas en las notas (índice multivalor). No requiere upgrade().
+db.version(4).stores({
+  notes: '++id, sourceId, documentId, kind, createdAt, *tags',
+  projects: '++id, updatedAt',
+})

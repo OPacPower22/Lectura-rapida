@@ -1,5 +1,5 @@
 import { db } from './db'
-import { addDocument, addSource, deleteDocument, getDocument, listDocuments, savePosition } from './library'
+import { addDocument, addSource, deleteDocument, getDocument, listDocuments, listSources, savePosition, updateSource } from './library'
 import { addNote, listNotes } from './notes'
 
 const doc = {
@@ -51,5 +51,11 @@ describe('biblioteca', () => {
     const id = await addSource({ type: 'libro', title: 'Físico', author: 'A' })
     expect((await db.sources.get(id))?.type).toBe('libro')
     expect(await listNotes({ sourceId: id })).toEqual([])
+  })
+
+  it('lista fuentes y updateSource persiste el año', async () => {
+    const id = await addSource({ type: 'libro', title: 'Libro' })
+    await updateSource(id, { year: '2020', author: 'Pérez, A.' })
+    expect((await listSources())[0]).toMatchObject({ title: 'Libro', year: '2020', author: 'Pérez, A.' })
   })
 })
