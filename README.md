@@ -1,6 +1,6 @@
 # Lectura Rápida — Atención, comprensión y retención
 
-![Estado](https://img.shields.io/badge/estado-fase_4_completada-blue)
+![Estado](https://img.shields.io/badge/estado-fase_5_completada-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-PWA_React_TypeScript-blueviolet)
 
@@ -37,9 +37,26 @@ App web instalable (PWA) que funciona sin conexión y sin cuenta. Entrena la **a
 - **Temas:** automático, claro, sepia y oscuro (nocturno).
 - **Funciona sin conexión** y sin cuenta; tus documentos y notas se quedan en tu dispositivo.
 
+## Instalar
+
+Abre **https://opacpower22.github.io/Lectura-rapida/** e instálala desde el navegador:
+- **Android (Chrome):** menú ⋮ → «Instalar aplicación».
+- **iPhone (Safari):** Compartir → «Añadir a pantalla de inicio».
+- **Ordenador:** icono de instalar en la barra de direcciones.
+
+Después de la primera visita funciona sin conexión.
+
+## Accesibilidad y rendimiento
+
+- WCAG 2.2 AA comprobado con axe en todas las pantallas y en los tres temas.
+- Se puede usar entera con el teclado y con lector de pantalla.
+- Lighthouse ≥ 90 en rendimiento, accesibilidad, buenas prácticas y SEO.
+
+Detalle y resultados en [`docs/ACCESIBILIDAD.md`](docs/ACCESIBILIDAD.md).
+
 ## Próximamente
 
-- **Pulido y publicación** (fase 5): accesibilidad y rendimiento auditados.
+- **Validación** (fase 6): uso real durante 28 días y ajustes según los resultados.
 - **Apps en Google Play y App Store** reutilizando esta misma app (fase 7).
 - Más adelante, **aprender idiomas leyendo**.
 
@@ -56,7 +73,8 @@ npm run build     # compilación de producción
 npm run preview   # vista previa de la compilación
 npm test          # pruebas unitarias (Vitest)
 npm run lint      # lint
-npm run e2e       # pruebas de extremo a extremo (Playwright)
+npm run e2e       # pruebas de extremo a extremo (Playwright), con axe e instalabilidad
+npm run lighthouse # auditoría Lighthouse (Node 22.19+)
 npm run fixtures  # regenera los PDF/EPUB de prueba de tests/fixtures
 ```
 
