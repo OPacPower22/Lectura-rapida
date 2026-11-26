@@ -25,6 +25,7 @@
   --err-ink: #991b1b;
   --mark: #fde68a;
   --pace: #93c5fd;
+  --focus: #1d4ed8;
   /* Series de gráficas: paleta validada (CVD, visión normal) con la skill dataviz. */
   --series-1: #257de0;
   --series-2: #f47230;
@@ -54,6 +55,7 @@
   --err-ink: #8a1c12;
   --mark: #f0cf72;
   --pace: #d9b05f;
+  --focus: #7c4a14;
   --series-1: #257de0;
   --series-2: #f47230;
   --series-3: #00b894;
@@ -82,6 +84,7 @@
   --err-ink: #fecaca;
   --mark: #854d0e;
   --pace: #1e40af;
+  --focus: #60a5fa;
   --series-1: #338ced;
   --series-2: #e76624;
   --series-3: #00a888;
@@ -118,6 +121,12 @@
 body {
   background-color: var(--page);
   color: var(--ink);
+}
+
+/* Foco de teclado siempre visible, con contraste ≥ 3:1 en los tres temas (WCAG 2.4.7 y 2.4.13). */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 /* Guía de respiración: 4 s inhalar, 6 s exhalar. Se desactiva con movimiento reducido. */

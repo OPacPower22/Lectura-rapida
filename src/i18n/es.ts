@@ -604,4 +604,6 @@ export const es = {
   'project.move': 'Mover',
   'project.movedTo': 'Elemento movido a la posición {n}.',
   'project.movedToSection': 'Elemento movido al final de «{title}».',
+  'a11y.skip': 'Saltar al contenido',
+  'a11y.pageLoaded': 'Página: {title}',
 } as const

@@ -41,7 +41,17 @@ describe.each(['light', 'sepia', 'dark'])('tema %s', (name) => {
     expect(contrast(v['line-strong'], v.surface)).toBeGreaterThanOrEqual(3)
     expect(contrast(v['line-strong'], v.page)).toBeGreaterThanOrEqual(3)
   })
+  it('el contorno de foco se ve sobre el fondo y las tarjetas (WCAG 2.4.13, ≥ 3:1)', () => {
+    expect(contrast(v.focus, v.page)).toBeGreaterThanOrEqual(3)
+    expect(contrast(v.focus, v.surface)).toBeGreaterThanOrEqual(3)
+  })
   it('el resaltado del marcapasos se distingue del fondo (≥ 1,5:1)', () => {
     expect(contrast(v.pace, v.page)).toBeGreaterThanOrEqual(1.5)
+  })
+})
+
+describe('estilo de foco global', () => {
+  it('todo elemento con foco de teclado muestra un contorno con el color de foco', () => {
+    expect(css).toMatch(/:focus-visible\s*\{[^}]*outline:\s*2px solid var\(--focus\)/)
   })
 })

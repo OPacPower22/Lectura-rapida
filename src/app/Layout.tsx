@@ -4,6 +4,7 @@ import { CARDS_CHANGED, countDue } from '../lib/storage/cards'
 import { ThemePicker } from '../features/ajustes/ThemePicker'
 import { t } from '../i18n'
 import { PreferencesProvider } from './PreferencesProvider'
+import { RouteAnnouncer } from './RouteAnnouncer'
 
 const items = [
   { to: '/', label: 'nav.home', end: true },
@@ -45,6 +46,17 @@ export function Layout() {
   }, [location])
   return (
     <div className="min-h-screen bg-page text-ink">
+      <a
+        href="#contenido"
+        onClick={(e) => {
+          // Con rutas en el hash, el enlace no debe cambiar la ruta: solo mueve el foco.
+          e.preventDefault()
+          document.getElementById('contenido')?.focus()
+        }}
+        className="sr-only z-30 rounded bg-accent px-4 py-2 text-on-accent focus:not-sr-only focus:fixed focus:left-2 focus:top-2"
+      >
+        {t('a11y.skip')}
+      </a>
       <header ref={header} className="sticky top-0 z-10 border-b border-line bg-surface">
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-2 gap-y-1 px-2 py-1 sm:px-4 sm:py-2">
           <nav aria-label={t('nav.label')} className="flex flex-wrap gap-0.5 sm:gap-1">
@@ -64,11 +76,12 @@ export function Layout() {
           <ThemePicker />
         </div>
       </header>
-      <main className="px-4 py-8">
+      <main id="contenido" tabIndex={-1} className="px-4 py-8 focus:outline-none">
         <PreferencesProvider>
           <Outlet />
         </PreferencesProvider>
       </main>
+      <RouteAnnouncer />
     </div>
   )
 }
