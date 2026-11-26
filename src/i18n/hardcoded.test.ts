@@ -8,4 +8,11 @@ describe('idioma de la interfaz', () => {
       .map(([path]) => path)
     expect(offenders).toEqual([])
   })
+
+  it('las unidades (ppm, min) no se escriben a mano junto a un número', () => {
+    const offenders = Object.entries(files)
+      .filter(([, src]) => /\} (ppm|min)`|unit="(ppm|min|%)"/.test(src))
+      .map(([path]) => path)
+    expect(offenders).toEqual([])
+  })
 })

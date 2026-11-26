@@ -42,14 +42,14 @@ function Summary({ input, now }: { input: StatsInput; now: number }) {
     <div className="space-y-6">
       <p className="text-muted">{t('progress.range', { weeks: WEEKS })}</p>
       {ppmSeries.length ? (
-        <LineChart title={t('progress.chart.ppm')} unit="ppm" series={ppmSeries} xFormat={weekLabel} />
+        <LineChart title={t('progress.chart.ppm')} unit={t('unit.ppm')} series={ppmSeries} xFormat={weekLabel} />
       ) : (
         <p className={card}>{t('progress.noPpm')}</p>
       )}
       {compSeries.length > 0 && (
-        <LineChart title={t('progress.chart.comprehension')} unit="%" series={compSeries} xFormat={weekLabel} yMax={100} />
+        <LineChart title={t('progress.chart.comprehension')} unit={t('unit.percent')} series={compSeries} xFormat={weekLabel} yMax={100} />
       )}
-      <BarChart title={t('progress.chart.minutes')} unit="min" bars={rows.map((r) => ({ x: r.week, y: r.minutes }))} xFormat={weekLabel} />
+      <BarChart title={t('progress.chart.minutes')} unit={t('unit.min')} bars={rows.map((r) => ({ x: r.week, y: r.minutes }))} xFormat={weekLabel} />
       <section aria-labelledby="ret-title" className={card}>
         <h2 id="ret-title" className="mb-2 font-semibold">{t('progress.retention.title')}</h2>
         <dl className="grid grid-cols-2 gap-4">

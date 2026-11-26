@@ -63,3 +63,20 @@ describe('toMarkdown', () => {
     expect(md).toContain('Ávila, R. (2019). *Atención y memoria*. https://x.org')
   })
 })
+
+describe('toMarkdown: texto que Markdown interpretaría', () => {
+  const doc = (text: string) => ({
+    title: 'T', kindLabel: 'Ensayo', topic: '', thesis: '', references: [],
+    sections: [{ title: 'S', blocks: [{ kind: 'texto' as const, text }] }],
+  })
+  it('una línea de guiones o iguales no se convierte en título ni en separador', () => {
+    expect(toMarkdown(doc('Título falso\n---'))).toContain('Título falso\n\\---')
+    expect(toMarkdown(doc('Otro\n===='))).toContain('Otro\n\\====')
+  })
+  it('los & no forman entidades y la sangría no crea bloques de código', () => {
+    const md = toMarkdown(doc('A &amp; B\n\n    código'))
+    expect(md).toContain('A \\&amp; B')
+    expect(md).toMatch(/\ncódigo/)
+    expect(md).not.toMatch(/\n {4}código/)
+  })
+})

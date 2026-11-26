@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { getPracticeText, textsByRole } from '../../content'
-import { t } from '../../i18n'
+import { t, tPlural } from '../../i18n'
 import { db } from '../../lib/storage/db'
 import { saveSession } from '../../lib/storage/repo'
 import { PracticePage, PracticeRunPage } from './PracticePage'
@@ -58,6 +58,6 @@ describe('PracticePage', () => {
     })
     app('/practica/practica-1')
     expect(await screen.findByText(t('practice.rereadWarning'))).toBeInTheDocument()
-    expect(screen.getByText(new RegExp(t('practice.programWarning', { days: '' }).slice(0, 20)))).toBeInTheDocument()
+    expect(screen.getByText(tPlural('practice.programWarning', 1, { days: '2' }))).toBeInTheDocument()
   })
 })

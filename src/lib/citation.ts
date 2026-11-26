@@ -8,11 +8,11 @@ function authors(s: Source): string[] {
 
 function joinList(items: string[]): string {
   if (items.length <= 1) return items.join('')
-  return `${items.slice(0, -1).join(', ')} y ${items.at(-1)}`
+  return `${items.slice(0, -1).join(', ')} ${t('citation.and')} ${items.at(-1)}`
 }
 
 const withPeriod = (s: string) => (/[.?!]$/.test(s) ? s : `${s}.`)
-const year = (s: Source) => s.year?.trim() || 's. f.'
+const year = (s: Source) => s.year?.trim() || t('citation.noDate')
 
 /** Obras independientes (libro, página web, documento) llevan el título en cursiva; los artículos no. */
 const italicTitle = (s: Source) => s.type !== 'articulo'
@@ -54,7 +54,7 @@ export function inTextCitation(s: Source | undefined, page?: number): string {
       : list.length === 1
         ? surname(list[0])
         : list.length === 2
-          ? `${surname(list[0])} y ${surname(list[1])}`
+          ? `${surname(list[0])} ${t('citation.and')} ${surname(list[1])}`
           : `${surname(list[0])} et al.`
   return `(${who}, ${year(s)}${page !== undefined ? `, p. ${page}` : ''})`
 }

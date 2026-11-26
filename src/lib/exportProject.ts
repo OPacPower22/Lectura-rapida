@@ -55,9 +55,11 @@ export function buildProjectDocument(project: Project, notes: Map<number, Note>,
 /** Escapa los signos de Markdown del texto del usuario para que se vea tal cual. */
 export function escapeMd(s: string): string {
   return s
-    .replace(/([\\`*_[\]<>#|~])/g, '\\$1')
-    .replace(/^(\s*)([+-])(\s)/gm, '$1\\$2$3')
-    .replace(/^(\s*\d+)([.)])(\s)/gm, '$1\\$2$3')
+    .replace(/^[ \t]{4,}/gm, '')
+    .replace(/([\\`*_[\]<>#|~&])/g, '\\$1')
+    .replace(/^([ \t]*)([-=])(?=\2*[ \t]*$)/gm, '$1\\$2')
+    .replace(/^([ \t]*)([+-])([ \t])/gm, '$1\\$2$3')
+    .replace(/^([ \t]*\d+)([.)])([ \t])/gm, '$1\\$2$3')
 }
 
 const withCitation = (text: string, citation?: string) => (citation ? `${text} ${escapeMd(citation)}` : text)

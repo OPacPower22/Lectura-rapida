@@ -53,4 +53,14 @@ describe('ReviewPage', () => {
     await screen.findByText('Pregunta dos')
     await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('button', { name: t('review.show') })))
   })
+
+  it('al calificar la última ficha, el foco va al mensaje de repaso completado', async () => {
+    await addCard({ kind: 'ficha', front: 'Única', back: 'r', lang: 'es' })
+    render(<MemoryRouter><ReviewPage /></MemoryRouter>)
+    await screen.findByText('Única')
+    fireEvent.click(screen.getByRole('button', { name: t('review.show') }))
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('review.grade.good')) }))
+    const done = await screen.findByText(tPlural('review.done', 1))
+    await waitFor(() => expect(document.activeElement).toBe(done))
+  })
 })

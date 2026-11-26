@@ -1,3 +1,5 @@
+import { t } from '../i18n'
+
 /** Descarga un archivo generado en el navegador (no sale nada a la red). */
 export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob)
@@ -19,5 +21,5 @@ export function slugify(title: string): string {
     .replace(/[^a-z0-9ñ]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 60)
-  return slug || 'documento'
+  return slug || t('export.defaultName')
 }

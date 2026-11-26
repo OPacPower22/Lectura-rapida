@@ -92,7 +92,7 @@ export function PracticeRunPage() {
       {(info.reread || info.days.length > 0) && (
         <div role="note" className="mx-auto max-w-prose space-y-1 rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
           {info.reread && <p>{t('practice.rereadWarning')}</p>}
-          {info.days.length > 0 && <p>{t('practice.programWarning', { days: info.days.join(', ') })}</p>}
+          {info.days.length > 0 && <p>{tPlural('practice.programWarning', info.days.length, { days: info.days.join(', ') })}</p>}
         </div>
       )}
       <TextTestFlow

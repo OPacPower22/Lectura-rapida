@@ -18,7 +18,8 @@ interface State {
   hasData: boolean
   due: number
   day: number | 'mantenimiento'
-  backup: boolean
+  backup: 'never' | 'due' | null
+  loadError?: boolean
 }
 
 const pct = (v: number | null) => (v === null ? '—' : t('results.percent', { value: Math.round(v * 100) }))
@@ -63,7 +64,7 @@ export function Dashboard() {
           hasData: sessions.length > 0 || attention.length > 0,
           due,
           day: currentDay(days),
-          backup: backupDue(now, lastBackup, data),
+          backup: backupDue(now, lastBackup, data) ? (lastBackup === undefined ? 'never' : 'due') : null,
         }),
       )
       .catch(() =>
@@ -72,20 +73,26 @@ export function Dashboard() {
           hasData: false,
           due: 0,
           day: 1,
-          backup: false,
+          backup: null,
+          loadError: true,
         }),
       )
   }, [])
 
   if (!state) return null
-  const { stats, hasData, due, day, backup } = state
+  const { stats, hasData, due, day, backup, loadError } = state
   const programLabel = day === 'mantenimiento' ? t('dashboard.maintenance') : t('dashboard.programDay', { day })
 
   return (
     <div className="space-y-8">
       <section aria-labelledby="today" className="space-y-3">
         <h2 id="today" className="text-xl font-semibold">{t('dashboard.today')}</h2>
-        {!hasData && (
+        {loadError && (
+          <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
+            {t('dashboard.loadError')}
+          </p>
+        )}
+        {!hasData && !loadError && (
           <div className="rounded-lg border-2 border-accent bg-accent-soft p-4">
             <Link to="/diagnostico" className="text-xl font-semibold text-accent-ink underline">
               {t('home.diagnosticCta')}
@@ -96,7 +103,7 @@ export function Dashboard() {
         <RetentionCheck />
         {backup && (
           <p role="status" className="rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
-            {t('backup.due')}{' '}
+            {t(backup === 'never' ? 'backup.never' : 'backup.due')}{' '}
             <Link to="/ajustes" className="font-medium underline">
               {t('backup.goToSettings')}
             </Link>
@@ -140,7 +147,7 @@ export function Dashboard() {
           <div className="space-y-3">
             <dl className={`${card} grid grid-cols-3 gap-4`}>
               {TEXT_KINDS.map((k) => (
-                <Stat key={k} label={t(`textKind.${k}`)} value={stats.lastPpm[k] === null ? '—' : `${stats.lastPpm[k]} ppm`} />
+                <Stat key={k} label={t(`textKind.${k}`)} value={stats.lastPpm[k] === null ? '—' : t('results.wpm', { wpm: stats.lastPpm[k]! })} />
               ))}
             </dl>
             <p className="text-sm text-muted">{t('dashboard.ppmNote')}</p>
@@ -150,7 +157,7 @@ export function Dashboard() {
               <Stat label={t('progress.retention.d7')} value={pct(stats.retention.d7)} />
               <Stat label={t('history.wandering')} value={pct(stats.wandering)} />
               <Stat label={t('dashboard.practiceDays')} value={t('dashboard.days7', { days: stats.practiceDays7 })} />
-              <Stat label={t('dashboard.minutesWeek')} value={`${stats.minutesWeek} min`} />
+              <Stat label={t('dashboard.minutesWeek')} value={t('interval.min', { count: stats.minutesWeek })} />
             </dl>
             {stats.ileSeries.length >= 2 && (
               <div className={`${card} flex flex-wrap items-center gap-4`}>

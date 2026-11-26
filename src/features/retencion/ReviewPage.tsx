@@ -41,11 +41,13 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
   const showButton = useRef<HTMLButtonElement>(null)
   const firstGrade = useRef<HTMLButtonElement>(null)
   const interacted = useRef(false)
+  const doneMessage = useRef<HTMLParagraphElement>(null)
   useEffect(() => {
     if (!interacted.current) return
-    if (shown) firstGrade.current?.focus()
+    if (!current) doneMessage.current?.focus()
+    else if (shown) firstGrade.current?.focus()
     else showButton.current?.focus()
-  }, [shown, current?.id])
+  }, [shown, current])
 
   const busy = useRef(false)
   const grade = useCallback(
@@ -87,7 +89,9 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
       {!embedded && <h1 className="text-3xl font-bold">{t('review.title')}</h1>}
       {!current ? (
         <div className="space-y-2">
-          <p className="text-lg">{reviewed > 0 ? tPlural('review.done', reviewed) : t('review.nothingDue')}</p>
+          <p ref={doneMessage} tabIndex={-1} className="text-lg">
+            {reviewed > 0 ? tPlural('review.done', reviewed) : t('review.nothingDue')}
+          </p>
           {next && <p className="text-muted">{t('review.next', { date: dateFormat.format(next) })}</p>}
           {!embedded && (
             <Link to="/fichas" className="text-accent-ink underline">
