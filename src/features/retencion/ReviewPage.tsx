@@ -26,6 +26,7 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
   const show = useCallback(() => {
     if (!current) return
     setIntervals(previewIntervals(current.fsrs, new Date()))
+    interacted.current = true
     setShown(true)
   }, [current])
 
@@ -35,6 +36,16 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
       onFinished?.(reviewed)
     }
   }, [queue, reviewed, onFinished])
+
+  // Foco: tras mostrar, a la primera calificación; con la ficha siguiente, a «Mostrar respuesta».
+  const showButton = useRef<HTMLButtonElement>(null)
+  const firstGrade = useRef<HTMLButtonElement>(null)
+  const interacted = useRef(false)
+  useEffect(() => {
+    if (!interacted.current) return
+    if (shown) firstGrade.current?.focus()
+    else showButton.current?.focus()
+  }, [shown, current?.id])
 
   const busy = useRef(false)
   const grade = useCallback(
@@ -94,7 +105,7 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
             {shown && <p className="whitespace-pre-line border-t border-line pt-4">{current.back}</p>}
           </article>
           {!shown ? (
-            <button type="button" onClick={show} className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover">
+            <button ref={showButton} type="button" onClick={show} className="rounded-md bg-accent px-5 py-2 font-medium text-on-accent hover:bg-accent-hover">
               {t('review.show')}
             </button>
           ) : (
@@ -102,6 +113,7 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
               {GRADES.map((g, i) => (
                 <button
                   key={g}
+                  ref={i === 0 ? firstGrade : undefined}
                   type="button"
                   onClick={() => grade(g)}
                   className="rounded-md border border-line-strong px-3 py-2 hover:bg-hover"

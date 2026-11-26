@@ -1,4 +1,5 @@
 import { newCardState } from '../srs'
+import { notifyCardsChanged } from './cards'
 import { db, type GlossaryEntry } from './db'
 
 /** Reverso de la ficha de una entrada de glosario. */
@@ -7,7 +8,7 @@ function cardBack(e: Pick<GlossaryEntry, 'definition' | 'translation' | 'context
 }
 
 export async function addGlossaryEntry(entry: Omit<GlossaryEntry, 'id' | 'createdAt'>): Promise<number> {
-  return db.transaction('rw', db.glossary, db.cards, async () => {
+  const id = await db.transaction('rw', db.glossary, db.cards, async () => {
     const now = new Date()
     const id = (await db.glossary.add({ ...entry, createdAt: now.getTime() })) as number
     await db.cards.add({
@@ -22,6 +23,8 @@ export async function addGlossaryEntry(entry: Omit<GlossaryEntry, 'id' | 'create
     })
     return id
   })
+  notifyCardsChanged()
+  return id
 }
 
 export async function listGlossary(lang?: string): Promise<GlossaryEntry[]> {
@@ -47,4 +50,5 @@ export async function deleteGlossaryEntry(id: number): Promise<void> {
     await db.cards.where('glossaryId').equals(id).delete()
     await db.glossary.delete(id)
   })
+  notifyCardsChanged()
 }

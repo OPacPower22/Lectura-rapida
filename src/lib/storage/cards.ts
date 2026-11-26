@@ -2,9 +2,18 @@ import type { Grade } from '../srs'
 import { newCardState, review } from '../srs'
 import { db, type StoredCard } from './db'
 
+/** Evento global: cambió el número de fichas (la cabecera actualiza «Repasar (n)»). */
+export const CARDS_CHANGED = 'lectura-rapida:cards'
+
+export function notifyCardsChanged(): void {
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event(CARDS_CHANGED))
+}
+
 export async function addCard(c: { kind: 'ficha'; front: string; back: string; lang: string; sourceId?: number }): Promise<number> {
   const now = new Date()
-  return (await db.cards.add({ ...c, fsrs: newCardState(now), createdAt: now.getTime() })) as number
+  const id = (await db.cards.add({ ...c, fsrs: newCardState(now), createdAt: now.getTime() })) as number
+  notifyCardsChanged()
+  return id
 }
 
 export async function dueCards(now: Date, limit = 200): Promise<StoredCard[]> {
@@ -24,6 +33,7 @@ export async function gradeCard(id: number, grade: Grade, now: Date): Promise<vo
     const card = await db.cards.get(id)
     if (card) await db.cards.update(id, { fsrs: review(card.fsrs, grade, now) })
   })
+  notifyCardsChanged()
 }
 
 export async function updateCard(id: number, patch: { front?: string; back?: string }): Promise<void> {
@@ -32,6 +42,7 @@ export async function updateCard(id: number, patch: { front?: string; back?: str
 
 export async function deleteCard(id: number): Promise<void> {
   await db.cards.delete(id)
+  notifyCardsChanged()
 }
 
 export async function listCards(): Promise<StoredCard[]> {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { countDue } from '../lib/storage/cards'
+import { CARDS_CHANGED, countDue } from '../lib/storage/cards'
 import { ThemePicker } from '../features/ajustes/ThemePicker'
 import { t } from '../i18n'
 import { PreferencesProvider } from './PreferencesProvider'
@@ -35,9 +35,13 @@ export function Layout() {
   const location = useLocation()
   const [due, setDue] = useState(0)
   useEffect(() => {
-    countDue(new Date())
-      .then(setDue)
-      .catch(() => setDue(0))
+    const refresh = () =>
+      countDue(new Date())
+        .then(setDue)
+        .catch(() => setDue(0))
+    refresh()
+    window.addEventListener(CARDS_CHANGED, refresh)
+    return () => window.removeEventListener(CARDS_CHANGED, refresh)
   }, [location])
   return (
     <div className="min-h-screen bg-page text-ink">

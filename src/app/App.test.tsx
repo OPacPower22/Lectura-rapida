@@ -71,3 +71,17 @@ describe('recibir contenido desde «Compartir»', () => {
     window.history.replaceState(null, '', '/')
   })
 })
+
+describe('contador de repaso en la navegación', () => {
+  it('se actualiza al calificar una ficha, sin navegar', async () => {
+    const { addCard, gradeCard } = await import('../lib/storage/cards')
+    const id = await addCard({ kind: 'ficha', front: 'f', back: 'b', lang: 'es' })
+    const router = createMemoryRouter(routes, { initialEntries: ['/ajustes'] })
+    render(<RouterProvider router={router} />)
+    expect(await screen.findByRole('link', { name: t('nav.reviewCount', { count: 1 }) })).toBeInTheDocument()
+    await act(async () => {
+      await gradeCard(id, 'good', new Date())
+    })
+    expect(await screen.findByRole('link', { name: t('nav.review') })).toBeInTheDocument()
+  })
+})

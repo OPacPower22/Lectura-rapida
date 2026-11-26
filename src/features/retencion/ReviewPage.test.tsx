@@ -41,4 +41,16 @@ describe('ReviewPage', () => {
     fireEvent.keyDown(window, { key: '3' })
     await waitFor(async () => expect(await countDue(new Date())).toBe(0))
   })
+
+  it('lleva el foco a la calificación al mostrar la respuesta y al botón de mostrar con la ficha siguiente', async () => {
+    await addCard({ kind: 'ficha', front: 'Pregunta uno', back: 'Respuesta uno', lang: 'es' })
+    await addCard({ kind: 'ficha', front: 'Pregunta dos', back: 'Respuesta dos', lang: 'es' })
+    render(<MemoryRouter><ReviewPage /></MemoryRouter>)
+    await screen.findByText('Pregunta uno')
+    fireEvent.click(screen.getByRole('button', { name: t('review.show') }))
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: new RegExp(t('review.grade.again')) }))
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('review.grade.good')) }))
+    await screen.findByText('Pregunta dos')
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('button', { name: t('review.show') })))
+  })
 })
