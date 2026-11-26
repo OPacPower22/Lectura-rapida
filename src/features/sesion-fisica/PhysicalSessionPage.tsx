@@ -1,3 +1,5 @@
+import { BookOpen } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useRef, useState } from 'react'
 import { t } from '../../i18n'
 import { LANGS, type Lang } from '../../i18n/langs'
@@ -195,7 +197,7 @@ export function PhysicalSessionPage({ now }: { now?: Clock }) {
   return (
     <section className="mx-auto max-w-prose space-y-5">
       <LeaveGuard active={step === 'reading' || step === 'finish'} />
-      <h1 className="text-3xl font-bold">{t('physical.title')}</h1>
+      <PageTitle Icon={BookOpen} marker="read">{t('physical.title')}</PageTitle>
 
       {step === 'book' && (
         <form

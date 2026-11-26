@@ -46,6 +46,15 @@ Abre **https://opacpower22.github.io/Lectura-rapida/** e instálala desde el nav
 
 Después de la primera visita funciona sin conexión.
 
+## Diseño
+
+La identidad visual es **«tinta y subrayador»**:
+- tinta índigo para el texto y los botones principales;
+- un color de marcador por tipo de actividad: amarillo para leer, menta para la atención, lila para la memoria, durazno para escribir y celeste para el progreso;
+- **Literata** (diseñada para leer en pantalla) en los títulos y en el texto que lees, y **Atkinson Hyperlegible Next** en la interfaz. Las dos se incluyen en la app y funcionan sin conexión.
+
+La portada muestra el método en pequeño: una línea donde un marcador avanza y unos puntos señalan dónde se fija la vista. Se detiene si el sistema pide reducir el movimiento.
+
 ## Accesibilidad y rendimiento
 
 - WCAG 2.2 AA comprobado con axe en todas las pantallas y en los tres temas.

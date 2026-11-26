@@ -22,6 +22,7 @@
     "dexie": "^4.4.7",
     "docx": "9.16.0",
     "jszip": "^3.10.2",
+    "lucide-react": "1.81.0",
     "pdfjs-dist": "^6.5.438",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

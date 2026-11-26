@@ -1,3 +1,5 @@
+import { ChartNoAxesCombined } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { currentLang, t } from '../../i18n'
 import { comprehension, ile, mindWanderingRate } from '../../lib/metrics'
@@ -41,7 +43,7 @@ export function HistoryPage({ embedded = false }: { embedded?: boolean }) {
 
   return (
     <section className="mx-auto max-w-4xl space-y-4">
-      {!embedded && <h1 className="text-3xl font-bold">{t('history.title')}</h1>}
+      {!embedded && <PageTitle Icon={ChartNoAxesCombined} marker="progress">{t('history.title')}</PageTitle>}
       {loadError && (
         <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
           {t('history.loadError')}

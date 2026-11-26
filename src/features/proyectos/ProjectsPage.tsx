@@ -1,3 +1,5 @@
+import { PenLine } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { currentLang, t, tPlural } from '../../i18n'
@@ -21,7 +23,7 @@ export function ProjectsPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-6">
-      <h1 className="text-3xl font-bold">{t('projects.title')}</h1>
+      <PageTitle Icon={PenLine} marker="writing">{t('projects.title')}</PageTitle>
       <p>{t('projects.lead')}</p>
       <form
         className="grid gap-3 rounded-lg border border-line bg-surface p-4 sm:grid-cols-[1fr_auto_auto] sm:items-end"

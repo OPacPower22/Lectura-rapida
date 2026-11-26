@@ -1,3 +1,5 @@
+import { NotebookPen } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { t, tPlural } from '../../i18n'
@@ -122,7 +124,7 @@ function NoteCard({ note, ctx }: { note: Note; ctx: Ctx }) {
   const source = ctx.sources.get(note.sourceId)
   return (
     <article className="rounded-lg border border-line bg-surface p-4">
-      <p className="text-xs uppercase tracking-wide text-muted">
+      <p className="text-sm font-semibold text-accent-ink">
         {t(`note.kind.${note.kind}`)}
         {note.page !== undefined && ` · ${t('notes.page', { page: note.page })}`}
       </p>
@@ -190,7 +192,7 @@ export function NotebookPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-4">
-      <h1 className="text-3xl font-bold">{t('notebook.title')}</h1>
+      <PageTitle Icon={NotebookPen} marker="writing">{t('notebook.title')}</PageTitle>
       <p>{t('notebook.lead')}</p>
       <div className="flex flex-wrap gap-2">
         <Link to="/fuentes" className={outlineButton}>{t('notebook.sources')}</Link>

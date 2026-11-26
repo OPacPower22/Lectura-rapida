@@ -1,3 +1,5 @@
+import { LibraryBig } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { t } from '../../i18n'
@@ -30,7 +32,7 @@ export function LibraryPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-5">
-      <h1 className="text-3xl font-bold">{t('library.title')}</h1>
+      <PageTitle Icon={LibraryBig} marker="read">{t('library.title')}</PageTitle>
       <div className="flex flex-wrap gap-2">
         <Link to="/biblioteca/importar" className="rounded-md bg-accent px-4 py-2 font-medium text-on-accent hover:bg-accent-hover">
           {t('library.add')}

@@ -25,7 +25,7 @@ export function NotesPanel({ notes, onGoTo, canGoTo = () => true, onUpdate, onDe
       <ul className="mt-3 space-y-3">
         {notes.map((note) => (
           <li key={note.id} className="border-l-4 border-accent pl-3">
-            <p className="text-xs uppercase tracking-wide text-muted">
+            <p className="text-sm font-semibold text-accent-ink">
               {t(`note.kind.${note.kind}`)}
               {note.page !== undefined && ` · ${t('notes.page', { page: note.page })}`}
             </p>

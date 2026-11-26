@@ -56,7 +56,7 @@ export const es = {
   'home.readCta': 'Medir la lectura de un texto propio',
   'home.progressCta': 'Ver mi progreso',
   'storage.notPersistent':
-    'Este navegador podría borrar tus datos si necesita espacio. Más adelante podrás exportar un respaldo.',
+    'Este navegador podría borrar tus datos si necesita espacio. Guarda un respaldo de vez en cuando desde Ajustes.',
   'paste.title': 'Leer un texto propio',
   'paste.help':
     'Pega el texto de un artículo, capítulo o documento. Mediremos tu velocidad y tu atención. La comprensión de textos propios se evaluará en una fase posterior.',
@@ -622,4 +622,15 @@ export const es = {
   'citation.noDate': 's. f.',
   'export.defaultName': 'documento',
   'dashboard.loadError': 'No se pudieron leer tus datos en este dispositivo. Recarga la página; si sigue fallando, revisa el almacenamiento del navegador.',
+  'hero.title': 'Lee con atención. Recuerda lo que lees.',
+  'hero.strip1': 'Antes de leer, decide qué quieres encontrar.',
+  'hero.strip2': 'La vista salta, se fija y avanza por la línea;',
+  'hero.strip3': 'al terminar, recuerda sin mirar y repasa mañana.',
+  'dashboard.todayClear': 'Sin repasos pendientes. Elige una actividad para hoy.',
+  'program.weekTitle': 'Semana {week}: {theme}',
+  'program.week.1': 'medir y atender',
+  'program.week.2': 'velocidad flexible',
+  'program.week.3': 'comprensión profunda',
+  'program.week.4': 'retención y producción',
+  'program.dayN': 'Día {day}',
 } as const

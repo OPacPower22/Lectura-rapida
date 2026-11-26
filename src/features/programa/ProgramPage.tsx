@@ -1,4 +1,7 @@
+import { CalendarCheck } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
+import { Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { getDayPlans } from '../../content/programa'
 import { t } from '../../i18n'
@@ -24,8 +27,8 @@ export function ProgramPage() {
   const isDone = (d: number) => days.some((x) => x.day === d && x.completedAt)
 
   return (
-    <section className="mx-auto max-w-3xl space-y-5">
-      <h1 className="text-3xl font-bold">{t('program.title')}</h1>
+    <section className="mx-auto max-w-3xl space-y-6">
+      <PageTitle Icon={CalendarCheck} marker="program">{t('program.title')}</PageTitle>
       <p>{t('program.intro')}</p>
       <RetentionCheck />
 
@@ -61,17 +64,56 @@ export function ProgramPage() {
         </Link>
       )}
 
-      <ol className="grid gap-2 sm:grid-cols-2">
-        {getDayPlans().map((p) => {
-          const status = isDone(p.day) ? 'done' : p.day === current ? 'current' : 'pending'
-          const label = `${t('program.dayTitle', { day: p.day, title: p.title })} · ${t(`program.status.${status}`)}`
-          return (
-            <li key={p.day} className={`rounded border px-3 py-2 ${status === 'current' ? 'border-accent' : 'border-line'} ${status === 'done' ? 'text-muted' : ''}`}>
-              {status === 'pending' ? label : <Link to={`/programa/dia/${p.day}`} className="underline-offset-2 hover:underline">{label}</Link>}
-            </li>
-          )
-        })}
-      </ol>
+      <div className="space-y-8">
+        {[1, 2, 3, 4].map((week) => (
+          <section key={week} aria-labelledby={`week-${week}`} className="space-y-3">
+            <h2 id={`week-${week}`} className="text-xl">
+              {t('program.weekTitle', { week, theme: t(`program.week.${week}` as 'program.week.1') })}
+            </h2>
+            <ol className="grid gap-2 sm:grid-cols-2">
+              {getDayPlans()
+                .filter((p) => Math.ceil(p.day / 7) === week)
+                .map((p) => {
+                  const status = isDone(p.day) ? 'done' : p.day === current ? 'current' : 'pending'
+                  const label = `${t('program.dayTitle', { day: p.day, title: p.title })} · ${t(`program.status.${status}`)}`
+                  const badge =
+                    status === 'done'
+                      ? 'bg-marker-attention'
+                      : status === 'current'
+                        ? 'bg-cta text-cta-ink ring-2 ring-accent ring-offset-2 ring-offset-surface'
+                        : 'border border-line-strong text-muted'
+                  const body = (
+                    <>
+                      <span className={`grid size-9 shrink-0 place-items-center rounded-full text-sm font-bold ${badge}`} aria-hidden="true">
+                        {status === 'done' ? <Check className="size-4" /> : p.day}
+                      </span>
+                      <span className="flex flex-col">
+                        <span className={`font-semibold leading-snug ${status === 'pending' ? 'text-muted' : ''}`}>{p.title}</span>
+                        <span className="text-sm text-muted">
+                          {t('program.dayN', { day: p.day })} · {t(`program.status.${status}`)}
+                        </span>
+                      </span>
+                    </>
+                  )
+                  const tile = `flex items-center gap-3 rounded-lg border p-3 ${status === 'current' ? 'border-accent bg-accent-soft' : 'border-line bg-surface'}`
+                  return (
+                    <li key={p.day}>
+                      {status === 'pending' ? (
+                        <div className={tile} aria-label={label} role="group">
+                          {body}
+                        </div>
+                      ) : (
+                        <Link to={`/programa/dia/${p.day}`} aria-label={label} className={`${tile} transition-colors hover:border-accent`}>
+                          {body}
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
+            </ol>
+          </section>
+        ))}
+      </div>
     </section>
   )
 }

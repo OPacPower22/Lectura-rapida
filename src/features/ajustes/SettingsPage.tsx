@@ -1,3 +1,5 @@
+import { Settings } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useId, useState } from 'react'
 import { usePreferences } from '../../app/preferencesContext'
 import { currentLang, t, tPlural } from '../../i18n'
@@ -155,7 +157,7 @@ export function SettingsPage() {
 
   return (
     <section className="mx-auto max-w-prose space-y-6">
-      <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
+      <PageTitle Icon={Settings} marker="neutral">{t('settings.title')}</PageTitle>
 
       <section aria-labelledby="look-title" className={`${card} space-y-4`}>
         <h2 id="look-title" className="text-xl font-semibold">{t('settings.appearance')}</h2>

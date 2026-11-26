@@ -34,6 +34,15 @@ describe.each(['light', 'sepia', 'dark'])('tema %s', (name) => {
     ['err-ink', 'err-bg'],
     ['ink', 'mark'],
     ['ink', 'pace'],
+    ['ink', 'marker-read'],
+    ['ink', 'marker-attention'],
+    ['ink', 'marker-memory'],
+    ['ink', 'marker-writing'],
+    ['ink', 'marker-progress'],
+    ['hero-ink', 'hero'],
+    ['hero-muted', 'hero'],
+    ['cta-ink', 'cta'],
+    ['muted', 'page'],
   ])('%s sobre %s cumple AA (4,5:1)', (fg, bg) => {
     expect(contrast(v[fg], v[bg])).toBeGreaterThanOrEqual(4.5)
   })
@@ -44,6 +53,9 @@ describe.each(['light', 'sepia', 'dark'])('tema %s', (name) => {
   it('el contorno de foco se ve sobre el fondo y las tarjetas (WCAG 2.4.13, ≥ 3:1)', () => {
     expect(contrast(v.focus, v.page)).toBeGreaterThanOrEqual(3)
     expect(contrast(v.focus, v.surface)).toBeGreaterThanOrEqual(3)
+  })
+  it('el botón destacado se distingue sobre la portada (≥ 3:1)', () => {
+    expect(contrast(v.cta, v.hero)).toBeGreaterThanOrEqual(3)
   })
   it('el resaltado del marcapasos se distingue del fondo (≥ 1,5:1)', () => {
     expect(contrast(v.pace, v.page)).toBeGreaterThanOrEqual(1.5)

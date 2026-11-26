@@ -1,3 +1,5 @@
+import { BookA } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { t } from '../../i18n'
 import { db, type GlossaryEntry, type Source } from '../../lib/storage/db'
@@ -91,7 +93,7 @@ export function GlossaryPage() {
 
   return (
     <section className="mx-auto max-w-prose space-y-5">
-      <h1 className="text-3xl font-bold">{t('glossary.title')}</h1>
+      <PageTitle Icon={BookA} marker="memory">{t('glossary.title')}</PageTitle>
       {entries?.length === 0 && <p>{t('glossary.empty')}</p>}
       {[...groups].map(([lang, items]) => (
         <section key={lang} className="space-y-3">

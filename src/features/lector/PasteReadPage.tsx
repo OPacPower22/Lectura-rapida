@@ -1,3 +1,5 @@
+import { ClipboardPaste } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useMemo, useRef, useState } from 'react'
 import { usePreferences } from '../../app/preferencesContext'
 import { useFocusHeading } from '../../ui/useFocusHeading'
@@ -97,7 +99,7 @@ export function PasteReadPage({ now }: { now?: Clock }) {
 
   return (
     <section ref={root} className="mx-auto max-w-prose space-y-4">
-      <h1 className="text-3xl font-bold">{t('paste.title')}</h1>
+      <PageTitle Icon={ClipboardPaste} marker="read">{t('paste.title')}</PageTitle>
       <p>{t('paste.help')}</p>
       <label className="block">
         <span className="mb-1 block font-medium">{t('paste.titleLabel')}</span>

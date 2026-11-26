@@ -30,9 +30,7 @@ export function HomePage() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-4xl space-y-6">
-      <h1 className="text-3xl font-bold">{t('app.title')}</h1>
-      <p>{t('home.lead')}</p>
+    <section className="mx-auto max-w-5xl space-y-6">
       {!persisted && !dismissed && (
         <div role="status" className="flex flex-wrap items-start gap-3 rounded border border-warn-line bg-warn-bg p-3 text-warn-ink">
           <p className="flex-1">{t('storage.notPersistent')}</p>

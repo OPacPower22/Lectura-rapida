@@ -1,3 +1,5 @@
+import { BookOpenText } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { textsByRole, getPracticeText } from '../../content'
@@ -39,7 +41,7 @@ export function PracticePage() {
   const texts = [...textsByRole('practica')].sort((a, b) => Number(read.has(a.id)) - Number(read.has(b.id)))
   return (
     <section className="mx-auto max-w-prose space-y-4">
-      <h1 className="text-3xl font-bold">{t('practice.title')}</h1>
+      <PageTitle Icon={BookOpenText} marker="read">{t('practice.title')}</PageTitle>
       <p>{t('practice.lead')}</p>
       <ul className="space-y-3">
         {texts.map((text) => {

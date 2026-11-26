@@ -1,3 +1,5 @@
+import { ChartNoAxesCombined } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { currentLang, t } from '../../i18n'
@@ -89,7 +91,7 @@ export function ProgressPage() {
 
   return (
     <section className="mx-auto max-w-4xl space-y-4">
-      <h1 className="text-3xl font-bold">{t('history.title')}</h1>
+      <PageTitle Icon={ChartNoAxesCombined} marker="progress">{t('history.title')}</PageTitle>
       {error && (
         <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
           {t('history.loadError')}

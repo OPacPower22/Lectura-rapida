@@ -1,3 +1,5 @@
+import { BookMarked } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { t, tPlural } from '../../i18n'
@@ -105,7 +107,7 @@ export function SourcesPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-4">
-      <h1 className="text-3xl font-bold">{t('sources.pageTitle')}</h1>
+      <PageTitle Icon={BookMarked} marker="writing">{t('sources.pageTitle')}</PageTitle>
       <p>{t('sources.lead')}</p>
       <Link to="/cuaderno" className={`inline-block ${outlineButton}`}>{t('sources.back')}</Link>
       {sources !== null && sources.length === 0 && <p>{t('sources.empty')}</p>}

@@ -1,3 +1,5 @@
+import { Gauge } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { diagnosticTextFor } from '../../content'
@@ -23,7 +25,7 @@ export function DiagnosticPage({ now, onDone }: { now?: Clock; onDone?(): void }
     return (
       <div ref={root}>
         <section className="mx-auto max-w-prose space-y-4">
-          {onDone ? <h2 className="text-2xl font-semibold">{t('diag.title')}</h2> : <h1 className="text-3xl font-bold">{t('diag.title')}</h1>}
+          {onDone ? <h2 className="text-2xl font-semibold">{t('diag.title')}</h2> : <PageTitle Icon={Gauge} marker="read">{t('diag.title')}</PageTitle>}
           <p>{t('diag.intro')}</p>
           <fieldset className="space-y-1">
             <legend className="mb-1 font-medium">{t('diag.kindLegend')}</legend>

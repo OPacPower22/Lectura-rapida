@@ -1,39 +1,96 @@
 @import 'tailwindcss';
 
-/* Colores semánticos: cada tema redefine estas variables. Contraste AA verificado. */
+/* Tipografías propias (sin red): Literata para títulos y lectura; Atkinson Hyperlegible Next para la interfaz.
+   Licencia SIL OFL 1.1 (src/assets/fonts). Solo latín y latín extendido. */
+@font-face {
+  font-family: 'Literata';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('./assets/fonts/literata-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Literata';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('./assets/fonts/literata-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Literata';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('./assets/fonts/literata-latin-wght-italic.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('./assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('./assets/fonts/atkinson-hyperlegible-next-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Colores semánticos «tinta y subrayador»: cada tema redefine estas variables. Contraste AA verificado
+   en src/theme-contrast.test.ts. Los marcadores (--marker-*) codifican el tipo de actividad, como al
+   subrayar por colores: lectura (amarillo), atención (menta), memoria (lila), escritura (durazno),
+   progreso (celeste). Siempre llevan texto o iconos en tinta encima. */
 :root,
 [data-theme='light'] {
-  --page: #fafaf9;
+  --page: #f2f3f9;
   --surface: #ffffff;
-  --ink: #1c1917;
-  --muted: #57534e;
-  --line: #e7e5e4;
-  --line-strong: #8a847f;
-  --hover: #f5f5f4;
-  --accent: #1d4ed8;
-  --accent-hover: #1e40af;
+  --ink: #171a3d;
+  --muted: #4d5378;
+  --line: #dfe2ef;
+  --line-strong: #7c82a6;
+  --hover: #eceefa;
+  --accent: #3a34d1;
+  --accent-hover: #2b259f;
+  --accent-shadow: #1f1a7a;
   --on-accent: #ffffff;
-  --accent-soft: #eff6ff;
-  --accent-ink: #1e40af;
-  --disabled: #a8a29e;
-  --warn-bg: #fffbeb;
-  --warn-line: #fcd34d;
-  --warn-strong: #d97706;
-  --warn-ink: #78350f;
-  --err-bg: #fef2f2;
-  --err-line: #fca5a5;
-  --err-ink: #991b1b;
-  --mark: #fde68a;
-  --pace: #93c5fd;
-  --focus: #1d4ed8;
-  /* Series de gráficas: paleta validada (CVD, visión normal) con la skill dataviz. */
+  --accent-soft: #ebeaff;
+  --accent-ink: #2b259f;
+  --disabled: #a3a7c2;
+  --warn-bg: #fff8e1;
+  --warn-line: #f5cf5b;
+  --warn-strong: #c27803;
+  --warn-ink: #6b3a06;
+  --err-bg: #fff0f1;
+  --err-line: #f6a5ad;
+  --err-ink: #9b1c2c;
+  --mark: #ffe36e;
+  --pace: #b3b6ff;
+  --focus: #3a34d1;
+  --marker-read: #ffe36e;
+  --marker-attention: #b8f0d8;
+  --marker-memory: #e0d4ff;
+  --marker-writing: #ffd3b5;
+  --marker-progress: #c4e3ff;
+  --hero: #1b1d4a;
+  --hero-ink: #f3f2ff;
+  --hero-muted: #c3c4ee;
+  --cta: #ffd84a;
+  --cta-ink: #1b1d4a;
+  --cta-shadow: #b8901a;
   --series-1: #257de0;
   --series-2: #f47230;
   --series-3: #00b894;
 }
 
 [data-theme='sepia'] {
-  --page: #f4ecd8;
+  --page: #f3ead6;
   --surface: #fbf5e6;
   --ink: #3b2f20;
   --muted: #6b5a43;
@@ -42,6 +99,7 @@
   --hover: #efe3c8;
   --accent: #7c4a14;
   --accent-hover: #643a0e;
+  --accent-shadow: #4a2a08;
   --on-accent: #ffffff;
   --accent-soft: #f1e3c4;
   --accent-ink: #6b3e0f;
@@ -56,35 +114,58 @@
   --mark: #f0cf72;
   --pace: #d9b05f;
   --focus: #7c4a14;
+  --marker-read: #f5d87a;
+  --marker-attention: #cfe5c2;
+  --marker-memory: #e5d3ea;
+  --marker-writing: #f3c9a4;
+  --marker-progress: #cfe0e6;
+  --hero: #3b2f20;
+  --hero-ink: #fbf5e6;
+  --hero-muted: #e3d3b2;
+  --cta: #f5c84c;
+  --cta-ink: #3b2f20;
+  --cta-shadow: #a87d18;
   --series-1: #257de0;
   --series-2: #f47230;
   --series-3: #00b894;
 }
 
 [data-theme='dark'] {
-  --page: #0c0a09;
-  --surface: #1c1917;
-  --ink: #e7e5e4;
-  --muted: #a8a29e;
-  --line: #292524;
-  --line-strong: #78716c;
-  --hover: #292524;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --page: #0e1026;
+  --surface: #181b3a;
+  --ink: #ecedff;
+  --muted: #a8acd2;
+  --line: #272b52;
+  --line-strong: #7076a0;
+  --hover: #22254a;
+  --accent: #5650ee;
+  --accent-hover: #6a65ff;
+  --accent-shadow: #2a2590;
   --on-accent: #ffffff;
-  --accent-soft: #172554;
-  --accent-ink: #93c5fd;
-  --disabled: #57534e;
-  --warn-bg: #451a03;
-  --warn-line: #92400e;
-  --warn-strong: #f59e0b;
-  --warn-ink: #fde68a;
-  --err-bg: #450a0a;
-  --err-line: #991b1b;
-  --err-ink: #fecaca;
-  --mark: #854d0e;
-  --pace: #1e40af;
-  --focus: #60a5fa;
+  --accent-soft: #25226a;
+  --accent-ink: #bcbaff;
+  --disabled: #4d5175;
+  --warn-bg: #3a2604;
+  --warn-line: #8a5a0b;
+  --warn-strong: #f2a93b;
+  --warn-ink: #ffe0a3;
+  --err-bg: #3d0d14;
+  --err-line: #9b2335;
+  --err-ink: #ffc9d0;
+  --mark: #5e4c00;
+  --pace: #3a368f;
+  --focus: #a09eff;
+  --marker-read: #4a3d00;
+  --marker-attention: #0f4436;
+  --marker-memory: #36295f;
+  --marker-writing: #5a3017;
+  --marker-progress: #14395a;
+  --hero: #1f2256;
+  --hero-ink: #f3f2ff;
+  --hero-muted: #c0c1f0;
+  --cta: #ffd84a;
+  --cta-ink: #1b1d4a;
+  --cta-shadow: #a8841c;
   --series-1: #338ced;
   --series-2: #e76624;
   --series-3: #00a888;
@@ -116,11 +197,73 @@
   --color-series-1: var(--series-1);
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
+  --color-marker-read: var(--marker-read);
+  --color-marker-attention: var(--marker-attention);
+  --color-marker-memory: var(--marker-memory);
+  --color-marker-writing: var(--marker-writing);
+  --color-marker-progress: var(--marker-progress);
+  --color-hero: var(--hero);
+  --color-hero-ink: var(--hero-ink);
+  --color-hero-muted: var(--hero-muted);
+  --color-cta: var(--cta);
+  --color-cta-ink: var(--cta-ink);
+  --font-sans: 'Atkinson Hyperlegible Next', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
 }
 
 body {
   background-color: var(--page);
   color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Títulos con la voz de un libro; el texto que se lee, también en Literata. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h1 {
+  font-weight: 700;
+}
+h2,
+h3 {
+  font-weight: 650;
+}
+article[lang] {
+  font-family: var(--font-serif);
+}
+
+/* Botones de acción: tinta sólida con una sombra que se hunde al pulsar. */
+button.bg-accent,
+a.bg-accent {
+  box-shadow: 0 3px 0 var(--accent-shadow);
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease,
+    background-color 120ms ease;
+}
+button.bg-accent:not(:disabled):active,
+a.bg-accent:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--accent-shadow);
+}
+button.bg-accent:disabled {
+  box-shadow: none;
+}
+button.border-line-strong,
+a.border-line-strong {
+  background-color: var(--surface);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+button.border-line-strong:not(:disabled):hover,
+a.border-line-strong:hover {
+  border-color: var(--accent);
 }
 
 /* Foco de teclado siempre visible, con contraste ≥ 3:1 en los tres temas (WCAG 2.4.7 y 2.4.13). */
@@ -140,4 +283,112 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .breathe { animation: none; transform: scale(0.8); }
+}
+
+/* Portada: bloque de tinta con renglones de cuaderno y la línea de lectura animada. */
+.hero {
+  background-color: var(--hero);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    color-mix(in oklab, var(--hero-ink) 7%, transparent) 31px,
+    color-mix(in oklab, var(--hero-ink) 7%, transparent) 32px
+  );
+  color: var(--hero-ink);
+}
+.cta {
+  background-color: var(--cta);
+  color: var(--cta-ink);
+  box-shadow: 0 3px 0 var(--cta-shadow);
+  transition: transform 80ms ease, box-shadow 80ms ease, filter 120ms ease;
+}
+.cta:hover {
+  filter: brightness(1.05);
+}
+.cta:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--cta-shadow);
+}
+.hero :focus-visible {
+  outline-color: var(--cta);
+}
+
+.reading-strip {
+  --step: 0.42s;
+  --cycle: 6.5s;
+  border-radius: 0.875rem;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 1.25rem 1.5rem;
+  font-size: 1.05rem;
+  line-height: 2.1;
+  box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.55);
+  transform: rotate(-1.5deg);
+}
+.reading-strip__line {
+  color: var(--muted);
+}
+.reading-strip__line--active {
+  color: var(--ink);
+}
+.reading-strip__word {
+  position: relative;
+  background-image: linear-gradient(var(--mark), var(--mark));
+  background-repeat: no-repeat;
+  background-position: 0 85%;
+  background-size: 0% 55%;
+  animation: swipe var(--cycle) linear infinite;
+  animation-delay: calc(var(--i) * var(--step));
+}
+.reading-strip__word--fix::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -0.35em;
+  width: 0.42em;
+  height: 0.42em;
+  margin-left: -0.21em;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0;
+  animation: fixate var(--cycle) linear infinite;
+  animation-delay: calc(var(--i) * var(--step));
+}
+@keyframes swipe {
+  0% { background-size: 0% 55%; }
+  5% { background-size: 100% 55%; }
+  70% { background-size: 100% 55%; }
+  78% { background-size: 0% 55%; }
+  100% { background-size: 0% 55%; }
+}
+@keyframes fixate {
+  0% { opacity: 0; transform: scale(0.4); }
+  4% { opacity: 1; transform: scale(1); }
+  70% { opacity: 1; }
+  78% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reading-strip__word,
+  .reading-strip__word--fix::after {
+    animation: none;
+  }
+  .reading-strip__word {
+    background-size: 100% 55%;
+  }
+  .reading-strip__word--fix::after {
+    opacity: 1;
+  }
+}
+
+/* Fichas de actividad: un marcador de color por tipo, con el icono en tinta. */
+.marker-chip {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  color: var(--ink);
 }

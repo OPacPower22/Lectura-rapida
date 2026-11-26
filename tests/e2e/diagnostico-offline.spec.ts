@@ -11,7 +11,7 @@ test('el diagnóstico se completa sin conexión tras la primera visita', async (
 
   await context.setOffline(true)
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'Lectura Rápida' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Lee con atención. Recuerda lo que lees.' })).toBeVisible()
 
   await page.getByRole('link', { name: 'Haz tu diagnóstico' }).click()
   await page.getByRole('button', { name: 'Continuar' }).click()

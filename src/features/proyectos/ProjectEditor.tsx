@@ -56,7 +56,7 @@ function NotePicker({ lookup, onAdd, onCancel }: { lookup: Lookup; onAdd(ids: nu
                 onChange={(e) => setPicked(e.target.checked ? [...picked, n.id!] : picked.filter((id) => id !== n.id))}
               />
               <span>
-                <span className="text-xs uppercase text-muted">{t(`note.kind.${n.kind}`)} </span>
+                <span className="text-sm font-semibold text-accent-ink">{t(`note.kind.${n.kind}`)} </span>
                 {n.quote ? `«${n.quote}» ` : ''}
                 {n.text} <span className="text-muted">{inTextCitation(lookup.sources.get(n.sourceId), n.page)}</span>
               </span>
@@ -79,7 +79,7 @@ function ItemView({ item, n, lookup }: { item: Extract<ProjectItem, { type: 'not
   if (!note) return <p className="text-err-ink" data-n={n}>{t('project.noteDeleted')}</p>
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-muted">{t(`note.kind.${note.kind}`)}</p>
+      <p className="text-sm font-semibold text-accent-ink">{t(`note.kind.${note.kind}`)}</p>
       {note.quote && <blockquote className="italic">«{note.quote}»</blockquote>}
       {note.text && <p className="whitespace-pre-wrap">{note.text}</p>}
       <p className="text-sm text-muted">{inTextCitation(lookup.sources.get(note.sourceId), note.page)}</p>

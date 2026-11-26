@@ -1,3 +1,5 @@
+import { Layers } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { currentLang, t, tPlural } from '../../i18n'
@@ -86,7 +88,7 @@ export function ReviewPage({ embedded, onFinished }: { embedded?: boolean; onFin
 
   return (
     <section className="mx-auto max-w-prose space-y-4">
-      {!embedded && <h1 className="text-3xl font-bold">{t('review.title')}</h1>}
+      {!embedded && <PageTitle Icon={Layers} marker="memory">{t('review.title')}</PageTitle>}
       {!current ? (
         <div className="space-y-2">
           <p ref={doneMessage} tabIndex={-1} className="text-lg">

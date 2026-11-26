@@ -1,3 +1,5 @@
+import { FileUp } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useState, type ClipboardEvent } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { t } from '../../i18n'
@@ -125,7 +127,7 @@ export function ImportPage() {
 
   return (
     <section className="mx-auto max-w-prose space-y-5">
-      <h1 className="text-3xl font-bold">{t('import.title')}</h1>
+      <PageTitle Icon={FileUp} marker="read">{t('import.title')}</PageTitle>
 
       <div className="flex flex-wrap items-center gap-2">
         <div role="tablist" aria-label={t('import.title')} className="flex flex-wrap gap-2">

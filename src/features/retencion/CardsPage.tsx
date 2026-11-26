@@ -1,3 +1,5 @@
+import { Layers } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { currentLang, t } from '../../i18n'
 import type { Source, StoredCard } from '../../lib/storage/db'
@@ -80,7 +82,7 @@ export function CardsPage() {
 
   return (
     <section className="mx-auto max-w-prose space-y-4">
-      <h1 className="text-3xl font-bold">{t('cards.title')}</h1>
+      <PageTitle Icon={Layers} marker="memory">{t('cards.title')}</PageTitle>
       {adding ? (
         <CardForm
           onSave={async (front, back) => {

@@ -32,7 +32,7 @@ export function ThemePicker() {
 
   return (
     <label className="flex items-center gap-2 text-sm">
-      <span className="sr-only sm:not-sr-only">{t('theme.label')}</span>
+      <span className="sr-only">{t('theme.label')}</span>
       <select
         value={choice}
         onChange={(e) => {
@@ -40,7 +40,7 @@ export function ThemePicker() {
           setChoice(next)
           saveThemeChoice(next)
         }}
-        className="max-w-[11rem] rounded border border-line-strong bg-surface px-1 py-1 text-ink sm:max-w-none sm:px-2"
+        className="max-w-[14rem] rounded-full border border-line-strong bg-surface px-3 py-1.5 text-sm text-ink"
       >
         {THEME_CHOICES.map((c) => (
           <option key={c} value={c}>

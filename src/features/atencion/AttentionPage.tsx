@@ -1,3 +1,5 @@
+import { Wind } from 'lucide-react'
+import { PageTitle } from '../../ui/PageTitle'
 import { useEffect, useState } from 'react'
 import { currentLang, t, tPlural } from '../../i18n'
 import { listAttentionSessions, saveAttentionSession } from '../../lib/storage/attention'
@@ -38,7 +40,7 @@ export function AttentionPage({
 
   return (
     <section className="mx-auto max-w-prose space-y-5">
-      {!embedded && <h1 className="text-3xl font-bold">{t('attention.title')}</h1>}
+      {!embedded && <PageTitle Icon={Wind} marker="attention">{t('attention.title')}</PageTitle>}
       <p>{t('attention.intro')}</p>
       {result ? (
         <div className="space-y-3">
