@@ -14,3 +14,5 @@ export const CardsPage = lazy(() => import('../features/retencion/CardsPage').th
 export const ReviewPage = lazy(() => import('../features/retencion/ReviewPage').then((m) => ({ default: m.ReviewPage })))
 export const PasteReadPage = lazy(() => import('../features/lector/PasteReadPage').then((m) => ({ default: m.PasteReadPage })))
 export const ProgressPage = lazy(() => import('../features/progreso/ProgressPage').then((m) => ({ default: m.ProgressPage })))
+export const PracticePage = lazy(() => import('../features/practica/PracticePage').then((m) => ({ default: m.PracticePage })))
+export const PracticeRunPage = lazy(() => import('../features/practica/PracticePage').then((m) => ({ default: m.PracticeRunPage })))

@@ -7,12 +7,9 @@ import { t } from '../i18n'
 const items = [
   { to: '/', label: 'nav.home', end: true },
   { to: '/programa', label: 'nav.program', end: false },
-  { to: '/diagnostico', label: 'nav.diagnostic', end: false },
   { to: '/biblioteca', label: 'nav.library', end: false },
   { to: '/repasar', label: 'nav.review', end: false },
-  { to: '/atencion', label: 'nav.attention', end: false },
   { to: '/progreso', label: 'nav.progress', end: false },
-  { to: '/glosario', label: 'nav.glossary', end: false },
 ] as const
 
 /** Publica la altura de la cabecera fija en --header-h para que las barras del lector se sitúen debajo. */
