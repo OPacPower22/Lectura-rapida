@@ -40,3 +40,8 @@ export async function updateSessionRecall(sessionId: number, recall: string): Pr
 export async function updateSessionRecallGrade(sessionId: number, recallGrade: 'alto' | 'medio' | 'bajo'): Promise<void> {
   await db.readingSessions.update(sessionId, { recallGrade })
 }
+
+/** Todos los cuestionarios, inmediatos y diferidos. */
+export async function listQuizResults(): Promise<QuizResult[]> {
+  return db.quizResults.toArray()
+}

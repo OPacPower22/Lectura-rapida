@@ -18,7 +18,7 @@ export const routes: RouteObject[] = [
       { path: 'biblioteca/fisico', element: deferred(<Pages.PhysicalSessionPage />) },
       { path: 'biblioteca/:id', element: deferred(<Pages.DocumentReaderPage />) },
       { path: 'leer', element: deferred(<Pages.PasteReadPage />) },
-      { path: 'progreso', element: deferred(<Pages.HistoryPage />) },
+      { path: 'progreso', element: deferred(<Pages.ProgressPage />) },
       { path: 'glosario', element: deferred(<Pages.GlossaryPage />) },
       { path: 'repasar', element: deferred(<Pages.ReviewPage />) },
       { path: 'fichas', element: deferred(<Pages.CardsPage />) },

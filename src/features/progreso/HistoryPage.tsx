@@ -29,7 +29,7 @@ function Row({ summary }: { summary: SessionSummary }) {
   )
 }
 
-export function HistoryPage() {
+export function HistoryPage({ embedded = false }: { embedded?: boolean }) {
   const [sessions, setSessions] = useState<SessionSummary[] | null>(null)
   const [loadError, setLoadError] = useState(false)
 
@@ -41,7 +41,7 @@ export function HistoryPage() {
 
   return (
     <section className="mx-auto max-w-4xl space-y-4">
-      <h1 className="text-3xl font-bold">{t('history.title')}</h1>
+      {!embedded && <h1 className="text-3xl font-bold">{t('history.title')}</h1>}
       {loadError && (
         <p role="alert" className="rounded border border-err-line bg-err-bg p-3 text-err-ink">
           {t('history.loadError')}

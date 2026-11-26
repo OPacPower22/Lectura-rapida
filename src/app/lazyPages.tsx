@@ -13,4 +13,4 @@ export const AttentionPage = lazy(() => import('../features/atencion/AttentionPa
 export const CardsPage = lazy(() => import('../features/retencion/CardsPage').then((m) => ({ default: m.CardsPage })))
 export const ReviewPage = lazy(() => import('../features/retencion/ReviewPage').then((m) => ({ default: m.ReviewPage })))
 export const PasteReadPage = lazy(() => import('../features/lector/PasteReadPage').then((m) => ({ default: m.PasteReadPage })))
-export const HistoryPage = lazy(() => import('../features/progreso/HistoryPage').then((m) => ({ default: m.HistoryPage })))
+export const ProgressPage = lazy(() => import('../features/progreso/ProgressPage').then((m) => ({ default: m.ProgressPage })))

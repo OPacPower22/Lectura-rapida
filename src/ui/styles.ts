@@ -1,0 +1,5 @@
+export const primaryButton = 'rounded-md bg-accent px-4 py-2 font-medium text-on-accent hover:bg-accent-hover disabled:bg-disabled'
+export const outlineButton = 'rounded-md border border-line-strong px-4 py-2 hover:bg-hover disabled:text-disabled'
+export const smallButton = 'rounded border border-line-strong px-2 py-1 text-sm hover:bg-hover disabled:text-disabled'
+export const input = 'w-full rounded-md border border-line-strong bg-surface px-3 py-2'
+export const card = 'rounded-lg border border-line bg-surface p-4'
