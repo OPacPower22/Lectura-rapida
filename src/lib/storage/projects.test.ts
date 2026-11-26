@@ -1,5 +1,5 @@
 import { db } from './db'
-import { createProject, deleteProject, getProject, listProjects, saveProject } from './projects'
+import { addNoteToProject, createProject, deleteProject, getProject, listProjects, saveProject } from './projects'
 
 beforeEach(async () => {
   await db.delete()
@@ -36,5 +36,13 @@ describe('proyectos', () => {
     const id = await createProject({ title: 'X', kind: 'estudio' })
     await deleteProject(id)
     expect(await getProject(id)).toBeUndefined()
+  })
+
+  it('addNoteToProject añade la nota al final de la sección', async () => {
+    const id = await createProject({ title: 'X', kind: 'trazado' })
+    const section = (await getProject(id))!.sections[0].id
+    await addNoteToProject(id, section, 5)
+    await addNoteToProject(id, section, 7)
+    expect((await getProject(id))!.sections[0].items).toEqual([{ type: 'note', noteId: 5 }, { type: 'note', noteId: 7 }])
   })
 })

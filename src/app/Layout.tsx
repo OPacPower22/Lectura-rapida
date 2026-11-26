@@ -9,6 +9,7 @@ const items = [
   { to: '/programa', label: 'nav.program', end: false },
   { to: '/biblioteca', label: 'nav.library', end: false },
   { to: '/repasar', label: 'nav.review', end: false },
+  { to: '/cuaderno', label: 'nav.notebook', end: false },
   { to: '/progreso', label: 'nav.progress', end: false },
 ] as const
 

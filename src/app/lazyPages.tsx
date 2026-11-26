@@ -16,3 +16,5 @@ export const PasteReadPage = lazy(() => import('../features/lector/PasteReadPage
 export const ProgressPage = lazy(() => import('../features/progreso/ProgressPage').then((m) => ({ default: m.ProgressPage })))
 export const PracticePage = lazy(() => import('../features/practica/PracticePage').then((m) => ({ default: m.PracticePage })))
 export const PracticeRunPage = lazy(() => import('../features/practica/PracticePage').then((m) => ({ default: m.PracticeRunPage })))
+export const NotebookPage = lazy(() => import('../features/cuaderno/NotebookPage').then((m) => ({ default: m.NotebookPage })))
+export const SourcesPage = lazy(() => import('../features/cuaderno/SourcesPage').then((m) => ({ default: m.SourcesPage })))

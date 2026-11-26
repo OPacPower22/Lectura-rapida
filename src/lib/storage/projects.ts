@@ -36,3 +36,14 @@ export async function deleteProject(id: number): Promise<void> {
 }
 
 export const PROJECT_KINDS: ProjectKind[] = ['trazado', 'plancha', 'instruccion', 'ensayo', 'estudio']
+
+/** Añade una nota al final de una sección, en una transacción (no pisa otros cambios). */
+export async function addNoteToProject(projectId: number, sectionId: string, noteId: number): Promise<void> {
+  await db.transaction('rw', db.projects, async () => {
+    const p = await db.projects.get(projectId)
+    const section = p?.sections.find((s) => s.id === sectionId)
+    if (!p || !section) throw new Error('proyecto o sección inexistente')
+    section.items.push({ type: 'note', noteId })
+    await db.projects.put({ ...p, updatedAt: Date.now() })
+  })
+}
