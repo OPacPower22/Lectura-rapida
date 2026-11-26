@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { t } from '../../i18n'
 import { db, type Source, type SourceType } from '../../lib/storage/db'
 import { listSources, updateSource } from '../../lib/storage/library'
+import { Reference } from '../../ui/Reference'
 import { input, outlineButton, primaryButton } from '../../ui/styles'
 
 const TYPES: SourceType[] = ['libro', 'articulo', 'web', 'documento']
@@ -10,6 +11,7 @@ const TYPES: SourceType[] = ['libro', 'articulo', 'web', 'documento']
 function SourceForm({ source, notes }: { source: Source; notes: number }) {
   const [draft, setDraft] = useState(source)
   const [saved, setSaved] = useState(false)
+  const [stored, setStored] = useState(source)
   const field = (key: 'title' | 'author' | 'year' | 'publisher' | 'url', label: string, type = 'text') => (
     <label className="block">
       <span className="text-sm font-medium">{label}</span>
@@ -32,14 +34,16 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
         onSubmit={async (e) => {
           e.preventDefault()
           const trim = (v?: string) => v?.trim() || undefined
-          await updateSource(source.id!, {
+          const patch = {
             type: draft.type,
             title: draft.title.trim(),
             author: trim(draft.author),
             year: trim(draft.year),
             publisher: trim(draft.publisher),
             url: trim(draft.url),
-          })
+          }
+          await updateSource(source.id!, patch)
+          setStored({ ...stored, ...patch })
           setSaved(true)
         }}
       >
@@ -57,6 +61,10 @@ function SourceForm({ source, notes }: { source: Source; notes: number }) {
         {field('publisher', t('sources.publisher'))}
         <div className="sm:col-span-2">{field('url', t('sources.url'), 'url')}</div>
         <p className="text-sm text-muted sm:col-span-2">{t('sources.authorHelp')}</p>
+        <div className="rounded bg-hover p-2 text-sm sm:col-span-2">
+          <p className="text-muted">{t('sources.preview')}</p>
+          <p className="pl-6 -indent-6"><Reference source={stored} /></p>
+        </div>
         <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button type="submit" className={primaryButton}>{t('sources.save')}</button>
           <span className="text-sm text-muted">{t('sources.notes', { count: notes })}</span>

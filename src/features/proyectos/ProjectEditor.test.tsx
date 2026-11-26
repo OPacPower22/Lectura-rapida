@@ -8,6 +8,12 @@ import { addNote } from '../../lib/storage/notes'
 import { createProject, getProject } from '../../lib/storage/projects'
 import { ProjectEditor } from './ProjectEditor'
 
+const downloads = vi.hoisted(() => [] as { blob: Blob; name: string }[])
+vi.mock('../../lib/download', async (orig) => ({
+  ...(await orig<typeof import('../../lib/download')>()),
+  downloadBlob: (blob: Blob, name: string) => downloads.push({ blob, name }),
+}))
+
 beforeEach(async () => {
   await db.delete()
   await db.open()
@@ -98,5 +104,24 @@ describe('ProjectEditor', () => {
   it('un proyecto inexistente muestra un mensaje', async () => {
     open(42)
     expect(await screen.findByText(t('project.notFound'))).toBeInTheDocument()
+  })
+
+  it('exporta a Markdown y a Word con el estado actual del proyecto', async () => {
+    downloads.length = 0
+    const { n1, id } = await seed()
+    const p = (await getProject(id))!
+    p.sections[0].items.push({ type: 'note', noteId: n1 })
+    await db.projects.put(p)
+    open(id)
+    await userEvent.click(await screen.findByRole('button', { name: t('export.markdown') }))
+    await waitFor(() => expect(downloads).toHaveLength(1))
+    expect(downloads[0].name).toBe('trazado.md')
+    const md = await downloads[0].blob.text()
+    expect(md).toContain('> «Primera cita» (Pérez, 2020, p. 4)')
+    expect(md).toContain('Pérez, A. (2020). *Libro*.')
+    await userEvent.click(screen.getByRole('button', { name: t('export.word') }))
+    await waitFor(() => expect(downloads).toHaveLength(2), { timeout: 5000 })
+    expect(downloads[1].name).toBe('trazado.docx')
+    expect(downloads[1].blob.size).toBeGreaterThan(1000)
   })
 })

@@ -25,6 +25,8 @@ describe('SourcesPage', () => {
     await userEvent.click(within(item).getByRole('button', { name: t('sources.save') }))
     expect(await within(item).findByText(t('sources.saved'))).toBeInTheDocument()
     expect(await db.sources.get(id)).toMatchObject({ year: '2020', author: 'Pérez, A.' })
+    const preview = await within(item).findByText((_, el) => el?.getAttribute('data-reference') !== null && el?.textContent === 'Pérez, A. (2020). Libro A.')
+    expect(within(preview).getByText('Libro A').tagName).toBe('I')
   })
 
   it('sin fuentes explica de dónde salen', async () => {

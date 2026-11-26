@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { t } from '../../i18n'
 import { inTextCitation } from '../../lib/citation'
+import { downloadBlob, slugify } from '../../lib/download'
+import { buildProjectDocument, toMarkdown } from '../../lib/exportProject'
 import { db, type Note, type Project, type ProjectItem, type ProjectKind, type ProjectSection, type Source } from '../../lib/storage/db'
 import { listSources } from '../../lib/storage/library'
 import { fold } from '../../lib/storage/notes'
@@ -199,6 +201,7 @@ export function ProjectEditor() {
   const [project, setProject] = useState<Project | null | undefined>(undefined)
   const [lookup, setLookup] = useState<Lookup>({ notes: new Map(), sources: new Map() })
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [exporting, setExporting] = useState<'idle' | 'working' | 'error'>('idle')
   const pending = useRef<Project | null>(null)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -235,6 +238,22 @@ export function ProjectEditor() {
         })
         .catch(() => setStatus('error'))
     }, AUTOSAVE_MS)
+  }
+
+  async function exportAs(format: 'docx' | 'md') {
+    if (!project) return
+    setExporting('working')
+    try {
+      const doc = buildProjectDocument(project, lookup.notes, lookup.sources)
+      const blob =
+        format === 'md'
+          ? new Blob([toMarkdown(doc)], { type: 'text/markdown;charset=utf-8' })
+          : await (await import('../../lib/exportDocx')).toDocx(doc)
+      downloadBlob(blob, `${slugify(project.title)}.${format}`)
+      setExporting('idle')
+    } catch {
+      setExporting('error')
+    }
   }
 
   if (project === undefined) return null
@@ -281,6 +300,20 @@ export function ProjectEditor() {
       {project.sections.map((section, i) => (
         <SectionEditor key={section.id} project={project} section={section} index={i} lookup={lookup} update={update} />
       ))}
+      <section aria-labelledby="export-title" className="space-y-2 rounded-lg border border-line bg-surface p-4">
+        <h2 id="export-title" className="font-semibold">{t('export.title')}</h2>
+        <p className="text-sm text-muted">{t('export.help')}</p>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className={primaryButton} disabled={exporting === 'working'} onClick={() => exportAs('docx')}>
+            {t('export.word')}
+          </button>
+          <button type="button" className={outlineButton} disabled={exporting === 'working'} onClick={() => exportAs('md')}>
+            {t('export.markdown')}
+          </button>
+        </div>
+        {exporting === 'working' && <p role="status">{t('export.working')}</p>}
+        {exporting === 'error' && <p role="alert" className="text-err-ink">{t('export.error')}</p>}
+      </section>
       <div className="flex flex-wrap gap-2">
         <button type="button" className={outlineButton} onClick={() => update({ ...project, sections: [...project.sections, newSection('')] })}>
           {t('project.addSection')}
