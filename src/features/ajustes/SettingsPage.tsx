@@ -69,9 +69,13 @@ function DataSection() {
     setRestoreError(null)
     setRestored(false)
     if (!file) return
-    const info = await inspectBackup(file)
-    if (info.ok) setCandidate({ file, summary: info.summary, exportedAt: info.exportedAt })
-    else setRestoreError(info.error)
+    try {
+      const info = await inspectBackup(file)
+      if (info.ok) setCandidate({ file, summary: info.summary, exportedAt: info.exportedAt })
+      else setRestoreError(info.error)
+    } catch {
+      setRestoreError('corrupt')
+    }
   }
 
   async function restore() {

@@ -82,6 +82,6 @@ describe('NotebookPage', () => {
     await userEvent.click(within(note).getByRole('button', { name: t('notebook.add') }))
     expect(await within(note).findByText(t('notebook.added', { project: 'Mi trazado' }))).toBeInTheDocument()
     const noteId = (await db.notes.toArray()).find((n) => n.text === 'Resumen del artículo')!.id
-    expect((await getProject(projectId))!.sections[0].items).toEqual([{ type: 'note', noteId }])
+    expect((await getProject(projectId))!.sections[0].items).toMatchObject([{ type: 'note', noteId }])
   })
 })

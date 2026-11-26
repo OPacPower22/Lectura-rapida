@@ -71,8 +71,8 @@ export async function exportBackup(opts: { includeFiles: boolean }): Promise<Blo
         encode(row, (blob) => {
           if (!opts.includeFiles) return undefined
           const path = `archivos/${table.name}-${++n}`
-          // El Blob va tal cual al ZIP, sin pasar por base64.
-          zip.file(path, blob.arrayBuffer(), { binary: true })
+          // El Blob va tal cual al ZIP, sin base64 ni recomprimir (PDF y EPUB ya vienen comprimidos).
+          zip.file(path, blob.arrayBuffer(), { binary: true, compression: 'STORE' })
           return { $file: path, type: blob.type }
         }) ?? null,
     )
@@ -101,10 +101,14 @@ interface Parsed {
 async function parse(file: Blob): Promise<{ ok: true; data: Parsed } | { ok: false; error: RestoreError }> {
   const JSZip = await loadZip()
   let zip: JSZipType
+  const buffer = await file.arrayBuffer()
   try {
-    zip = await JSZip.loadAsync(await file.arrayBuffer())
+    zip = await JSZip.loadAsync(buffer, { checkCRC32: true })
   } catch {
-    return { ok: false, error: 'not-a-backup' }
+    // Empieza como un ZIP («PK\x03\x04») pero no se puede leer: está dañado o truncado.
+    const head = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength))
+    const looksZip = head[0] === 0x50 && head[1] === 0x4b && head[2] === 0x03 && head[3] === 0x04
+    return { ok: false, error: looksZip ? 'corrupt' : 'not-a-backup' }
   }
   const entry = zip.file(DATA_FILE)
   if (!entry) return { ok: false, error: 'not-a-backup' }
@@ -129,7 +133,11 @@ async function parse(file: Blob): Promise<{ ok: true; data: Parsed } | { ok: fal
   for (const ref of fileRefs(tablas)) {
     const f = zip.file(ref.path)
     if (!f) return { ok: false, error: 'corrupt' }
-    files.set(ref.path, new Blob([await f.async('arraybuffer')], { type: ref.type }))
+    try {
+      files.set(ref.path, new Blob([await f.async('arraybuffer')], { type: ref.type }))
+    } catch {
+      return { ok: false, error: 'corrupt' }
+    }
   }
   return {
     ok: true,

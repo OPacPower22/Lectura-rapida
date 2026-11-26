@@ -58,4 +58,23 @@ describe('biblioteca', () => {
     await updateSource(id, { year: '2020', author: 'Pérez, A.' })
     expect((await listSources())[0]).toMatchObject({ title: 'Libro', year: '2020', author: 'Pérez, A.' })
   })
+
+  it('al borrar un documento conserva su fuente y las notas que usa algún proyecto', async () => {
+    const id = await addDocument({ source: { type: 'libro', title: 'Libro', author: 'Pérez, A.', year: '2020' }, doc })
+    const { doc: stored } = (await getDocument(id))!
+    const used = await addNote({ sourceId: stored.sourceId, documentId: id, anchor: { chapter: 0, paragraph: 0, start: 0, end: 3 }, kind: 'cita', quote: 'uno', text: '', lang: 'es' })
+    await addNote({ sourceId: stored.sourceId, documentId: id, kind: 'idea', text: 'suelta', lang: 'es' })
+    const { createProject, getProject, saveProject } = await import('./projects')
+    const pid = await createProject({ title: 'P', kind: 'trazado' })
+    const p = (await getProject(pid))!
+    p.sections[0].items.push({ type: 'note', noteId: used })
+    await saveProject(p)
+
+    await deleteDocument(id)
+    const notes = await db.notes.toArray()
+    expect(notes.map((n) => n.id)).toEqual([used])
+    expect(notes[0].documentId).toBeUndefined()
+    expect(notes[0].anchor).toBeUndefined()
+    expect(await db.sources.get(stored.sourceId)).toMatchObject({ title: 'Libro', author: 'Pérez, A.' })
+  })
 })

@@ -53,4 +53,24 @@ describe('SettingsPage', () => {
     expect(screen.queryByRole('button', { name: t('settings.restore.confirm') })).toBeNull()
     expect(await db.notes.count()).toBe(1)
   })
+
+  it('un respaldo truncado muestra que está dañado', async () => {
+    show()
+    const zip = new JSZip()
+    zip.file('datos.json', JSON.stringify({ formato: 'lectura-rapida-respaldo', version: 1, esquema: 4, tablas: {} }))
+    const full = new Uint8Array(await zip.generateAsync({ type: 'arraybuffer' }))
+    const file = new File([full.slice(0, full.length - 30)], 'respaldo.zip', { type: 'application/zip' })
+    await userEvent.upload(await screen.findByLabelText(t('settings.restore.file')), file)
+    expect(await screen.findByText(t('settings.restore.error.corrupt'))).toBeInTheDocument()
+  })
+
+  it('si la lectura del archivo falla de forma inesperada, lo dice', async () => {
+    const backup = await import('../../lib/backup')
+    vi.spyOn(backup, 'inspectBackup').mockRejectedValueOnce(new Error('boom'))
+    show()
+    const file = new File(['x'], 'r.zip', { type: 'application/zip' })
+    await userEvent.upload(await screen.findByLabelText(t('settings.restore.file')), file)
+    expect(await screen.findByText(t('settings.restore.error.corrupt'))).toBeInTheDocument()
+    vi.restoreAllMocks()
+  })
 })

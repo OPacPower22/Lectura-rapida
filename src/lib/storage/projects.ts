@@ -43,7 +43,7 @@ export async function addNoteToProject(projectId: number, sectionId: string, not
     const p = await db.projects.get(projectId)
     const section = p?.sections.find((s) => s.id === sectionId)
     if (!p || !section) throw new Error('proyecto o sección inexistente')
-    section.items.push({ type: 'note', noteId })
+    section.items.push({ type: 'note', noteId, id: crypto.randomUUID() })
     await db.projects.put({ ...p, updatedAt: Date.now() })
   })
 }

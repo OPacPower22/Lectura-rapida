@@ -38,15 +38,28 @@ export async function savePosition(id: number, position: DocPosition): Promise<v
   await db.documents.update(id, { position, lastOpenedAt: Date.now() })
 }
 
-/** Borra el documento, sus notas y su fuente. Las sesiones de lectura se conservan en el historial. */
+/**
+ * Borra el documento, sus notas y su fuente. Las notas que usa algún proyecto de escritura se conservan
+ * (sin enlace al texto) junto con su fuente, para que el proyecto siga citándolas. Las sesiones de
+ * lectura se conservan en el historial.
+ */
 export async function deleteDocument(id: number): Promise<void> {
-  await db.transaction('rw', db.documents, db.notes, db.sources, async () => {
+  await db.transaction('rw', [db.documents, db.notes, db.sources, db.projects], async () => {
     const doc = await db.documents.get(id)
     if (!doc) return
-    await db.notes.where('documentId').equals(id).delete()
+    const inProjects = new Set(
+      (await db.projects.toArray()).flatMap((p) => p.sections.flatMap((s) => s.items.flatMap((i) => (i.type === 'note' ? [i.noteId] : [])))),
+    )
+    const notes = await db.notes.where('documentId').equals(id).toArray()
+    const keep = notes.filter((n) => inProjects.has(n.id!))
+    await db.notes.bulkDelete(notes.filter((n) => !inProjects.has(n.id!)).map((n) => n.id!))
+    for (const n of keep) {
+      const { documentId: _doc, anchor: _anchor, ...rest } = n
+      await db.notes.put(rest)
+    }
     await db.documents.delete(id)
     const others = await db.documents.where('sourceId').equals(doc.sourceId).count()
-    if (others === 0) await db.sources.delete(doc.sourceId)
+    if (others === 0 && keep.length === 0) await db.sources.delete(doc.sourceId)
   })
 }
 

@@ -111,6 +111,33 @@ describe('respaldo', () => {
   })
 })
 
+describe('respaldo dañado o grande', () => {
+  it('un archivo interno dañado se detecta como respaldo dañado, sin excepción ni pérdida de datos', async () => {
+    await seed()
+    const zip = new JSZip()
+    zip.file('datos.json', JSON.stringify({
+      formato: BACKUP_FORMAT, version: 1, esquema: 4, exportadoEl: '2026-01-01T00:00:00Z',
+      tablas: { documents: [{ id: 9, title: 'X', file: { $file: 'archivos/documents-1', type: 'application/pdf' } }] },
+    }))
+    zip.file('archivos/documents-1', 'CONTENIDO-PDF-' + 'x'.repeat(200), { compression: 'STORE' })
+    const bytes = new Uint8Array(await zip.generateAsync({ type: 'arraybuffer' }))
+    const marker = new TextEncoder().encode('CONTENIDO-PDF-')
+    const at = bytes.findIndex((_, i) => marker.every((m, j) => bytes[i + j] === m))
+    bytes[at + 3] ^= 0xff
+    const damaged = new Blob([bytes])
+    expect(await inspectBackup(damaged)).toEqual({ ok: false, error: 'corrupt' })
+    await expect(restoreBackup(damaged)).rejects.toThrow('corrupt')
+    expect(await db.documents.count()).toBe(1)
+  })
+
+  it('los PDF y EPUB se guardan sin recomprimir (no bloquea la pestaña)', async () => {
+    await seed()
+    const zip = await JSZip.loadAsync(await (await exportBackup({ includeFiles: true })).arrayBuffer())
+    const entry = Object.values(zip.files).find((f) => f.name.startsWith('archivos/') && !f.dir)!
+    expect((entry as unknown as { _data: { compression: { magic: string } } })._data.compression.magic).toBe('\x00\x00')
+  })
+})
+
 describe('backupDue', () => {
   it('sin datos nunca avisa', () => expect(backupDue(10 * DAY, undefined, false)).toBe(false))
   it('con datos y sin respaldo, avisa', () => expect(backupDue(10 * DAY, undefined, true)).toBe(true))

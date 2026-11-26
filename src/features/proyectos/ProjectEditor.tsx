@@ -93,14 +93,17 @@ function SectionEditor({
   index,
   lookup,
   update,
+  onMoved,
 }: {
   project: Project
   section: ProjectSection
   index: number
   lookup: Lookup
   update(p: Project): void
+  onMoved(itemId: string, message: string): void
 }) {
   const [picking, setPicking] = useState(false)
+  const [targets, setTargets] = useState<Record<string, string>>({})
   const name = section.title || t('project.untitledSection')
   const others = project.sections.filter((s) => s.id !== section.id)
   return (
@@ -130,63 +133,95 @@ function SectionEditor({
       </div>
       {section.items.length === 0 && <p className="text-sm text-muted">{t('project.emptySection')}</p>}
       <ol className="space-y-3">
-        {section.items.map((item, i) => (
-          <li key={i} className="space-y-2 border-l-4 border-accent pl-3">
-            {item.type === 'note' ? (
-              <ItemView item={item} n={i + 1} lookup={lookup} />
-            ) : (
-              <label className="block">
-                <span className="block text-sm font-medium">{t('project.paragraph', { n: i + 1 })}</span>
-                <textarea
-                  value={item.text}
-                  rows={4}
-                  onChange={(e) => update(updateItem(project, section.id, i, { type: 'text', text: e.target.value }))}
-                  className={input}
-                />
-              </label>
-            )}
-            <div className="flex flex-wrap items-center gap-2">
-              <button type="button" className={smallButton} disabled={i === 0} onClick={() => update(moveItem(project, section.id, i, -1))}>
-                {t('project.itemUp')}
-              </button>
-              <button type="button" className={smallButton} disabled={i === section.items.length - 1} onClick={() => update(moveItem(project, section.id, i, 1))}>
-                {t('project.itemDown')}
-              </button>
-              {others.length > 0 && (
-                <label className="flex items-center gap-1 text-sm">
-                  <span>{t('project.moveTo')}</span>
-                  <select
-                    value=""
-                    onChange={(e) => e.target.value && update(transferItem(project, section.id, i, e.target.value))}
-                    className="rounded border border-line-strong bg-surface px-2 py-1"
-                  >
-                    <option value="">{t('notebook.choose')}</option>
-                    {others.map((s) => (
-                      <option key={s.id} value={s.id}>{s.title || t('project.untitledSection')}</option>
-                    ))}
-                  </select>
+        {section.items.map((item, i) => {
+          const itemId = item.id ?? `${section.id}-${i}`
+          const n = i + 1
+          const move = (delta: -1 | 1) => {
+            update(moveItem(project, section.id, i, delta))
+            onMoved(itemId, t('project.movedTo', { n: n + delta }))
+          }
+          return (
+            <li key={itemId} data-item={itemId} className="space-y-2 border-l-4 border-accent pl-3">
+              {item.type === 'note' ? (
+                <ItemView item={item} n={n} lookup={lookup} />
+              ) : (
+                <label className="block">
+                  <span className="block text-sm font-medium">{t('project.paragraph', { n })}</span>
+                  <textarea
+                    value={item.text}
+                    rows={4}
+                    onChange={(e) => update(updateItem(project, section.id, i, { ...item, type: 'text', text: e.target.value }))}
+                    className={input}
+                  />
                 </label>
               )}
-              <button type="button" className={smallButton} onClick={() => update(removeItem(project, section.id, i))}>
-                {t('project.itemRemove')}
-              </button>
-            </div>
-          </li>
-        ))}
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button" data-action="up" aria-label={t('project.itemUpN', { n })} className={smallButton} disabled={i === 0} onClick={() => move(-1)}>
+                  {t('project.itemUp')}
+                </button>
+                <button
+                  type="button"
+                  data-action="down"
+                  aria-label={t('project.itemDownN', { n })}
+                  className={smallButton}
+                  disabled={i === section.items.length - 1}
+                  onClick={() => move(1)}
+                >
+                  {t('project.itemDown')}
+                </button>
+                {others.length > 0 && (
+                  <>
+                    <label className="flex items-center gap-1 text-sm">
+                      <span aria-hidden="true">{t('project.moveTo')}</span>
+                      <select
+                        aria-label={t('project.moveToN', { n })}
+                        value={targets[itemId] ?? ''}
+                        onChange={(e) => setTargets({ ...targets, [itemId]: e.target.value })}
+                        className="rounded border border-line-strong bg-surface px-2 py-1"
+                      >
+                        <option value="">{t('notebook.choose')}</option>
+                        {others.map((s) => (
+                          <option key={s.id} value={s.id}>{s.title || t('project.untitledSection')}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <button
+                      type="button"
+                      aria-label={t('project.moveN', { n })}
+                      className={smallButton}
+                      disabled={!targets[itemId]}
+                      onClick={() => {
+                        const to = others.find((s) => s.id === targets[itemId])
+                        if (!to) return
+                        update(transferItem(project, section.id, i, to.id))
+                        onMoved(itemId, t('project.movedToSection', { title: to.title || t('project.untitledSection') }))
+                      }}
+                    >
+                      {t('project.move')}
+                    </button>
+                  </>
+                )}
+                <button type="button" aria-label={t('project.itemRemoveN', { n })} className={smallButton} onClick={() => update(removeItem(project, section.id, i))}>
+                  {t('project.itemRemove')}
+                </button>
+              </div>
+            </li>
+          )
+        })}
       </ol>
       {picking ? (
         <NotePicker
           lookup={lookup}
           onCancel={() => setPicking(false)}
           onAdd={(ids) => {
-            update(appendItems(project, section.id, ids.map((noteId) => ({ type: 'note', noteId }))))
+            update(appendItems(project, section.id, ids.map((noteId) => ({ type: 'note', noteId, id: crypto.randomUUID() }))))
             setPicking(false)
           }}
         />
       ) : (
         <div className="flex flex-wrap gap-2">
           <button type="button" className={outlineButton} onClick={() => setPicking(true)}>{t('project.addNotes')}</button>
-          <button type="button" className={outlineButton} onClick={() => update(appendItems(project, section.id, [{ type: 'text', text: '' }]))}>
+          <button type="button" className={outlineButton} onClick={() => update(appendItems(project, section.id, [{ type: 'text', text: '', id: crypto.randomUUID() }]))}>
             {t('project.addParagraph')}
           </button>
         </div>
@@ -202,6 +237,19 @@ export function ProjectEditor() {
   const [lookup, setLookup] = useState<Lookup>({ notes: new Map(), sources: new Map() })
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [exporting, setExporting] = useState<'idle' | 'working' | 'error'>('idle')
+  const [announce, setAnnounce] = useState('')
+  const focusItem = useRef<string | null>(null)
+  const focusAction = useRef<string | undefined>(undefined)
+
+  // Tras mover un elemento, el foco lo sigue: mismo botón si sigue activo; si no, el otro.
+  useEffect(() => {
+    const target = focusItem.current
+    if (!target) return
+    focusItem.current = null
+    const li = document.querySelector<HTMLElement>(`[data-item="${CSS.escape(target)}"]`)
+    const buttons = li ? [...li.querySelectorAll<HTMLButtonElement>('button[data-action]')] : []
+    ;(buttons.find((b) => !b.disabled && b.dataset.action === focusAction.current) ?? buttons.find((b) => !b.disabled))?.focus()
+  }, [project])
   const pending = useRef<Project | null>(null)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -209,7 +257,12 @@ export function ProjectEditor() {
     Promise.all([getProject(Number(id)), db.notes.toArray(), listSources()])
       .then(([p, notes, sources]) => {
         setLookup({ notes: new Map(notes.map((n) => [n.id!, n])), sources: new Map(sources.map((s) => [s.id!, s])) })
-        setProject(p ?? null)
+        // Los elementos sin id (versiones anteriores) reciben uno estable.
+        setProject(
+          p
+            ? { ...p, sections: p.sections.map((sec) => ({ ...sec, items: sec.items.map((it) => (it.id ? it : { ...it, id: crypto.randomUUID() })) })) }
+            : null,
+        )
       })
       .catch(() => setProject(null))
   }, [id])
@@ -275,6 +328,7 @@ export function ProjectEditor() {
         </p>
       </div>
       <h1 className="text-3xl font-bold">{project.title || t('project.untitled')}</h1>
+      <p aria-live="polite" className="sr-only">{announce}</p>
       <div className="grid gap-3 rounded-lg border border-line bg-surface p-4 sm:grid-cols-2">
         <label>
           <span className="block text-sm font-medium">{t('project.titleLabel')}</span>
@@ -298,7 +352,19 @@ export function ProjectEditor() {
         </label>
       </div>
       {project.sections.map((section, i) => (
-        <SectionEditor key={section.id} project={project} section={section} index={i} lookup={lookup} update={update} />
+        <SectionEditor
+          key={section.id}
+          project={project}
+          section={section}
+          index={i}
+          lookup={lookup}
+          update={update}
+          onMoved={(itemId, message) => {
+            focusAction.current = (document.activeElement as HTMLElement | null)?.dataset?.action
+            focusItem.current = itemId
+            setAnnounce(message)
+          }}
+        />
       ))}
       <section aria-labelledby="export-title" className="space-y-2 rounded-lg border border-line bg-surface p-4">
         <h2 id="export-title" className="font-semibold">{t('export.title')}</h2>

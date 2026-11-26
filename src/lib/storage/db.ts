@@ -156,7 +156,8 @@ export interface AttentionSession {
 
 export type ProjectKind = 'trazado' | 'plancha' | 'instruccion' | 'ensayo' | 'estudio'
 
-export type ProjectItem = { type: 'note'; noteId: number } | { type: 'text'; text: string }
+/** Elemento de una sección. `id` estable para reordenar sin perder el foco (los antiguos se completan al abrir). */
+export type ProjectItem = ({ type: 'note'; noteId: number } | { type: 'text'; text: string }) & { id?: string }
 
 export interface ProjectSection {
   id: string

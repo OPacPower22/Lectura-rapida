@@ -43,6 +43,6 @@ describe('proyectos', () => {
     const section = (await getProject(id))!.sections[0].id
     await addNoteToProject(id, section, 5)
     await addNoteToProject(id, section, 7)
-    expect((await getProject(id))!.sections[0].items).toEqual([{ type: 'note', noteId: 5 }, { type: 'note', noteId: 7 }])
+    expect((await getProject(id))!.sections[0].items).toMatchObject([{ type: 'note', noteId: 5 }, { type: 'note', noteId: 7 }])
   })
 })

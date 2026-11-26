@@ -56,7 +56,7 @@ describe('ProjectEditor', () => {
     await userEvent.type(within(intro).getByLabelText(t('project.paragraph', { n: 3 })), 'Mi párrafo')
 
     // Subir la idea por encima de la cita.
-    await userEvent.click(within(intro).getAllByRole('button', { name: t('project.itemUp') })[1])
+    await userEvent.click(within(intro).getByRole('button', { name: t('project.itemUpN', { n: 2 }) }))
 
     await userEvent.click(screen.getByRole('button', { name: t('project.addSection') }))
     const sections = screen.getAllByRole('region')
@@ -65,17 +65,20 @@ describe('ProjectEditor', () => {
 
     // Mover el párrafo a la segunda sección.
     const intro2 = screen.getByRole('region', { name: t('project.firstSection') })
-    await userEvent.selectOptions(within(intro2).getAllByLabelText(t('project.moveTo'))[2], 'Desarrollo')
+    await userEvent.selectOptions(within(intro2).getByLabelText(t('project.moveToN', { n: 3 })), 'Desarrollo')
+    expect(within(intro2).getByLabelText(t('project.paragraph', { n: 3 }))).toBeInTheDocument()
+    await userEvent.click(within(intro2).getByRole('button', { name: t('project.moveN', { n: 3 }) }))
 
     await waitFor(
       async () => {
         const p = await saved(id)
         expect(p.sections.map((s) => s.title)).toEqual([t('project.firstSection'), 'Desarrollo'])
-        expect(p.sections[0].items).toEqual([
+        expect(p.sections[0].items).toMatchObject([
           { type: 'note', noteId: n2 },
           { type: 'note', noteId: n1 },
         ])
-        expect(p.sections[1].items).toEqual([{ type: 'text', text: 'Mi párrafo' }])
+        expect(p.sections[1].items).toMatchObject([{ type: 'text', text: 'Mi párrafo' }])
+        expect(new Set(p.sections.flatMap((s) => s.items.map((i) => i.id))).size).toBe(3)
       },
       { timeout: 3000 },
     )
@@ -123,5 +126,20 @@ describe('ProjectEditor', () => {
     await waitFor(() => expect(downloads).toHaveLength(2), { timeout: 5000 })
     expect(downloads[1].name).toBe('trazado.docx')
     expect(downloads[1].blob.size).toBeGreaterThan(1000)
+  })
+
+  it('con el teclado, el foco sigue al elemento movido y se anuncia su nueva posición', async () => {
+    const { n1, n2, id } = await seed()
+    const p = (await getProject(id))!
+    p.sections[0].items.push({ type: 'note', noteId: n1 }, { type: 'note', noteId: n2 })
+    await db.projects.put(p)
+    open(id)
+    const intro = await screen.findByRole('region', { name: t('project.firstSection') })
+    await userEvent.click(within(intro).getByRole('button', { name: t('project.itemDownN', { n: 1 }) }))
+    // «Primera cita» pasa a la posición 2: «Bajar» se desactiva y el foco queda en su «Subir».
+    const up2 = within(intro).getByRole('button', { name: t('project.itemUpN', { n: 2 }) })
+    expect(document.activeElement).toBe(up2)
+    expect(up2.closest('li')).toHaveTextContent('Primera cita')
+    expect(screen.getByText(t('project.movedTo', { n: 2 }))).toBeInTheDocument()
   })
 })
